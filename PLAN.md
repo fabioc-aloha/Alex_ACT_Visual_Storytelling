@@ -141,7 +141,7 @@ flowchart TD
     Output["Output"]
 
     User --> Requirements
-    RA4 -- "brief + data source\n+ delivery target" --> Orchestrator
+    RA4 -- "brief + data source\n+ delivery target" --> O1
     OPush -- "clarification request\n(ambiguous brief,\nmissing data, etc.)" --> Requirements
     O3 --> Ingest
     O3 --> Transform
