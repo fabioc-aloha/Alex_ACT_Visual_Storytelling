@@ -17,8 +17,8 @@ You are not a general-purpose heir. You have a specific mission and Supervisor-d
 | Plugin | Status | Token Cost | Ready for Mall? |
 | --- | --- | --- | --- |
 | `visual-vocabulary` | **Published** | 3,300 | Already in Mall |
-| `storytelling-requirements` | **Complete** | 1,900 | Yes, promote next |
-| `delivery-ascii-dashboard` | **Complete** | 2,700 | Yes, promote next |
+| `storytelling-requirements` | **Published** | 1,900 | Already in Mall |
+| `delivery-ascii-dashboard` | **Published** | 2,700 | Already in Mall |
 | `data-preparation` | Planned | -- | README only |
 | `datasource-connectors` | Planned | -- | README only |
 | `delivery-svg-markdown` | Planned | -- | README only |
@@ -27,39 +27,16 @@ You are not a general-purpose heir. You have a specific mission and Supervisor-d
 
 ### Pipeline Budget
 
-3 complete plugins: 7,900 tokens. Target: full pipeline under 15K. Plenty of room for the 5 planned plugins.
+3 published plugins: 7,900 tokens. Target: full pipeline under 15K. Plenty of room for the 5 planned plugins.
 
-### What Was Done Today (session handoff)
+### Completion Log
 
-1. **visual-vocabulary** created and published to Mall. Chart catalog by 7 communication goals, CSAR evaluation loop (from VT_AIPOWERBI), 5-visual rule, SVG dashboard patterns (from Supervisor fleet dashboard experience), living gallery references.
-
-2. **storytelling-requirements** created. Guided brief template: audience, Big Idea sentence, questions mapped to communication goals, data sources, quality concerns, delivery target, constraints. Includes the CSAR check and pipeline integration diagram. Template file at `templates/STORYTELLING-REQUIREMENTS.md`.
-
-3. **delivery-ascii-dashboard** created. Pure ASCII art dashboards: KPI strips, horizontal bars, sparklines, two-column layouts. No emojis (predictable 1-cell geometry). Positioned as the cheapest tier in the delivery hierarchy.
-
-4. **Edition v0.9.9 installed.** 112 brain files, 33 instructions, 16 skills, 20 prompts, 3 agents. Full ACT cognitive machinery.
-
-5. **Maintainer identity written** in `copilot-instructions.local.md`. 4-gate plugin review, Mall promotion workflow, version management, sibling repo awareness.
-
-6. **Audit completed.** Token costs corrected (were inflated 25-80%), synced to Mall. Zero lint errors. Git clean.
+| Date | What |
+| --- | --- |
+| 2026-05-02 (session 1) | Created `visual-vocabulary`, `storytelling-requirements`, `delivery-ascii-dashboard`. Installed Edition v0.9.9. Wrote maintainer identity. Audited token costs. Published `visual-vocabulary` to Mall. |
+| 2026-05-02 (session 2) | Promoted `storytelling-requirements` and `delivery-ascii-dashboard` to Mall. Mall now at 281 plugins (20 data-analytics). All statuses synced. |
 
 ## Next Steps (pick up here)
-
-### Immediate: Promote 2 Ready Plugins
-
-1. **Promote `storytelling-requirements` to Mall**:
-
-   ```bash
-   # Copy to Mall
-   cp -r plugins/storytelling-requirements/ ../Alex_ACT_Plugin_Mall/plugins/data-analytics/storytelling-requirements/
-   # Update CATALOG.json: add entry, bump plugin_count 279->280, data-analytics count 18->19
-   # Update Mall README.md counts
-   # Commit: "feat: add storytelling-requirements from Visual Storytelling factory"
-   ```
-
-2. **Promote `delivery-ascii-dashboard` to Mall**:
-
-   Same process. Category: `data-analytics`. plugin_count 280->281, data-analytics 19->20.
 
 ### Short-term: Build Phase 1 Plugins
 
