@@ -19,7 +19,7 @@ User: "Show me how sales are trending. Data is in sales.csv. ASCII dashboard."
 
   ┌─────────────────────────────────────────────────────────┐
   │              Requirements Agent                         │
-  │            (storytelling-requirements)                   │
+  │            (storytelling-requirements)                  │
   │                                                         │
   │  - Interview user or parse request                      │
   │  - Identify audience, Big Idea, questions               │
@@ -33,8 +33,8 @@ User: "Show me how sales are trending. Data is in sales.csv. ASCII dashboard."
                            │        │  missing data, etc.)
                            v        │
   ┌─────────────────────────────────────────────────────────┐
-  │              Visual Storytelling Agent                   │
-  │                   (orchestrator)                         │
+  │              Visual Storytelling Agent                  │
+  │                   (orchestrator)                        │
   │                                                         │
   │  1. Read brief                                          │
   │  2. Plan pipeline (which modules, in what order)        │
