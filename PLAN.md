@@ -1,0 +1,136 @@
+# Alex ACT Visual Storytelling -- Project Plan
+
+## Mission
+
+Build a modular plugin collection that turns data into visual stories. The plugins publish to the [Alex ACT Plugin Mall](https://github.com/fabioc-aloha/Alex_ACT_Plugin_Mall) and work with any ACT heir.
+
+This is the "Power BI alternative for AI agents": instead of opening a BI tool, a heir loads the right plugins and produces SVG dashboards, HTML reports, or Markdown narratives from data, guided by a requirements document.
+
+## Architecture
+
+```text
+User has data + a question
+         |
+         v
+  storytelling-requirements   <-- guided intake (the "brief")
+         |
+         v
+  datasource-connectors       <-- ingest: CSV, JSON, API, SQL, etc.
+         |
+         v
+  data-preparation             <-- clean, profile, aggregate, pivot
+         |
+         v
+  visual-vocabulary            <-- select chart types by communication goal
+         |
+         v
+  delivery-*                   <-- render to target format
+    |- delivery-svg-markdown       SVG panels in Markdown (GitHub-native)
+    |- delivery-html-dashboard     Self-contained HTML with Chart.js
+    |- delivery-powerbi-fabric     Power BI / Microsoft Fabric
+    |- (backlog: other platforms)
+```
+
+Each box is one Mall plugin. A heir installs only what they need: a project doing SVG dashboards skips the Power BI delivery plugin; a Fabric project skips SVG.
+
+## Design Principles
+
+1. **DRY/KISS modular collection.** Each plugin does one thing. No plugin duplicates another.
+2. **Selection is universal; delivery is swappable.** `visual-vocabulary` and `storytelling-requirements` are platform-agnostic. Delivery plugins are platform-specific.
+3. **Requirements document is the input.** Every storytelling project starts with a structured brief (audience, Big Idea, questions, data sources). The `storytelling-requirements` plugin provides the template and guides the user through it.
+4. **Publish to the Mall, develop here.** This repo is the factory; the Mall is the storefront. Finished plugins get copied to `Alex_ACT_Plugin_Mall/plugins/data-analytics/`.
+5. **Living references over static knowledge.** Chart galleries, API docs, and tool documentation change. Link to the living source; encode decision frameworks and judgment in the plugin.
+
+## Plugin Inventory
+
+### Phase 1 -- Core Pipeline (v0.1.0)
+
+| Plugin | Status | Category | Description |
+| --- | --- | --- | --- |
+| `visual-vocabulary` | Published | data-analytics | Chart catalog by communication goal, CSAR evaluation loop, 5-visual rule, SVG patterns, living gallery links |
+| `storytelling-requirements` | In Progress | data-analytics | Guided requirements document template: audience, Big Idea, questions, data sources, delivery target, constraints |
+| `data-preparation` | Planned | data-analytics | Data cleaning checklist, profiling patterns, aggregation recipes, pivot/unpivot guidance, quality gates |
+| `datasource-connectors` | Planned | data-analytics | Ingestion patterns for CSV, JSON, REST API, SQL, Excel, Parquet. Connection string templates, pagination, auth |
+
+### Phase 2 -- Delivery Targets (v0.2.0)
+
+| Plugin | Status | Category | Description |
+| --- | --- | --- | --- |
+| `delivery-svg-markdown` | Planned | media-graphics | SVG dashboard composition for Markdown/GitHub: panel primitives, coordinate systems, dark-slate palette, viewBox math |
+| `delivery-html-dashboard` | Planned | data-analytics | Self-contained HTML with Chart.js: KPI cards, responsive grid, embedded data, print-friendly, zero build step |
+
+### Phase 3 -- Enterprise Delivery (v0.3.0)
+
+| Plugin | Status | Category | Description |
+| --- | --- | --- | --- |
+| `delivery-powerbi-fabric` | Planned | data-analytics | Power BI report design patterns, Fabric integration, semantic model guidance, Copilot-ready data prep |
+
+### Backlog -- Future Platforms
+
+| Plugin | Description |
+| --- | --- |
+| `delivery-vega-lite` | Declarative Vega-Lite spec generation for web embedding |
+| `delivery-observable` | Observable Framework notebook output |
+| `delivery-slides` | Marp/PPTX presentation output with data charts |
+| `delivery-pdf-report` | PDF report generation via pandoc/weasyprint |
+| `delivery-email-digest` | Email-friendly HTML digest with inline charts |
+
+## Relationship to Existing Mall Plugins
+
+This repo develops plugins that complement (not replace) existing Mall entries:
+
+| Existing Mall Plugin | Relationship | This Repo's Plugin |
+| --- | --- | --- |
+| `data-storytelling` | Narrative arc (three-act, Knaflic/Duarte) | `storytelling-requirements` provides the structured intake that feeds it |
+| `data-visualization` | Chart design (color, annotation, decluttering) | `visual-vocabulary` selects the chart; `data-visualization` designs it |
+| `dashboard-design` | Layout patterns (inverted pyramid, KPI cards) | `delivery-*` plugins render the layout to a specific format |
+| `svg-dashboard-composition` | SVG composition mechanics | `delivery-svg-markdown` absorbs and extends this |
+| `data-analysis` | Exploratory analysis patterns | `data-preparation` focuses on the cleaning/profiling step before analysis |
+| `chart-interpretation` | Reading existing charts | The inverse: `visual-vocabulary` creates; `chart-interpretation` reads |
+
+## Source Knowledge
+
+| Source | What It Contributes |
+| --- | --- |
+| VT_AIPOWERBI (VT course) | CSAR evaluation loop, 5-visual rule, Copilot Design Automation framework, Kirk/Knaflic pedagogy, case studies |
+| Supervisor fleet dashboard | SVG composition patterns, panel primitives, coordinate anti-patterns, dark-slate palette |
+| Alex_ACT_Plugin_Mall | Existing plugin structure (plugin.json, SKILL.md, README.md), installation paths, CATALOG.json schema |
+| FT Visual Vocabulary | Chart catalog organized by communication goal (living reference) |
+| From Data to Viz | Chart selection by data type (living reference) |
+
+## Development Workflow
+
+1. **Design** the plugin in `plugins/<name>/` with SKILL.md + plugin.json + README.md
+2. **Test** against datasets in `datasets/` and scenarios in `tests/`
+3. **Review** using the Supervisor's skill-review 4-gate process
+4. **Publish** by copying to `Alex_ACT_Plugin_Mall/plugins/<category>/<name>/`
+5. **Update** CATALOG.json and README counts in the Mall
+
+## Success Criteria
+
+- All Phase 1 plugins published to Mall and installable by any ACT heir
+- A heir can go from raw CSV to SVG dashboard in one session using only these plugins
+- The storytelling-requirements template guides a user through the same process taught in the VT class
+- Each plugin is under 500 lines (Mall standard)
+- Token cost of the full collection (all plugins loaded) stays under 15K tokens
+
+## Repo Structure
+
+```text
+Alex_ACT_Visual_Storytelling/
+  PLAN.md              -- this file
+  README.md            -- public-facing overview
+  plugins/             -- plugin development workspace
+    visual-vocabulary/     SKILL.md, plugin.json, README.md (published)
+    storytelling-requirements/  (in progress)
+    data-preparation/      (planned)
+    datasource-connectors/ (planned)
+    delivery-svg-markdown/ (planned)
+    delivery-html-dashboard/ (planned)
+    delivery-powerbi-fabric/ (planned)
+  backlog/             -- future platform delivery plugins
+  datasets/            -- test data for development
+  templates/           -- the storytelling requirements template
+  tests/               -- plugin test scenarios
+  references/          -- source material and notes
+```
