@@ -110,38 +110,44 @@ Swappable parts:
 flowchart TD
     User["User\nrough request + data source + delivery target"]
 
-    subgraph Requirements ["Requirements Agent (Creative Cycle)"]
-        RA_Interview["Interview / parse request"]
-        RA_Brief["Produce structured brief\naudience, Big Idea, questions,\ncommunication goals"]
-        RA_Interview --> RA_Brief
+    subgraph Requirements ["Requirements Agent\n(storytelling-requirements)"]
+        RA1["Interview user or parse request"]
+        RA2["Identify audience, Big Idea, questions"]
+        RA3["Map questions to communication goals"]
+        RA4["Produce structured brief"]
+        RA1 --> RA2 --> RA3 --> RA4
     end
 
-    subgraph Orchestrator ["Visual Storytelling Agent (CSAR Loop)"]
-        O_Read["Read brief"]
-        O_Plan["Plan pipeline"]
-        O_Delegate["Delegate to modules"]
-        O_Assemble["Assemble output"]
-        O_Read --> O_Plan --> O_Delegate --> O_Assemble
+    subgraph Orchestrator ["Visual Storytelling Agent\n(orchestrator)"]
+        O1["1. Read brief"]
+        O2["2. Plan pipeline\n(which modules, in what order)"]
+        O3["3. Delegate to modules"]
+        O4["4. Assemble final output"]
+        O1 --> O2 --> O3 --> O4
+        OPush["Can push back to Requirements Agent if:\n- Brief is ambiguous or incomplete\n- Data doesn't match what the brief assumes\n- Delivery target can't support a requested visual"]
     end
 
-    subgraph Modules ["Modules"]
+    subgraph Modules [" "]
         Ingest["Ingest\ndatasource-connectors"]
         Transform["Transform\ndata-preparation"]
         Select["Select\nvisual-vocabulary"]
-        Deliver["Deliver\nascii | svg | html | powerbi"]
     end
 
-    QA["QA / Polish\nvision eval, CSAR check\nlayout, color, readability"]
+    Deliver["Deliver\nUser chooses:\nascii | svg | html | powerbi"]
 
-    Output["Output\nfinished visual story"]
+    QA["QA / Polish\nVision eval:\nlayout, color, readability,\nCSAR check"]
+
+    Output["Output"]
 
     User --> Requirements
-    RA_Brief --> Orchestrator
-    Orchestrator -- "clarification\nrequest" --> Requirements
-    O_Delegate --> Ingest
-    O_Delegate --> Transform
-    O_Delegate --> Select
-    O_Delegate --> Deliver
+    RA4 -- "brief + data source\n+ delivery target" --> Orchestrator
+    OPush -- "clarification request\n(ambiguous brief,\nmissing data, etc.)" --> Requirements
+    O3 --> Ingest
+    O3 --> Transform
+    O3 --> Select
+    Ingest --> Deliver
+    Transform --> Deliver
+    Select --> Deliver
     Deliver --> QA
     QA -- "fail: polish\nand re-render" --> Deliver
     QA -- "pass" --> Output
