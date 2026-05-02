@@ -12,49 +12,77 @@ You are not a general-purpose heir. You have a specific mission and Supervisor-d
 
 ## Current State (2026-05-02)
 
-### What Exists
+### Phase 1 -- COMPLETE
 
-| Plugin | Status | Token Cost | Ready for Mall? |
-| --- | --- | --- | --- |
-| `visual-vocabulary` | **Published** | 3,300 | Already in Mall |
-| `storytelling-requirements` | **Published** | 1,900 | Already in Mall |
-| `delivery-ascii-dashboard` | **Published** | 2,700 | Already in Mall |
-| `data-preparation` | **Published** | 1,500 | Already in Mall |
-| `datasource-connectors` | **Published** | 2,000 | Already in Mall |
-| `delivery-svg-markdown` | Planned | -- | README only |
-| `delivery-html-dashboard` | Planned | -- | README only |
-| `delivery-powerbi-fabric` | Planned | -- | README only |
+All 5 core pipeline plugins published to Mall (283 plugins, 22 data-analytics):
 
-### Pipeline Budget
+| Plugin | Token Cost | Mall |
+| --- | --- | --- |
+| `visual-vocabulary` | 3,300 | Published |
+| `storytelling-requirements` | 1,900 | Published |
+| `delivery-ascii-dashboard` | 2,700 | Published |
+| `data-preparation` | 1,500 | Published |
+| `datasource-connectors` | 2,000 | Published |
+| **Total** | **11,400** | **3,600 headroom** |
 
-3 published plugins: 7,900 tokens. Target: full pipeline under 15K. Plenty of room for the 5 planned plugins.
+### Phase 2 -- NOT STARTED
+
+| Plugin | Status |
+| --- | --- |
+| `delivery-svg-markdown` | Planned (README stub) |
+| `delivery-html-dashboard` | Planned (README stub) |
+
+### Phase 3 -- NOT STARTED
+
+| Plugin | Status |
+| --- | --- |
+| `delivery-powerbi-fabric` | Planned (README stub) |
+
+### Infrastructure
+
+| Artifact | Status |
+| --- | --- |
+| Architecture (ASCII + Mermaid) | Complete in PLAN.md |
+| Orchestrator agent | Created (`.github/agents/visual-storytelling.agent.md`) |
+| Test dataset | `datasets/sales-sample.csv` (24 rows, 6 months) |
+| Test scenario | `tests/sales-dashboard-ascii.md` (filled brief) |
+| Consolidated tracker | `TODO.md` at repo root |
 
 ### Completion Log
 
 | Date | What |
 | --- | --- |
-| 2026-05-02 (session 1) | Created `visual-vocabulary`, `storytelling-requirements`, `delivery-ascii-dashboard`. Installed Edition v0.9.9. Wrote maintainer identity. Audited token costs. Published `visual-vocabulary` to Mall. |
-| 2026-05-02 (session 2) | Promoted `storytelling-requirements` and `delivery-ascii-dashboard` to Mall. Mall now at 281 plugins (20 data-analytics). All statuses synced. Refined architecture: agent-orchestrated pipeline where user provides brief + data source + delivery target and the orchestrator handles everything in between. |
+| 2026-05-02 (session 1) | Created 3 plugins, installed Edition v0.9.9, wrote maintainer identity, published `visual-vocabulary` to Mall. |
+| 2026-05-02 (session 2) | Promoted `storytelling-requirements` and `delivery-ascii-dashboard` to Mall (281 plugins). |
+| 2026-05-02 (session 3) | Refined architecture to two-layer agent hierarchy (Requirements Agent + Orchestrator) with CSAR QA loop and pushback. Created ASCII, Mermaid, and linear reference diagrams. Built `data-preparation` and `datasource-connectors`. Created orchestrator agent. Added test data and scenario. Promoted both new plugins to Mall (283 plugins). Phase 1 complete. |
 
 ## Next Steps (pick up here)
 
-### Short-term: Build Phase 1 Modules + Orchestrator
+### Immediate: Validate Phase 1
 
-1. **`data-preparation`** -- Data cleaning, profiling, quality gates. Source knowledge: VT_AIPOWERBI's data-prep-for-AI guidance, general data wrangling patterns. Keep under 500 lines.
+1. **End-to-end test** -- Run the orchestrator agent on `tests/sales-dashboard-ascii.md` with `datasets/sales-sample.csv`. Prove the pipeline works: ingest CSV, profile/clean, select charts by communication goal, deliver ASCII dashboard, QA/polish with CSAR.
 
-2. **`datasource-connectors`** -- CSV, JSON, API, SQL, Excel, Parquet ingestion. Focus on the patterns an LLM needs to guide a user through data loading. Not a library; a decision framework.
+### Then: Build Phase 2
 
-3. **Visual Storytelling Agent** -- Orchestrator sub-agent (`.github/agents/` or prompt) that reads a brief, plans the pipeline, delegates to the right modules, and assembles output. User says what (brief), where (data source), and how (delivery target); the agent does the rest.
+1. **`delivery-svg-markdown`** -- Absorb Mall's `svg-dashboard-composition`. Add dark-slate palette, viewBox math, responsive grid, chart primitives, GitHub-compatible inline styles.
 
-### Medium-term: Build Phase 2 Delivery Targets
+1. **`delivery-html-dashboard`** -- Absorb Mall's `dashboard-design`. Single-file HTML + Chart.js, KPI cards, responsive grid, embedded data, print-friendly, dark/light theme.
 
-1. **`delivery-svg-markdown`** -- Absorb and extend `svg-dashboard-composition` from the Mall. Add the panel primitive, coordinate rules, and dark-slate palette learned from the Supervisor's fleet dashboard.
+1. **Test scenarios** -- Add SVG and HTML delivery test cases using the same sales-sample brief.
 
-2. **`delivery-html-dashboard`** -- Self-contained HTML + Chart.js. Absorb `dashboard-design` patterns from the Mall. KPI cards, responsive grid, embedded data, print-friendly.
+### Later: Phase 3
 
-### Later: Phase 3 Enterprise
+1. **`delivery-powerbi-fabric`** -- Absorb VT_AIPOWERBI: report design, AI visuals, semantic models, DAX, Copilot-ready prep, Fabric integration.
 
-1. **`delivery-powerbi-fabric`** -- Absorb VT_AIPOWERBI domain knowledge: AI visuals, semantic models, Copilot-ready data prep, Fabric integration.
+## Process Rules Learned This Session
+
+| Rule | Why |
+| --- | --- |
+| Commit before iterative refinement | One `git checkout` wiped an entire architecture because it was uncommitted |
+| Commit after every visual/doc tweak | Small checkpoints make revert safe |
+| Finest changes first | Rewrote an ASCII diagram instead of fixing 3 spaces; user rejected the rewrite |
+| Use `<br/>` not `\n` in Mermaid | `\n` renders inconsistently across Mermaid renderers |
+| Same story, any surface | ASCII and Mermaid must convey identical information; test both |
 
 ## Source Knowledge
 
