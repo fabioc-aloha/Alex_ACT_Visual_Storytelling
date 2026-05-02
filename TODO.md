@@ -8,7 +8,14 @@ Consolidated tracker for the Visual Storytelling plugin collection.
 - [x] `storytelling-requirements` -- Published to Mall (1,900 tokens)
 - [x] `delivery-ascii-dashboard` -- Published to Mall (2,700 tokens)
 - [x] `data-preparation` -- Complete, ready to promote (1,500 tokens)
-- [ ] `datasource-connectors` -- Planned (README stub only)
+- [ ] `datasource-connectors` -- Build SKILL.md + plugin.json covering:
+  - [ ] CSV/TSV: encoding detection, delimiter inference, header handling
+  - [ ] JSON/JSONL: path extraction, nested object flattening
+  - [ ] REST API: pagination (offset, cursor, link-header), auth (API key, OAuth)
+  - [ ] SQL: parameterized queries, connection string patterns, injection prevention
+  - [ ] Excel: sheet selection, named ranges, header row detection
+  - [ ] Parquet/Arrow: columnar format reading, schema inspection
+  - [ ] Error handling: retries, timeouts, partial data, encoding fallbacks
 - [ ] Promote `data-preparation` to Mall
 
 ## Orchestrator
