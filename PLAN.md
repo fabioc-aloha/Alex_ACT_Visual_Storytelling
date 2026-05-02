@@ -32,13 +32,13 @@ User: "Show me how sales are trending. Data is in sales.csv. ASCII dashboard."
   │  - Produce structured brief                             │
   └──────────┬──────────────────────────────────────────────┘
              │                          │
-     ask user │                          │ brief + data source
-     for      │                          │ + delivery target
-     clarity  │                          │
+    ask user │                          │ brief + data source
+    for      │                          │ + delivery target
+    clarity  │                          │
              v                          │
-            User          ▲ clarification│
-                          │ request      │
-                          │              v
+           User          ▲ clarification│
+                         │ request      │
+                         │              v
   ┌─────────────────────────────────────────────────────────┐
   │              Visual Storytelling Agent                  │
   │                   (orchestrator)                        │

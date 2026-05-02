@@ -34,15 +34,17 @@ You are not a general-purpose heir. You have a specific mission and Supervisor-d
 | Date | What |
 | --- | --- |
 | 2026-05-02 (session 1) | Created `visual-vocabulary`, `storytelling-requirements`, `delivery-ascii-dashboard`. Installed Edition v0.9.9. Wrote maintainer identity. Audited token costs. Published `visual-vocabulary` to Mall. |
-| 2026-05-02 (session 2) | Promoted `storytelling-requirements` and `delivery-ascii-dashboard` to Mall. Mall now at 281 plugins (20 data-analytics). All statuses synced. |
+| 2026-05-02 (session 2) | Promoted `storytelling-requirements` and `delivery-ascii-dashboard` to Mall. Mall now at 281 plugins (20 data-analytics). All statuses synced. Refined architecture: agent-orchestrated pipeline where user provides brief + data source + delivery target and the orchestrator handles everything in between. |
 
 ## Next Steps (pick up here)
 
-### Short-term: Build Phase 1 Plugins
+### Short-term: Build Phase 1 Modules + Orchestrator
 
 1. **`data-preparation`** -- Data cleaning, profiling, quality gates. Source knowledge: VT_AIPOWERBI's data-prep-for-AI guidance, general data wrangling patterns. Keep under 500 lines.
 
 2. **`datasource-connectors`** -- CSV, JSON, API, SQL, Excel, Parquet ingestion. Focus on the patterns an LLM needs to guide a user through data loading. Not a library; a decision framework.
+
+3. **Visual Storytelling Agent** -- Orchestrator sub-agent (`.github/agents/` or prompt) that reads a brief, plans the pipeline, delegates to the right modules, and assembles output. User says what (brief), where (data source), and how (delivery target); the agent does the rest.
 
 ### Medium-term: Build Phase 2 Delivery Targets
 
