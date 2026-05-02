@@ -17,6 +17,11 @@ target. The system generates a structured brief, then executes the full pipeline
 ```text
 User: "Show me how sales are trending. Data is in sales.csv. ASCII dashboard."
 
+                          User
+                           │
+          rough request + data source + delivery target
+                           │
+                           v
   ┌─────────────────────────────────────────────────────────┐
   │              Requirements Agent                         │
   │            (storytelling-requirements)                  │
@@ -25,13 +30,17 @@ User: "Show me how sales are trending. Data is in sales.csv. ASCII dashboard."
   │  - Identify audience, Big Idea, questions               │
   │  - Map questions to communication goals                 │
   │  - Produce structured brief                             │
-  └────────────────────────┬────────────────────────────────┘
-                           │ brief + data source + delivery target
-                           │
-                           │        ▲ clarification request
-                           │        │ (ambiguous brief,
-                           │        │  missing data, etc.)
-                           v        │
+  └──────────┬──────────────────────────────────────────────┘
+             │                          │
+             │ ask user for             │ brief + data source + delivery target
+             │ clarification            │
+             v                          │
+            User                        │
+                                        │
+                           ▲ clarification request
+                           │ (ambiguous brief,
+                           │  missing data, etc.)
+                           v
   ┌─────────────────────────────────────────────────────────┐
   │              Visual Storytelling Agent                  │
   │                   (orchestrator)                        │
