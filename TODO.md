@@ -33,20 +33,49 @@ Consolidated tracker for the Visual Storytelling plugin collection.
 
 ## Phase 2 -- Delivery Targets
 
-- [ ] `delivery-svg-markdown` -- SVG panels in Markdown
-- [ ] `delivery-html-dashboard` -- Self-contained HTML + Chart.js
+- [ ] `delivery-svg-markdown` -- SVG panels in Markdown (category: media-graphics)
+  - [ ] Absorb and extend Mall's `svg-dashboard-composition` (panel primitive, coordinate system)
+  - [ ] Dark-slate palette from Supervisor fleet dashboard
+  - [ ] viewBox math: auto-sizing panels to content
+  - [ ] Responsive grid: 1-column, 2-column, 3-column layouts
+  - [ ] Chart primitives: bar, line, pie/donut, KPI strip, sparkline
+  - [ ] Text rendering: title, subtitle, axis labels, data labels
+  - [ ] GitHub-compatible: no external CSS, no JS, inline styles only
+  - [ ] Export: single `.svg` file or embedded in `.md`
+- [ ] `delivery-html-dashboard` -- Self-contained HTML + Chart.js (category: data-analytics)
+  - [ ] Absorb and extend Mall's `dashboard-design` (inverted pyramid, KPI cards, filter arch)
+  - [ ] Single-file HTML: no build step, no external dependencies
+  - [ ] Chart.js integration: bar, line, pie, doughnut, scatter, radar
+  - [ ] KPI cards: number, delta, sparkline, conditional color
+  - [ ] Responsive grid: CSS Grid, mobile-friendly breakpoints
+  - [ ] Embedded data: JSON in `<script>` tag, no external fetch
+  - [ ] Print-friendly: `@media print` stylesheet
+  - [ ] Theme: light and dark mode toggle
+  - [ ] Interactivity: tooltips, legend toggle (no drill-through)
+- [ ] Add SVG delivery test scenario
+- [ ] Add HTML delivery test scenario
 
 ## Phase 3 -- Enterprise
 
-- [ ] `delivery-powerbi-fabric` -- Power BI / Microsoft Fabric
+- [ ] `delivery-powerbi-fabric` -- Power BI / Microsoft Fabric (category: data-analytics)
+  - [ ] Absorb VT_AIPOWERBI course knowledge: CSAR loop applied to PBI, 5-visual rule
+  - [ ] Report design patterns: page layout, navigation, bookmarks
+  - [ ] AI visuals: smart narrative, Q&A visual, decomposition tree, anomaly detection
+  - [ ] Semantic model guidance: star schema, relationships, measures vs columns
+  - [ ] DAX patterns: time intelligence, CALCULATE context, iterator vs aggregator
+  - [ ] Copilot-ready data prep: clean column names, proper types, descriptions
+  - [ ] Fabric integration: lakehouse, dataflow gen2, pipeline orchestration
+  - [ ] Row-level security (RLS) patterns
+  - [ ] Performance: import vs DirectQuery decision framework, aggregations
+  - [ ] Deployment: workspace, app, embedded, paginated reports
 
 ## Backlog
 
-- [ ] `delivery-vega-lite`
-- [ ] `delivery-observable`
-- [ ] `delivery-slides`
-- [ ] `delivery-pdf-report`
-- [ ] `delivery-email-digest`
+- [ ] `delivery-vega-lite` -- Declarative Vega-Lite JSON spec for web embedding
+- [ ] `delivery-observable` -- Observable Framework notebook output
+- [ ] `delivery-slides` -- Marp/PPTX presentation output with data charts
+- [ ] `delivery-pdf-report` -- PDF report generation via pandoc/weasyprint
+- [ ] `delivery-email-digest` -- Email-friendly HTML digest with inline charts
 
 ## Token Budget
 
