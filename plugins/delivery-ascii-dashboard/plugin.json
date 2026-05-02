@@ -23,7 +23,7 @@
     "shape": ".S..",
     "category": "data-analytics",
     "tier": "standard",
-    "token_cost": 3600,
+    "token_cost": 2700,
     "requires_edition": ">=1.0.0",
     "requires_plugins": [],
     "artifacts": {
