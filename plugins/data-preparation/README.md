@@ -1,17 +1,28 @@
 # data-preparation
 
-Data cleaning, profiling, quality checks, aggregation, and pivot/unpivot guidance.
+Data cleaning, profiling, transformation, and quality gates. Prepares raw data
+for visualization and analysis.
 
-**Status**: Planned (Phase 1)
+**Status**: Complete (ready for Mall promotion)
 
-## Scope
+## What It Does
 
-- Data profiling checklist (types, nulls, cardinality, distributions)
-- Cleaning recipes (deduplication, type coercion, null handling, outlier treatment)
-- Aggregation patterns (group-by, rolling windows, percentiles)
-- Pivot/unpivot guidance for reshaping data for visualization
+- Profiles data (types, nulls, cardinality, ranges, sample values)
+- Cleans (dedup, null handling, type coercion, outlier treatment)
+- Transforms (aggregation, pivot/unpivot, computed columns)
 - Quality gates (assertions that must pass before visualization)
 
 ## Pipeline Position
 
 Fires after `datasource-connectors`, before `visual-vocabulary`.
+
+## Install
+
+```bash
+cp -r plugins/data-preparation/ /your/project/.github/skills/local/data-preparation/
+```
+
+## Complements
+
+- `data-analysis` (Mall): runs after this module; assumes clean data
+- `data-quality-monitoring` (Mall): monitors ongoing quality; this does initial prep

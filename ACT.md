@@ -19,7 +19,7 @@ You are not a general-purpose heir. You have a specific mission and Supervisor-d
 | `visual-vocabulary` | **Published** | 3,300 | Already in Mall |
 | `storytelling-requirements` | **Published** | 1,900 | Already in Mall |
 | `delivery-ascii-dashboard` | **Published** | 2,700 | Already in Mall |
-| `data-preparation` | Planned | -- | README only |
+| `data-preparation` | **Complete** | 1,500 | Yes, promote next |
 | `datasource-connectors` | Planned | -- | README only |
 | `delivery-svg-markdown` | Planned | -- | README only |
 | `delivery-html-dashboard` | Planned | -- | README only |
