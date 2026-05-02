@@ -32,15 +32,13 @@ User: "Show me how sales are trending. Data is in sales.csv. ASCII dashboard."
   │  - Produce structured brief                             │
   └──────────┬──────────────────────────────────────────────┘
              │                          │
-             │ ask user for             │ brief + data source + delivery target
-             │ clarification            │
+     ask user │                          │ brief + data source
+     for      │                          │ + delivery target
+     clarity  │                          │
              v                          │
-            User                        │
-                                        │
-                           ▲ clarification request
-                           │ (ambiguous brief,
-                           │  missing data, etc.)
-                           v
+            User          ▲ clarification│
+                          │ request      │
+                          │              v
   ┌─────────────────────────────────────────────────────────┐
   │              Visual Storytelling Agent                  │
   │                   (orchestrator)                        │
@@ -85,10 +83,15 @@ User: "Show me how sales are trending. Data is in sales.csv. ASCII dashboard."
                  │  layout, color,   │
                  │  readability,     │
                  │  CSAR check       │
-                 └─────────┬─────────┘
-                           │ pass
-                           v
-                       Output
+                 └────┬────────┬─────┘
+                      │        │
+           fail: fix  │        │ pass
+           and re-    │        │
+           render     │        v
+                      │    Output
+                      │
+                      └───► Deliver
+                          (loop back)
 ```
 
 Two layers, one invocation:
