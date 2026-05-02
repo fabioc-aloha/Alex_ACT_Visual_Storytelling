@@ -270,11 +270,13 @@ This repo develops plugins that complement (not replace) existing Mall entries:
 
 ## Success Criteria
 
-- All Phase 1 plugins published to Mall and installable by any ACT heir
-- A heir can go from raw CSV to SVG dashboard in one session using only these plugins
-- The storytelling-requirements template guides a user through the same process taught in the VT class
-- Each plugin is under 500 lines (Mall standard)
-- Token cost of the full collection (all plugins loaded) stays under 15K tokens
+| Criterion | Status |
+| --- | --- |
+| All Phase 1 plugins published to Mall | 3 of 5 published; `data-preparation` complete, `datasource-connectors` planned |
+| A heir can go from raw CSV to dashboard in one session | Orchestrator agent exists; test scenario written; not yet end-to-end tested |
+| The storytelling-requirements template matches VT class process | Published and validated |
+| Each plugin is under 500 lines | All plugins pass (largest: visual-vocabulary at ~330 lines) |
+| Token cost of full collection stays under 15K | 9,400 tokens for 4 plugins. Budget: 15K. Headroom: 5,600 |
 
 ## Repo Structure
 
@@ -285,7 +287,7 @@ Alex_ACT_Visual_Storytelling/
   plugins/             -- plugin development workspace
     visual-vocabulary/     SKILL.md, plugin.json, README.md (published)
     storytelling-requirements/  SKILL.md, plugin.json, README.md (published)
-    data-preparation/      (planned -- README only)
+    data-preparation/      SKILL.md, plugin.json, README.md (complete)
     datasource-connectors/ (planned -- README only)
     delivery-ascii-dashboard/  SKILL.md, plugin.json, README.md (published)
     delivery-svg-markdown/ (planned -- README only)
@@ -293,7 +295,11 @@ Alex_ACT_Visual_Storytelling/
     delivery-powerbi-fabric/ (planned -- README only)
   backlog/             -- future platform delivery plugins
   datasets/            -- test data for development
+    sales-sample.csv       24 rows, 6 months, 2 regions, 2 products
   templates/           -- the storytelling requirements template
   tests/               -- plugin test scenarios
+    sales-dashboard-ascii.md  filled brief + expected outcome
   references/          -- source material and notes
+  .github/agents/
+    visual-storytelling.agent.md  orchestrator agent definition
 ```
