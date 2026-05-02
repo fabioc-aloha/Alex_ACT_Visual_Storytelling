@@ -109,9 +109,9 @@ Swappable parts:
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'edgeLabelBackground': '#ffffff', 'primaryColor': '#f9fafb', 'primaryTextColor': '#1f2937', 'primaryBorderColor': '#9ca3af', 'lineColor': '#6b7280', 'secondaryColor': '#f3f4f6', 'tertiaryColor': '#ffffff', 'fontSize': '14px'}}}%%
 flowchart TD
-    User["User\nrough request + data source + delivery target"]
+    User["User<br/>rough request + data source + delivery target"]
 
-    subgraph Requirements ["Requirements Agent\n(storytelling-requirements)"]
+    subgraph Requirements ["Requirements Agent<br/>(storytelling-requirements)"]
         RA1["Interview user or parse request"]
         RA2["Identify audience, Big Idea, questions"]
         RA3["Map questions to communication goals"]
@@ -119,25 +119,25 @@ flowchart TD
         RA1 --> RA2 --> RA3 --> RA4
     end
 
-    subgraph Orchestrator ["Visual Storytelling Agent\n(orchestrator)"]
+    subgraph Orchestrator ["Visual Storytelling Agent<br/>(orchestrator)"]
         O1["1. Read brief"]
-        O2["2. Plan pipeline\n(which modules, in what order)"]
+        O2["2. Plan pipeline<br/>(which modules, in what order)"]
         O3["3. Delegate to modules"]
-        Ingest["Ingest\ndatasource-connectors"]
-        Transform["Transform\ndata-preparation"]
-        Select["Select\nvisual-vocabulary"]
+        Ingest["Ingest<br/>datasource-connectors"]
+        Transform["Transform<br/>data-preparation"]
+        Select["Select<br/>visual-vocabulary"]
         O4["4. Assemble final output"]
         O1 --> O2 --> O3
     end
 
-    Deliver["Deliver\nUser chooses:\nascii | svg | html | powerbi"]
+    Deliver["Deliver<br/>User chooses:<br/>ascii | svg | html | powerbi"]
 
-    QA["QA / Polish\nVision eval:\nlayout, color, readability,\nCSAR check"]
+    QA["QA / Polish<br/>Vision eval:<br/>layout, color, readability,<br/>CSAR check"]
 
     Output["Output"]
 
     User --> Requirements
-    RA4 -- "brief + data source\n+ delivery target" --> O1
+    RA4 -- "brief + data source<br/>+ delivery target" --> O1
     Orchestrator -. "clarification request" .-> Requirements
     O3 --> Ingest
     O3 --> Transform
@@ -147,7 +147,7 @@ flowchart TD
     Select --> O4
     O4 --> Deliver
     Deliver --> QA
-    QA -- "fail: polish\nand re-render" --> Deliver
+    QA -- "fail: polish<br/>and re-render" --> Deliver
     QA -- "pass" --> Output
 ```
 
