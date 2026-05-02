@@ -25,6 +25,7 @@ User has data + a question
          |
          v
   delivery-*                   <-- render to target format
+    |- delivery-ascii-dashboard    Pure ASCII art (cheapest, LLM-native)
     |- delivery-svg-markdown       SVG panels in Markdown (GitHub-native)
     |- delivery-html-dashboard     Self-contained HTML with Chart.js
     |- delivery-powerbi-fabric     Power BI / Microsoft Fabric
@@ -51,6 +52,7 @@ Each box is one Mall plugin. A heir installs only what they need: a project doin
 | `storytelling-requirements` | In Progress | data-analytics | Guided requirements document template: audience, Big Idea, questions, data sources, delivery target, constraints |
 | `data-preparation` | Planned | data-analytics | Data cleaning checklist, profiling patterns, aggregation recipes, pivot/unpivot guidance, quality gates |
 | `datasource-connectors` | Planned | data-analytics | Ingestion patterns for CSV, JSON, REST API, SQL, Excel, Parquet. Connection string templates, pagination, auth |
+| `delivery-ascii-dashboard` | In Progress | data-analytics | Pure ASCII art dashboards in monospace text: KPI strips, bar charts, sparklines. Zero dependencies, LLM-native, predictable character geometry |
 
 ### Phase 2 -- Delivery Targets (v0.2.0)
 

@@ -14,7 +14,7 @@ The pipeline:
 | 2. Ingest | `datasource-connectors` | Load data from CSV, JSON, API, SQL, Excel, Parquet |
 | 3. Clean | `data-preparation` | Profile, clean, aggregate, pivot, quality-check the data |
 | 4. Select | `visual-vocabulary` | Pick the right chart types for the story you want to tell |
-| 5. Render | `delivery-*` | Output to SVG/Markdown, HTML dashboard, Power BI, or other targets |
+| 5. Render | `delivery-*` | Output to ASCII, SVG/Markdown, HTML dashboard, Power BI, or other targets |
 
 Install only what you need. A project doing SVG dashboards skips the Power BI plugin; a Fabric project skips SVG.
 
@@ -24,6 +24,7 @@ Install only what you need. A project doing SVG dashboards skips the Power BI pl
 | --- | --- | --- |
 | `visual-vocabulary` | Published | [data-analytics/visual-vocabulary](https://github.com/fabioc-aloha/Alex_Skill_Mall/tree/main/plugins/data-analytics/visual-vocabulary) |
 | `storytelling-requirements` | In Progress | -- |
+| `delivery-ascii-dashboard` | In Progress | -- |
 | `data-preparation` | Planned | -- |
 | `datasource-connectors` | Planned | -- |
 | `delivery-svg-markdown` | Planned | -- |
