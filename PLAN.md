@@ -137,6 +137,7 @@ flowchart TD
     Output["Output"]
 
     User --> Requirements
+    Requirements -. "ask user for clarification" .-> User
     RA4 -- "brief + data source<br/>+ delivery target" --> O1
     Orchestrator -. "clarification request" .-> Requirements
     O3 --> Ingest
