@@ -8,6 +8,149 @@ This is the "Power BI alternative for AI agents": instead of opening a BI tool, 
 
 ## Architecture
 
+### Agent-Orchestrated Pipeline
+
+The Visual Storytelling system is a two-layer sub-agent hierarchy that any ACT
+heir can invoke. The user provides a rough request, a data source, and a delivery
+target. The system generates a structured brief, then executes the full pipeline.
+
+```text
+User: "Show me how sales are trending. Data is in sales.csv. ASCII dashboard."
+
+  ┌─────────────────────────────────────────────────────────┐
+  │              Requirements Agent                         │
+  │            (storytelling-requirements)                   │
+  │                                                         │
+  │  - Interview user or parse request                      │
+  │  - Identify audience, Big Idea, questions               │
+  │  - Map questions to communication goals                 │
+  │  - Produce structured brief                             │
+  └────────────────────────┬────────────────────────────────┘
+                           │ brief + data source + delivery target
+                           │
+                           │        ▲ clarification request
+                           │        │ (ambiguous brief,
+                           │        │  missing data, etc.)
+                           v        │
+  ┌─────────────────────────────────────────────────────────┐
+  │              Visual Storytelling Agent                   │
+  │                   (orchestrator)                         │
+  │                                                         │
+  │  1. Read brief                                          │
+  │  2. Plan pipeline (which modules, in what order)        │
+  │  3. Delegate to modules                                 │
+  │  4. Assemble final output                               │
+  │                                                         │
+  │  Can push back to Requirements Agent if:                │
+  │  - Brief is ambiguous or incomplete                     │
+  │  - Data doesn't match what the brief assumes            │
+  │  - Delivery target can't support a requested visual     │
+  └────────────────────────┬────────────────────────────────┘
+                           │
+           ┌───────────────┼───────────────────┐
+           │               │                   │
+           v               v                   v
+    ┌─────────────┐ ┌─────────────┐  ┌────────────────┐
+    │   Ingest    │ │  Transform  │  │    Select      │
+    │             │ │             │  │                │
+    │  datasource │ │  data-      │  │  visual-       │
+    │  connectors │ │  preparation│  │  vocabulary    │
+    └──────┬──────┘ └──────┬──────┘  └───────┬────────┘
+           │               │                 │
+           └───────────────┼─────────────────┘
+                           │
+                           v
+                 ┌───────────────────┐
+                 │     Deliver       │
+                 │                   │
+                 │  User chooses:    │
+                 │  ascii | svg      │
+                 │  html  | powerbi  │
+                 └─────────┬─────────┘
+                           │
+                           v
+                 ┌───────────────────┐
+                 │     QA / Polish   │
+                 │                   │
+                 │  Vision eval:     │
+                 │  layout, color,   │
+                 │  readability,     │
+                 │  CSAR check       │
+                 └─────────┬─────────┘
+                           │ pass
+                           v
+                       Output
+```
+
+Two layers, one invocation:
+
+- **Requirements Agent** follows the **Creative Cycle** (Ideate, Plan, Build,
+  Test, Release, Improve) to generate the brief. It interviews the user or
+  parses a rough request, iterates on audience/Big Idea/questions until the
+  brief is solid, then hands it down. If the user already has a structured
+  brief, this layer validates and passes it through.
+- **Orchestrator** reads the brief, plans the pipeline, delegates to modules.
+  If the brief is ambiguous, the data doesn't match assumptions, or the
+  delivery target can't support a requested visual, the orchestrator **pushes
+  back** to the Requirements Agent for clarification before proceeding.
+  After delivery, the **CSAR loop** (Completeness, Simplicity, Accuracy,
+  Readability) drives the QA step: render, evaluate with vision, polish
+  colors/layout/spacing, re-evaluate until the output passes. The user gets
+  a finished product, not a first draft.
+
+Swappable parts:
+
+- "Data is in a SQL database" --> only the Ingest module changes
+- "Deliver as SVG instead"   --> only the Deliver module changes
+- The orchestrator re-plans; the user does not re-wire the pipeline
+
+### Architecture Diagram (Mermaid)
+
+```mermaid
+flowchart TD
+    User["User\nrough request + data source + delivery target"]
+
+    subgraph Requirements ["Requirements Agent (Creative Cycle)"]
+        RA_Interview["Interview / parse request"]
+        RA_Brief["Produce structured brief\naudience, Big Idea, questions,\ncommunication goals"]
+        RA_Interview --> RA_Brief
+    end
+
+    subgraph Orchestrator ["Visual Storytelling Agent (CSAR Loop)"]
+        O_Read["Read brief"]
+        O_Plan["Plan pipeline"]
+        O_Delegate["Delegate to modules"]
+        O_Assemble["Assemble output"]
+        O_Read --> O_Plan --> O_Delegate --> O_Assemble
+    end
+
+    subgraph Modules ["Modules"]
+        Ingest["Ingest\ndatasource-connectors"]
+        Transform["Transform\ndata-preparation"]
+        Select["Select\nvisual-vocabulary"]
+        Deliver["Deliver\nascii | svg | html | powerbi"]
+    end
+
+    QA["QA / Polish\nvision eval, CSAR check\nlayout, color, readability"]
+
+    Output["Output\nfinished visual story"]
+
+    User --> Requirements
+    RA_Brief --> Orchestrator
+    Orchestrator -- "clarification\nrequest" --> Requirements
+    O_Delegate --> Ingest
+    O_Delegate --> Transform
+    O_Delegate --> Select
+    O_Delegate --> Deliver
+    Deliver --> QA
+    QA -- "fail: polish\nand re-render" --> Deliver
+    QA -- "pass" --> Output
+```
+
+### Module Pipeline (reference)
+
+The modules the orchestrator calls, shown as a linear data flow:
+
 ```text
 User has data + a question
          |
