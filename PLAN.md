@@ -125,8 +125,9 @@ flowchart TD
         O3["3. Delegate to modules"]
         O4["4. Assemble final output"]
         O1 --> O2 --> O3 --> O4
-        OPush["Can push back to Requirements Agent if:\n- Brief is ambiguous or incomplete\n- Data doesn't match what the brief assumes\n- Delivery target can't support a requested visual"]
     end
+
+    OPush["Can push back to Requirements Agent if:\n- Brief is ambiguous or incomplete\n- Data doesn't match what the brief assumes\n- Delivery target can't support a requested visual"]
 
     subgraph Modules [" "]
         Ingest["Ingest\ndatasource-connectors"]
@@ -142,7 +143,7 @@ flowchart TD
 
     User --> Requirements
     RA4 -- "brief + data source\n+ delivery target" --> O1
-    OPush -- "clarification request\n(ambiguous brief,\nmissing data, etc.)" --> Requirements
+    O1 -. "clarification request\n(ambiguous brief,\nmissing data, etc.)" .-> RA1
     O3 --> Ingest
     O3 --> Transform
     O3 --> Select
