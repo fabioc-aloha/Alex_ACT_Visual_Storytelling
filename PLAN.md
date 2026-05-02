@@ -123,14 +123,11 @@ flowchart TD
         O1["1. Read brief"]
         O2["2. Plan pipeline\n(which modules, in what order)"]
         O3["3. Delegate to modules"]
-        O4["4. Assemble final output"]
-        O1 --> O2 --> O3
-    end
-
-    subgraph Modules [" "]
         Ingest["Ingest\ndatasource-connectors"]
         Transform["Transform\ndata-preparation"]
         Select["Select\nvisual-vocabulary"]
+        O4["4. Assemble final output"]
+        O1 --> O2 --> O3
     end
 
     Deliver["Deliver\nUser chooses:\nascii | svg | html | powerbi"]
