@@ -107,6 +107,7 @@ Swappable parts:
 ### Architecture Diagram (Mermaid)
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'edgeLabelBackground': '#ffffff', 'primaryColor': '#f9fafb', 'primaryTextColor': '#1f2937', 'primaryBorderColor': '#9ca3af', 'lineColor': '#6b7280', 'secondaryColor': '#f3f4f6', 'tertiaryColor': '#ffffff', 'fontSize': '14px'}}}%%
 flowchart TD
     User["User\nrough request + data source + delivery target"]
 
