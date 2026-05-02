@@ -211,7 +211,7 @@ Each box is one Mall plugin. A heir installs only what they need: a project doin
 | `visual-vocabulary` | Published | data-analytics | Chart catalog by communication goal, CSAR evaluation loop, 5-visual rule, SVG patterns, living gallery links |
 | `storytelling-requirements` | Published | data-analytics | Guided requirements document template: audience, Big Idea, questions, data sources, delivery target, constraints |
 | `data-preparation` | Complete | data-analytics | Data cleaning checklist, profiling patterns, aggregation recipes, pivot/unpivot guidance, quality gates |
-| `datasource-connectors` | Planned | data-analytics | Ingestion patterns for CSV, JSON, REST API, SQL, Excel, Parquet. Connection string templates, pagination, auth |
+| `datasource-connectors` | Complete | data-analytics | Ingestion patterns for CSV, JSON, REST API, SQL, Excel, Parquet. Connection string templates, pagination, auth |
 | `delivery-ascii-dashboard` | Published | data-analytics | Pure ASCII art dashboards in monospace text: KPI strips, bar charts, sparklines. Zero dependencies, LLM-native, predictable character geometry |
 
 ### Phase 2 -- Delivery Targets (v0.2.0)

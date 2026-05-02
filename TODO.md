@@ -8,14 +8,14 @@ Consolidated tracker for the Visual Storytelling plugin collection.
 - [x] `storytelling-requirements` -- Published to Mall (1,900 tokens)
 - [x] `delivery-ascii-dashboard` -- Published to Mall (2,700 tokens)
 - [x] `data-preparation` -- Complete, ready to promote (1,500 tokens)
-- [ ] `datasource-connectors` -- Build SKILL.md + plugin.json covering:
-  - [ ] CSV/TSV: encoding detection, delimiter inference, header handling
-  - [ ] JSON/JSONL: path extraction, nested object flattening
-  - [ ] REST API: pagination (offset, cursor, link-header), auth (API key, OAuth)
-  - [ ] SQL: parameterized queries, connection string patterns, injection prevention
-  - [ ] Excel: sheet selection, named ranges, header row detection
-  - [ ] Parquet/Arrow: columnar format reading, schema inspection
-  - [ ] Error handling: retries, timeouts, partial data, encoding fallbacks
+- [x] `datasource-connectors` -- Complete, ready to promote (2,000 tokens)
+  - [x] CSV/TSV: encoding detection, delimiter inference, header handling
+  - [x] JSON/JSONL: path extraction, nested object flattening
+  - [x] REST API: pagination (offset, cursor, link-header), auth (API key, OAuth)
+  - [x] SQL: parameterized queries, connection string patterns, injection prevention
+  - [x] Excel: sheet selection, named ranges, header row detection
+  - [x] Parquet/Arrow: columnar format reading, schema inspection
+  - [x] Error handling: retries, timeouts, partial data, encoding fallbacks
 - [ ] Promote `data-preparation` to Mall
 
 ## Orchestrator
@@ -53,7 +53,7 @@ Consolidated tracker for the Visual Storytelling plugin collection.
 | Metric | Value |
 | --- | --- |
 | Published | 7,900 (3 plugins) |
-| Complete (unpromoted) | 1,500 (1 plugin) |
-| Total committed | 9,400 |
+| Complete (unpromoted) | 3,500 (2 plugins) |
+| Total committed | 11,400 |
 | Budget | 15,000 |
-| Headroom | 5,600 |
+| Headroom | 3,600 |

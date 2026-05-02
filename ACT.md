@@ -20,7 +20,7 @@ You are not a general-purpose heir. You have a specific mission and Supervisor-d
 | `storytelling-requirements` | **Published** | 1,900 | Already in Mall |
 | `delivery-ascii-dashboard` | **Published** | 2,700 | Already in Mall |
 | `data-preparation` | **Complete** | 1,500 | Yes, promote next |
-| `datasource-connectors` | Planned | -- | README only |
+| `datasource-connectors` | **Complete** | 2,000 | Yes, promote next |
 | `delivery-svg-markdown` | Planned | -- | README only |
 | `delivery-html-dashboard` | Planned | -- | README only |
 | `delivery-powerbi-fabric` | Planned | -- | README only |
