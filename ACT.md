@@ -68,13 +68,22 @@ You are not a general-purpose heir. You have a specific mission and Supervisor-d
 
 ## How to Work
 
-### Developing a Plugin
+### Using the Pipeline (end-user flow)
+
+1. User provides a rough request, a data source, and a delivery target
+2. Requirements Agent (or user) produces a structured brief
+3. Invoke the Visual Storytelling Agent: it reads the brief, plans the pipeline, delegates to modules, and assembles output
+4. QA/Polish loop evaluates with vision, applies CSAR check, loops until pass
+5. Output delivered in the chosen format
+
+### Developing a Module
 
 1. Write SKILL.md in `plugins/<name>/` (under 500 lines, behavioral not encyclopedic)
 2. Write plugin.json (use existing ones as templates; set token_cost = chars/4 rounded to nearest 100)
 3. Write README.md (concise: what, when, install, pipeline position)
 4. Test against datasets in `datasets/` (add test data if needed)
 5. Run 4-gate review (spec, quality, scope, safety)
+6. Commit before and after every visual/doc tweak; finest changes first
 
 ### Promoting to Mall
 
@@ -97,6 +106,7 @@ node .github/scripts/upgrade-self.cjs --apply # then apply
 | --- | --- |
 | `PLAN.md` | Full roadmap, plugin inventory, success criteria, architecture diagram |
 | `.github/copilot-instructions.local.md` | Your maintainer identity and capabilities |
+| `.github/agents/visual-storytelling.agent.md` | The orchestrator agent definition |
 | `templates/STORYTELLING-REQUIREMENTS.md` | The blank brief users copy into their projects |
 | `.github/.act-heir.json` | Fleet marker (Edition v0.9.9, heir ID, timestamps) |
 
