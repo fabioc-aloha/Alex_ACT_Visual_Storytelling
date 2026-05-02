@@ -19,8 +19,8 @@ You are not a general-purpose heir. You have a specific mission and Supervisor-d
 | `visual-vocabulary` | **Published** | 3,300 | Already in Mall |
 | `storytelling-requirements` | **Published** | 1,900 | Already in Mall |
 | `delivery-ascii-dashboard` | **Published** | 2,700 | Already in Mall |
-| `data-preparation` | **Complete** | 1,500 | Yes, promote next |
-| `datasource-connectors` | **Complete** | 2,000 | Yes, promote next |
+| `data-preparation` | **Published** | 1,500 | Already in Mall |
+| `datasource-connectors` | **Published** | 2,000 | Already in Mall |
 | `delivery-svg-markdown` | Planned | -- | README only |
 | `delivery-html-dashboard` | Planned | -- | README only |
 | `delivery-powerbi-fabric` | Planned | -- | README only |
