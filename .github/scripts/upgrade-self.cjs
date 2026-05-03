@@ -22,7 +22,7 @@ const path = require('path');
 const os = require('os');
 const crypto = require('crypto');
 const { execFileSync } = require('child_process');
-const { upsertHeir } = require('./_registry.cjs');
+const { upsertHeir, resolveAiMemoryRoot } = require('./_registry.cjs');
 
 const HEIR_ROOT = process.cwd();
 const args = new Set(process.argv.slice(2));

@@ -2,12 +2,12 @@
   "$schema": "https://github.com/fabioc-aloha/Alex_ACT_Supervisor/blob/main/fleet/schema/act-heir.schema.json",
   "spec_version": "1.0",
   "edition": "Alex_ACT_Edition",
-  "edition_version": "0.9.9",
+  "edition_version": "1.0.0",
   "heir_id": "alex-act-visual-storytelling",
   "heir_name": "Alex ACT Visual Storytelling",
   "repo_url": "https://github.com/fabioc-aloha/Alex_ACT_Visual_Storytelling",
   "deployed_at": "2026-05-02T21:45:01Z",
-  "last_sync_at": "2026-05-02T21:45:01Z",
+  "last_sync_at": "2026-05-03T16:17:02Z",
   "contact": {
     "owner": "fabioc-aloha",
     "feedback_channel": "issues"
