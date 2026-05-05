@@ -43,7 +43,7 @@ All 5 core pipeline plugins published to Mall (283 plugins, 22 data-analytics):
 | Artifact | Status |
 | --- | --- |
 | Architecture (ASCII + Mermaid) | Complete in PLAN.md |
-| Orchestrator agent | Created (`.github/agents/visual-storytelling.agent.md`) |
+| Orchestrator agent | Created (`.github/agents/local/visual-storytelling.agent.md`) |
 | Test dataset | `datasets/sales-sample.csv` (24 rows, 6 months) |
 | Test scenario | `tests/sales-dashboard-ascii.md` (filled brief) |
 | Consolidated tracker | `TODO.md` at repo root |
@@ -134,7 +134,7 @@ node .github/scripts/upgrade-self.cjs --apply # then apply
 | --- | --- |
 | `PLAN.md` | Full roadmap, plugin inventory, success criteria, architecture diagram |
 | `.github/copilot-instructions.local.md` | Your maintainer identity and capabilities |
-| `.github/agents/visual-storytelling.agent.md` | The orchestrator agent definition |
+| `.github/agents/local/visual-storytelling.agent.md` | The orchestrator agent definition |
 | `templates/STORYTELLING-REQUIREMENTS.md` | The blank brief users copy into their projects |
 | `.github/.act-heir.json` | Fleet marker (Edition v0.9.9, heir ID, timestamps) |
 

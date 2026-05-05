@@ -22,7 +22,7 @@ across three delivery formats (ASCII, SVG, HTML).
 
 ### Orchestrator
 
-- [x] Pipeline agent (`.github/agents/visual-storytelling.agent.md`)
+- [x] Pipeline agent (`.github/agents/local/visual-storytelling.agent.md`)
 - [x] CSAR QA loop with brief evidence reporting
 - [x] ASCII alignment gate (caller-side construction)
 

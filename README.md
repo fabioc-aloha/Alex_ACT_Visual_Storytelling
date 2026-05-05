@@ -33,7 +33,7 @@ Install only what you need. A project doing SVG dashboards skips the HTML plugin
 
 ## Orchestrator Agent
 
-The `visual-storytelling` agent (`.github/agents/visual-storytelling.agent.md`)
+The `visual-storytelling` agent (`.github/agents/local/visual-storytelling.agent.md`)
 runs the full pipeline: reads a brief, plans which modules to invoke, delegates
 to each step, and runs a CSAR QA loop on the output.
 

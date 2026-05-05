@@ -42,6 +42,6 @@
     },
     "install_paths": {
         "skill": ".github/skills/local/visual-storytelling/SKILL.md",
-        "agent": ".github/agents/visual-storytelling.agent.md"
+        "agent": ".github/agents/local/visual-storytelling.agent.md"
     }
 }

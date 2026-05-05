@@ -300,6 +300,6 @@ Alex_ACT_Visual_Storytelling/
   tests/               -- plugin test scenarios
     sales-dashboard-ascii.md  filled brief + expected outcome
   references/          -- source material and notes
-  .github/agents/
+  .github/agents/local/
     visual-storytelling.agent.md  orchestrator agent definition
 ```
