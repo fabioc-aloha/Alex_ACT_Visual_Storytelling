@@ -2,7 +2,7 @@
 
 Power BI report design and Microsoft Fabric integration patterns.
 
-**Status**: Planned (Phase 3)
+**Status**: Planned (v2.0.0)
 
 ## Scope
 

@@ -1,12 +1,11 @@
 # Alex ACT Visual Storytelling
 
-Plugin factory for data-driven visual storytelling. Develops, tests, and publishes modular plugins to the [Alex ACT Plugin Mall](https://github.com/fabioc-aloha/Alex_ACT_Plugin_Mall).
+Plugin collection that turns raw data into visual stories. Load the plugins,
+point at a dataset, pick a delivery format, get a dashboard.
 
-## What This Is
+**v1.0.0** -- 7 plugins, 3 delivery formats (ASCII, SVG, HTML), orchestrator agent.
 
-A collection of plugins that turn raw data into visual stories. Think "Power BI for AI agents": instead of opening a BI tool, a heir loads the right plugins and produces SVG dashboards, HTML reports, or Markdown narratives directly from data.
-
-The pipeline:
+## Pipeline
 
 | Step | Plugin | What It Does |
 | --- | --- | --- |
@@ -14,55 +13,33 @@ The pipeline:
 | 2. Ingest | `datasource-connectors` | Load data from CSV, JSON, API, SQL, Excel, Parquet |
 | 3. Clean | `data-preparation` | Profile, clean, aggregate, pivot, quality-check the data |
 | 4. Select | `visual-vocabulary` | Pick the right chart types for the story you want to tell |
-| 5. Render | `delivery-*` | Output to ASCII, SVG/Markdown, HTML dashboard, Power BI, or other targets |
+| 5. Render | `delivery-*` | Output to ASCII, SVG/Markdown, or HTML dashboard |
 
-Install only what you need. A project doing SVG dashboards skips the Power BI plugin; a Fabric project skips SVG.
+Install only what you need. A project doing SVG dashboards skips the HTML plugin.
 
-## Plugin Status
+## Plugins
 
-| Plugin | Status | Mall |
-| --- | --- | --- |
-| `visual-vocabulary` | Published | [data-analytics/visual-vocabulary](https://github.com/fabioc-aloha/Alex_Skill_Mall/tree/main/plugins/data-analytics/visual-vocabulary) |
-| `storytelling-requirements` | In Progress | -- |
-| `delivery-ascii-dashboard` | In Progress | -- |
-| `data-preparation` | Planned | -- |
-| `datasource-connectors` | Planned | -- |
-| `delivery-svg-markdown` | Planned | -- |
-| `delivery-html-dashboard` | Planned | -- |
-| `delivery-powerbi-fabric` | Planned | -- |
+| Plugin | Tokens | Category | Description |
+| --- | --- | --- | --- |
+| `visual-vocabulary` | 3,300 | data-analytics | Chart catalog by communication goal, CSAR evaluation loop |
+| `storytelling-requirements` | 1,900 | data-analytics | Structured brief template and intake workflow |
+| `data-preparation` | 1,500 | data-analytics | Data profiling, cleaning, aggregation patterns |
+| `datasource-connectors` | 2,000 | data-analytics | CSV, JSON, API, SQL, Excel, Parquet connectors |
+| `delivery-ascii-dashboard` | 2,700 | data-analytics | Pure ASCII dashboards for terminals and plain text |
+| `delivery-svg-markdown` | 4,200 | media-graphics | Static SVG panels embeddable in GitHub Markdown |
+| `delivery-html-dashboard` | 4,800 | data-analytics | Interactive HTML dashboards with Apache ECharts |
 
-## Quick Start
+**Total**: 20,400 tokens across 7 plugins.
 
-```bash
-# Clone this repo
-git clone https://github.com/fabioc-aloha/Alex_ACT_Visual_Storytelling.git
+## Orchestrator Agent
 
-# Install a published plugin into your project
-cp -r plugins/visual-vocabulary/ /your/project/.github/skills/local/visual-vocabulary/
+The `visual-storytelling` agent (`.github/agents/visual-storytelling.agent.md`)
+runs the full pipeline: reads a brief, plans which modules to invoke, delegates
+to each step, and runs a CSAR QA loop on the output.
+
+```text
+@visual-storytelling Show me sales trends from datasets/sales-sample.csv as an HTML dashboard
 ```
-
-## Design Principles
-
-- **DRY/KISS modular collection.** Each plugin does one thing.
-- **Selection is universal; delivery is swappable.** Chart selection and storytelling are platform-agnostic. Delivery plugins are platform-specific.
-- **Requirements document is the input.** Every project starts with a structured brief.
-- **Publish to the Mall, develop here.** This repo is the factory; the Mall is the storefront.
-- **Living references over static knowledge.** Link to galleries; encode judgment in plugins.
-
-## Complementary Mall Plugins
-
-These existing Mall plugins work alongside (not overlap with) this collection:
-
-| Mall Plugin | Role |
-| --- | --- |
-| `data-storytelling` | Narrative arc (three-act, Knaflic/Duarte). Feeds FROM the requirements brief. |
-| `data-visualization` | Chart design (color, annotation, decluttering). Fires AFTER chart selection. |
-| `dashboard-design` | Layout patterns (inverted pyramid, KPI cards). Fires AFTER chart selection. |
-| `chart-interpretation` | Reading existing charts. The inverse of `visual-vocabulary`. |
-
-## Project Plan
-
-See [PLAN.md](PLAN.md) for the full development roadmap, success criteria, and backlog.
 
 ## License
 

@@ -1,0 +1,686 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q3 Budget Reallocation Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@6/dist/echarts.min.js"></script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root,
+    [data-theme="light"] {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --bg-card: #ffffff;
+      --text-primary: #212529;
+      --text-secondary: #6c757d;
+      --border: #dee2e6;
+      --accent-1: #2563eb;
+      --accent-2: #16a34a;
+      --accent-3: #d97706;
+      --accent-4: #dc2626;
+      --accent-5: #7c3aed;
+      --positive: #16a34a;
+      --negative: #dc2626;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+      --radius: 8px;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #1a1a2e;
+      --bg-secondary: #16213e;
+      --bg-card: #1e2a4a;
+      --text-primary: #e0e0e0;
+      --text-secondary: #999999;
+      --border: #2a3a5e;
+      --accent-1: #4a90d9;
+      --accent-2: #50c878;
+      --accent-3: #ffb347;
+      --accent-4: #ff6b6b;
+      --accent-5: #bb86fc;
+      --positive: #50c878;
+      --negative: #ff6b6b;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --radius: 8px;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      margin: 0 auto;
+      padding: 24px;
+      max-width: 1200px;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .header-text h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .header-text .subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      max-width: 680px;
+    }
+
+    #theme-toggle {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    #theme-toggle:hover {
+      background: var(--bg-secondary);
+    }
+
+    #theme-toggle:focus-visible {
+      outline: 2px solid var(--accent-1);
+      outline-offset: 2px;
+    }
+
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .kpi-card .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .kpi-card .value {
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .kpi-card .delta {
+      font-size: 12px;
+      margin-top: 6px;
+      color: var(--text-secondary);
+    }
+
+    .kpi-card .delta.positive {
+      color: var(--positive);
+    }
+
+    .kpi-card .delta.negative {
+      color: var(--negative);
+    }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .chart-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      min-height: 320px;
+    }
+
+    .chart-panel.full-width {
+      grid-column: 1 / -1;
+      min-height: 280px;
+    }
+
+    footer {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent-2);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    footer strong {
+      color: var(--accent-2);
+    }
+
+    @media (max-width: 768px) {
+      .chart-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .kpi-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .chart-panel {
+        min-height: 250px;
+      }
+
+      .chart-panel.full-width {
+        min-height: 220px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .kpi-strip {
+        grid-template-columns: 1fr;
+      }
+
+      body {
+        padding: 12px;
+      }
+
+      .kpi-card .value {
+        font-size: 24px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: black;
+        padding: 0;
+      }
+
+      .chart-panel {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+
+      #theme-toggle {
+        display: none;
+      }
+
+      .kpi-card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+
+      footer {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        border-left: 3px solid #16a34a;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-text">
+      <h1>Q3 Budget Reallocation Dashboard</h1>
+      <p class="subtitle">North Widget A delivers 2x the margin per marketing dollar vs South Widget B.</p>
+    </div>
+    <button id="theme-toggle" aria-label="Toggle dark and light theme">Toggle Theme</button>
+  </header>
+
+  <section class="kpi-strip" aria-label="Key Performance Indicators">
+    <div class="kpi-card" aria-label="Total Revenue 246.4 thousand dollars">
+      <div class="label">Total Revenue</div>
+      <div class="value">$246.4K</div>
+      <div class="delta">6-month total</div>
+    </div>
+    <div class="kpi-card" aria-label="Total Margin 73.9 thousand dollars at 30 percent margin rate">
+      <div class="label">Total Margin</div>
+      <div class="value">$73.9K</div>
+      <div class="delta positive">30% margin rate</div>
+    </div>
+    <div class="kpi-card" aria-label="Units Sold 5448">
+      <div class="label">Units Sold</div>
+      <div class="value">5,448</div>
+      <div class="delta">H1 total</div>
+    </div>
+    <div class="kpi-card" aria-label="Revenue Growth plus 16.6 percent">
+      <div class="label">Revenue Growth</div>
+      <div class="value">+16.6%</div>
+      <div class="delta positive">vs prior period</div>
+    </div>
+  </section>
+
+  <section class="chart-grid">
+    <div class="chart-panel full-width" id="chart-trend" role="img"
+      aria-label="Monthly revenue trend line chart January through June"></div>
+    <div class="chart-panel" id="chart-ranking" role="img"
+      aria-label="Segment profitability ranking horizontal bar chart sorted by gross margin descending"></div>
+    <div class="chart-panel" id="chart-share" role="img"
+      aria-label="Revenue concentration donut chart showing share by segment"></div>
+    <div class="chart-panel" id="chart-margin" role="img"
+      aria-label="Margin per marketing dollar comparison between North Widget A and South Widget B"></div>
+  </section>
+
+  <footer>
+    <strong>Recommendation:</strong> Reallocate $50K from South Widget B to North Widget A.
+    N. Widget A generates $24.9K gross margin on $83.3K revenue and S. Widget B generates $12.5K on $41.8K.
+    The margin efficiency signal is 2.0x for N. Widget A versus 1.0x for S. Widget B, so moving spend toward
+    North aligns budget with the strongest profit return.
+  </footer>
+
+  <script>
+    /* ---- Inline data (no fetch) ---- */
+    const DATA = {
+      monthly: [
+        { month: 'Jan', revenue: 36800 },
+        { month: 'Feb', revenue: 39000 },
+        { month: 'Mar', revenue: 42300 },
+        { month: 'Apr', revenue: 40600 },
+        { month: 'May', revenue: 44800 },
+        { month: 'Jun', revenue: 42900 }
+      ],
+      segments: [
+        { name: 'N. Widget A', revenue: 83300, margin: 24990 },
+        { name: 'S. Widget A', revenue: 65500, margin: 19650 },
+        { name: 'N. Widget B', revenue: 55800, margin: 16740 },
+        { name: 'S. Widget B', revenue: 41800, margin: 12540 }
+      ],
+      marginEfficiency: [
+        { name: 'N. Widget A', value: 2.0 },
+        { name: 'S. Widget B', value: 1.0 }
+      ],
+      kpis: {
+        totalRevenue: 246400,
+        totalMargin: 73920,
+        marginPct: 30.0,
+        totalUnits: 5448,
+        growth: 16.6
+      }
+    };
+
+    /* ---- Color palettes ---- */
+    const PALETTE = {
+      dark: ['#4a90d9', '#50c878', '#ffb347', '#ff6b6b', '#bb86fc'],
+      light: ['#2563eb', '#16a34a', '#d97706', '#dc2626', '#7c3aed']
+    };
+
+    const SEG_COLORS = {
+      dark: ['#ff6b6b', '#ffb347', '#50c878', '#4a90d9'],
+      light: ['#dc2626', '#d97706', '#16a34a', '#2563eb']
+    };
+
+    /* ---- Theme helpers ---- */
+    function theme() { return document.documentElement.getAttribute('data-theme') || 'dark'; }
+    function textColor() { return theme() === 'dark' ? '#e0e0e0' : '#212529'; }
+    function axisColor() { return theme() === 'dark' ? '#3a4a6e' : '#cccccc'; }
+    function splitColor() { return theme() === 'dark' ? '#2a3a5e' : '#eeeeee'; }
+    function tooltipBg() { return theme() === 'dark' ? 'rgba(20,32,64,0.96)' : 'rgba(255,255,255,0.97)'; }
+    function tooltipBdr() { return theme() === 'dark' ? '#2a3a5e' : '#dee2e6'; }
+
+    /* ---- Chart registry ---- */
+    const charts = [];
+
+    function initChart(id, option) {
+      const dom = document.getElementById(id);
+      const chart = echarts.init(dom, null, { renderer: 'canvas' });
+      chart.setOption(option);
+      charts.push(chart);
+      return chart;
+    }
+
+    /* ---- Q2: Revenue Trend (line) ---- */
+    function buildTrendOption() {
+      const t = theme(), tc = textColor(), ac = axisColor(), sc = splitColor();
+      return {
+        aria: {
+          enabled: true,
+          decal: { show: true },
+          label: {
+            description:
+              'Line chart: monthly revenue January through June. ' +
+              'Jan $36.8K, Feb $39.0K, Mar $42.3K, Apr $40.6K (dip), May $44.8K (peak), Jun $42.9K. ' +
+              'Overall upward trend; average marked at approximately $41.1K.'
+          }
+        },
+        color: PALETTE[t],
+        backgroundColor: 'transparent',
+        title: {
+          text: 'Monthly Revenue Trend',
+          subtext: 'Jan to Jun, H1',
+          left: 'center',
+          textStyle: { color: tc, fontSize: 14, fontWeight: 600 },
+          subtextStyle: { color: '#888', fontSize: 11 }
+        },
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: tooltipBg(),
+          borderColor: tooltipBdr(),
+          textStyle: { color: tc, fontSize: 13 },
+          formatter: function (params) {
+            var p = params[0];
+            return '<strong>' + p.axisValue + '</strong><br/>' +
+              p.marker + ' Revenue: <strong>$' + (p.value / 1000).toFixed(1) + 'K</strong>';
+          }
+        },
+        grid: { left: 64, right: 24, top: 64, bottom: 36 },
+        xAxis: {
+          type: 'category',
+          data: DATA.monthly.map(function (d) { return d.month; }),
+          axisLine: { lineStyle: { color: ac } },
+          axisTick: { lineStyle: { color: ac } },
+          axisLabel: { color: tc, fontSize: 12 }
+        },
+        yAxis: {
+          type: 'value',
+          min: 32000,
+          axisLine: { show: true, lineStyle: { color: ac } },
+          axisTick: { lineStyle: { color: ac } },
+          axisLabel: {
+            color: tc,
+            fontSize: 11,
+            formatter: function (v) { return '$' + (v / 1000).toFixed(0) + 'K'; }
+          },
+          splitLine: { lineStyle: { color: sc, type: 'dashed' } }
+        },
+        series: [{
+          name: 'Revenue',
+          type: 'line',
+          data: DATA.monthly.map(function (d) { return d.revenue; }),
+          smooth: true,
+          areaStyle: { opacity: 0.12 },
+          lineStyle: { width: 2.5 },
+          symbol: 'circle',
+          symbolSize: 7,
+          markLine: {
+            silent: true,
+            animation: false,
+            lineStyle: { color: PALETTE[t][1], type: 'dashed', width: 1.5 },
+            data: [{ type: 'average', name: 'Average' }],
+            label: {
+              color: tc,
+              formatter: function (p) { return 'Avg $' + (p.value / 1000).toFixed(1) + 'K'; }
+            }
+          }
+        }]
+      };
+    }
+
+    /* ---- Q3: Segment Profitability Ranking (horizontal bar, sorted by margin desc) ---- */
+    function buildRankingOption() {
+      var t = theme(), tc = textColor(), ac = axisColor(), sc = splitColor();
+      /* Ascending in array = descending visual (top = highest in ECharts category axis) */
+      var sorted = DATA.segments.slice().sort(function (a, b) { return a.margin - b.margin; });
+      return {
+        aria: {
+          enabled: true,
+          decal: { show: true },
+          label: {
+            description:
+              'Horizontal bar chart: segment gross margin ranking descending. ' +
+              'N. Widget A $25.0K (top), S. Widget A $19.7K, N. Widget B $16.7K, S. Widget B $12.5K (bottom). ' +
+              'All segments share a 30 percent margin rate; N. Widget A leads in total margin dollars.'
+          }
+        },
+        backgroundColor: 'transparent',
+        title: {
+          text: 'Segment Profitability Ranking',
+          subtext: 'Gross margin dollars',
+          left: 'center',
+          textStyle: { color: tc, fontSize: 14, fontWeight: 600 },
+          subtextStyle: { color: '#888', fontSize: 11 }
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'shadow' },
+          backgroundColor: tooltipBg(),
+          borderColor: tooltipBdr(),
+          textStyle: { color: tc, fontSize: 13 },
+          formatter: function (params) {
+            var p = params[0];
+            var segName = p.axisValue;
+            var seg = DATA.segments.filter(function (s) { return s.name === segName; })[0];
+            var pct = seg ? ((seg.margin / seg.revenue) * 100).toFixed(0) : 30;
+            return '<strong>' + segName + '</strong><br/>' +
+              p.marker + ' Margin: <strong>$' + (p.value / 1000).toFixed(1) + 'K</strong> (' + pct + '%)';
+          }
+        },
+        grid: { left: 96, right: 64, top: 64, bottom: 24 },
+        yAxis: {
+          type: 'category',
+          data: sorted.map(function (d) { return d.name; }),
+          axisLine: { lineStyle: { color: ac } },
+          axisTick: { lineStyle: { color: ac } },
+          axisLabel: { color: tc, fontSize: 12 }
+        },
+        xAxis: {
+          type: 'value',
+          axisLine: { lineStyle: { color: ac } },
+          axisTick: { lineStyle: { color: ac } },
+          axisLabel: {
+            color: tc,
+            fontSize: 11,
+            formatter: function (v) { return '$' + (v / 1000).toFixed(0) + 'K'; }
+          },
+          splitLine: { lineStyle: { color: sc, type: 'dashed' } }
+        },
+        series: [{
+          type: 'bar',
+          data: sorted.map(function (d, i) {
+            return {
+              value: d.margin,
+              itemStyle: { color: SEG_COLORS[t][i], borderRadius: [0, 4, 4, 0] }
+            };
+          }),
+          label: {
+            show: true,
+            position: 'right',
+            color: tc,
+            fontSize: 12,
+            formatter: function (p) { return '$' + (p.value / 1000).toFixed(1) + 'K'; }
+          }
+        }]
+      };
+    }
+
+    /* ---- Q4: Revenue Concentration (donut) ---- */
+    function buildShareOption() {
+      var t = theme(), tc = textColor();
+      return {
+        aria: {
+          enabled: true,
+          decal: { show: true },
+          label: {
+            description:
+              'Donut chart: revenue concentration by segment. ' +
+              'N. Widget A 33.8 percent ($83.3K), S. Widget A 26.6 percent ($65.5K), ' +
+              'N. Widget B 22.6 percent ($55.8K), S. Widget B 17.0 percent ($41.8K). ' +
+              'Total revenue $246.4K.'
+          }
+        },
+        color: PALETTE[t],
+        backgroundColor: 'transparent',
+        title: {
+          text: 'Revenue Concentration',
+          subtext: 'Share by segment',
+          left: 'center',
+          textStyle: { color: tc, fontSize: 14, fontWeight: 600 },
+          subtextStyle: { color: '#888', fontSize: 11 }
+        },
+        tooltip: {
+          trigger: 'item',
+          backgroundColor: tooltipBg(),
+          borderColor: tooltipBdr(),
+          textStyle: { color: tc, fontSize: 13 },
+          formatter: function (p) {
+            return p.marker + ' <strong>' + p.name + '</strong><br/>' +
+              'Revenue: <strong>$' + (p.value / 1000).toFixed(1) + 'K</strong><br/>' +
+              'Share: ' + p.percent + '%';
+          }
+        },
+        legend: {
+          type: 'scroll',
+          bottom: 4,
+          textStyle: { color: tc, fontSize: 12 }
+        },
+        series: [{
+          type: 'pie',
+          radius: ['42%', '68%'],
+          center: ['50%', '46%'],
+          data: DATA.segments.map(function (d) { return { value: d.revenue, name: d.name }; }),
+          emphasis: {
+            itemStyle: { shadowBlur: 12, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.35)' }
+          },
+          label: {
+            color: tc,
+            fontSize: 12,
+            formatter: '{b}\n{d}%'
+          },
+          labelLine: { lineStyle: { color: tc } }
+        }]
+      };
+    }
+
+    /* ---- Q5: Margin Comparison (2x efficiency) ---- */
+    function buildMarginCompareOption() {
+      var t = theme(), tc = textColor(), ac = axisColor(), sc = splitColor();
+      return {
+        aria: {
+          enabled: true,
+          decal: { show: true },
+          label: {
+            description:
+              'Bar chart comparing margin per marketing dollar between segments selected for budget shift. ' +
+              'North Widget A scores 2.0x and South Widget B scores 1.0x. ' +
+              'North therefore delivers double the margin return per marketing dollar.'
+          }
+        },
+        color: [PALETTE[t][0], PALETTE[t][3]],
+        backgroundColor: 'transparent',
+        title: {
+          text: 'Margin Per Marketing Dollar',
+          subtext: 'Decision comparison: N. Widget A vs S. Widget B',
+          left: 'center',
+          textStyle: { color: tc, fontSize: 14, fontWeight: 600 },
+          subtextStyle: { color: '#888', fontSize: 11 }
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'shadow' },
+          backgroundColor: tooltipBg(),
+          borderColor: tooltipBdr(),
+          textStyle: { color: tc, fontSize: 13 },
+          formatter: function (params) {
+            var p = params[0];
+            return '<strong>' + p.axisValue + '</strong><br/>' +
+              p.marker + ' Margin per marketing $1: <strong>' + p.value.toFixed(1) + 'x</strong>';
+          }
+        },
+        grid: { left: 56, right: 24, top: 72, bottom: 40 },
+        xAxis: {
+          type: 'category',
+          data: DATA.marginEfficiency.map(function (d) { return d.name; }),
+          axisLine: { lineStyle: { color: ac } },
+          axisTick: { lineStyle: { color: ac } },
+          axisLabel: { color: tc, fontSize: 11 }
+        },
+        yAxis: {
+          type: 'value',
+          min: 0,
+          max: 2.4,
+          axisLine: { show: true, lineStyle: { color: ac } },
+          axisTick: { lineStyle: { color: ac } },
+          axisLabel: {
+            color: tc,
+            fontSize: 11,
+            formatter: function (v) { return v.toFixed(1) + 'x'; }
+          },
+          splitLine: { lineStyle: { color: sc, type: 'dashed' } }
+        },
+        series: [{
+          type: 'bar',
+          barMaxWidth: 56,
+          data: DATA.marginEfficiency.map(function (d) { return d.value; }),
+          label: {
+            show: true,
+            position: 'top',
+            color: tc,
+            fontSize: 12,
+            formatter: function (p) { return p.value.toFixed(1) + 'x'; }
+          },
+          itemStyle: { borderRadius: [6, 6, 0, 0] },
+          markLine: {
+            silent: true,
+            symbol: 'none',
+            lineStyle: { color: PALETTE[t][1], type: 'dashed' },
+            label: { color: tc, formatter: '1.0x baseline' },
+            data: [{ yAxis: 1.0 }]
+          }
+        }]
+      };
+    }
+
+    /* ---- Bootstrap ---- */
+    document.addEventListener('DOMContentLoaded', function () {
+      initChart('chart-trend', buildTrendOption());
+      initChart('chart-ranking', buildRankingOption());
+      initChart('chart-share', buildShareOption());
+      initChart('chart-margin', buildMarginCompareOption());
+
+      /* Link tooltips and highlights across all charts */
+      echarts.connect(charts);
+    });
+
+    /* ---- Dark/light toggle ---- */
+    document.getElementById('theme-toggle').addEventListener('click', function () {
+      var html = document.documentElement;
+      var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+
+      /* Rebuild each option object so palette and text colors re-evaluate */
+      charts[0].setOption(buildTrendOption(), { notMerge: false });
+      charts[1].setOption(buildRankingOption(), { notMerge: false });
+      charts[2].setOption(buildShareOption(), { notMerge: false });
+      charts[3].setOption(buildMarginCompareOption(), { notMerge: false });
+    });
+
+    /* ---- Resize listener ---- */
+    window.addEventListener('resize', function () {
+      charts.forEach(function (c) { c.resize(); });
+    });
+  </script>
+</body>
+
+</html>
