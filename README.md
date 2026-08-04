@@ -1,5 +1,7 @@
 # Alex ACT Visual Storytelling
 
+![Alex ACT Visual Storytelling](assets/banner.svg)
+
 Plugin collection that turns raw data into visual stories. Load the plugins,
 point at a dataset, pick a delivery format, get a dashboard.
 
