@@ -37,6 +37,11 @@ try {
 
     Copy-Item (Join-Path $repoRoot 'datasets/sales-sample.csv') $heir
     Copy-Item (Join-Path $repoRoot 'tests/sales-dashboard-ascii.md') (Join-Path $heir 'brief.md')
+    & git -C $heir add -A
+    & git -C $heir -c user.name='Visual Storytelling Test' -c user.email='test@example.invalid' commit --quiet -m fixture
+    if ($LASTEXITCODE -ne 0) { throw 'Unable to commit clean-heir fixture' }
+    & git -C $heir remote add origin https://github.com/fabioc-aloha/Alex_ACT_Visual_Storytelling.git
+    if ($LASTEXITCODE -ne 0) { throw 'Unable to configure clean-heir origin' }
     if (-not $Execute) {
         Write-Host 'PASS: clean-heir payload and fixture assembly complete. Re-run with -Execute for the bounded model invocation.' -ForegroundColor Green
         exit 0
@@ -49,7 +54,7 @@ respect the evidence boundary, and report the output path plus CSAR evidence.
 '@
     $response = @(& copilot -C $heir --plugin-dir $plugin --agent visual-storytelling:visual-storytelling `
             --prompt $prompt --allow-all-tools --no-ask-user --max-ai-credits $MaxAiCredits `
-            --no-remote --no-remote-export --silent)
+            --disable-builtin-mcps --no-remote --no-remote-export --silent)
     if ($LASTEXITCODE -ne 0) { throw "Clean-heir Copilot invocation failed: $LASTEXITCODE" }
     $dashboard = Join-Path $heir 'dashboard.md'
     if (-not (Test-Path $dashboard)) {

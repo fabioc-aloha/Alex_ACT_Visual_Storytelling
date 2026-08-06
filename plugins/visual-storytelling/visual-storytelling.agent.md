@@ -1,6 +1,7 @@
 ---
 name: visual-storytelling
 description: "Orchestrate the full Visual Storytelling pipeline (brief, ingest, clean, select, deliver) from a raw data source and user request. Produces a structured brief, walks the data through the component skills, picks the right chart for each question, and delivers an ASCII, SVG, or HTML dashboard. Use when the user asks for a data dashboard, visual story, or chart pipeline -- not when they want a single one-off chart."
+model: "Auto"
 ---
 
 # Visual Storytelling Orchestrator
