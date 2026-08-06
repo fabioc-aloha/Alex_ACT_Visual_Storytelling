@@ -2,7 +2,7 @@
 
 **Date**: 2026-08-06 \
 **Remediation update**: 2026-08-06; source remediation complete \
-**Branch baseline**: `main` at `28eab73` (remediation committed and pushed) \
+**Branch baseline**: `main` with local remediation commits; not pushed \
 **Audience**: Visual Storytelling maintainers and release approvers \
 **Scope**: Project plugins, bundle/orchestrator, test data and outputs, release
 documentation, and repository health tooling \
@@ -145,14 +145,15 @@ original comparison found:
 versions, token metadata, all component skill hashes, plugin-local wrapper
 paths, and installable-agent safeguards. It passes for visual-storytelling
 1.0.1 across the self-contained bundle and six standalone Mall plugins. Mall
-payload validation, 46 Mall tests, and catalog validation also pass.
+payload validation, 54 Mall tests, and catalog validation also pass.
 
 **Remediation evidence**: `scripts/publish-to-mall.ps1` is preview-first,
 requires a 40-character source ref, assembles the seven standalone and bundled
 skills plus a source-owned installable agent, and writes only with `-Apply`.
 Two clean assemblies produced the same 36 relative paths and SHA-256 values.
-Preview against current Mall reports the three expected new source differences
-without writing or inventing provenance.
+Preview against current Mall reports nine expected differences without writing
+or inventing provenance: seven immutable source-ref metadata updates, the
+installable agent, and the plugin-local wrapper.
 
 **Required action**: Make this repository the declared source and encode the
 verified synchronization as one deterministic publish command. Completion means
@@ -360,8 +361,9 @@ standalone plugins.` This proves the current adjacent working trees agree; it
 does not yet prove a clean-checkout publishing command. Generated marketplace
 and normalized catalog records currently expose all seven installable payloads
 at 1.0.1, and those generated records pass Mall validation. Immutable
-provenance is finalized: source `28eab73`, Mall payload `58c2af0`, and generated
-catalog `27ee9d3` are committed and pushed.
+provenance remains publication-gated. Source and Mall remediation are committed
+locally, and the exact preview ref is recorded in Steward's handoff. No source
+or Mall commit from this remediation has been pushed.
 
 ## Method and Limitations
 
@@ -372,7 +374,7 @@ comparison, and browser rendering at desktop and mobile widths.
 The CSV-driven ASCII builder was executed against both the committed output and
 a temporary output. HTML was verified from `file://`; it embeds data inline, so
 no sibling-file origin behavior is involved, but ECharts still depends on the
-integrity-pinned external CDN. Mall publication was checked against the local
-Mall clone and then pushed with immutable source and payload SHAs. A fresh
-remote checkout was not used for the synchronization run. External links and
-actual installation into a clean heir were not exercised.
+integrity-pinned external CDN. Mall publication was previewed against the local
+committed Mall clone with an immutable source ref; it was not applied or
+pushed. A fresh remote checkout was not used for the synchronization run.
+External links and a successful live clean-heir artifact run were not exercised.
