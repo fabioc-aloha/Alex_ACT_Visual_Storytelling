@@ -19,7 +19,7 @@ You need three things from the user (or from the Requirements Agent upstream):
 
 1. **Brief**: A filled-out storytelling requirements document (see `templates/STORYTELLING-REQUIREMENTS.md`). If the user gives a rough request instead, push back and ask clarifying questions to produce the brief first.
 2. **Data source**: Path, URL, or inline data. Supported: CSV, JSON, API, SQL, Excel, Parquet.
-3. **Delivery target**: One of: `ascii`, `svg`, `html`, `powerbi`.
+3. **Delivery target**: One of: `ascii`, `svg`, `html`.
 
 ## Pipeline Steps
 
@@ -67,20 +67,14 @@ Combine all module outputs into a single coherent artifact:
 
 ## QA / Polish Loop (CSAR)
 
-After assembling the output, evaluate it against CSAR:
+CSAR always means **Clarify, Summarize, Act, Reflect**:
 
-| Check | Question | Fail action |
-|---|---|---|
-| **Completeness** | Does every must-have question from the brief have a visual? | Add missing visuals |
-| **Simplicity** | Is each visual the simplest chart that answers its question? | Simplify or swap chart type |
-| **Accuracy** | Do the numbers, labels, and scales match the data? | Fix data binding |
-| **Readability** | Can the audience understand each visual within their time budget? | Adjust layout, spacing, labels |
+- **Clarify**: state the question, decision claim, required fields, and evidence boundary.
+- **Summarize**: name the chart type, metric lineage, and visual encoding.
+- **Act**: validate completeness, simplicity, accuracy, readability, and relevance. Recompute decision-bearing values, then render and inspect every chart at its target viewport.
+- **Reflect**: record why the artifact passed or which upstream step changed. Exclude unsupported recommendations.
 
-For delivery targets that produce renderable output (SVG, HTML), use vision to evaluate the rendered result.
-
-If any check fails: fix, re-render, re-evaluate. Loop until all four pass.
-
-When reporting CSAR results, keep it brief: one line per check with a specific citation (e.g., "Completeness: 4/4 questions mapped. Accuracy: spot-checked revenue $246.4K, ranking order correct."). Do not return a full JSON block or paragraph per check.
+If any check fails, fix the underlying step, re-render, and re-evaluate. Keep the final report brief but cite the recomputed values and rendered evidence.
 
 ### ASCII Alignment Gate (mandatory for `ascii` delivery)
 
@@ -164,10 +158,9 @@ Identify the earliest pipeline step affected and re-run from there. Do not re-ru
 | Requirements | `storytelling-requirements` | Published |
 | Select | `visual-vocabulary` | Published |
 | Deliver (ASCII) | `delivery-ascii-dashboard` | Published |
-| Ingest | `datasource-connectors` | Planned |
-| Transform | `data-preparation` | Planned |
-| Deliver (SVG) | `delivery-svg-markdown` | Planned |
-| Deliver (HTML) | `delivery-html-dashboard` | Planned |
-| Deliver (Power BI) | `delivery-powerbi-fabric` | Planned |
+| Ingest | `datasource-connectors` | Published |
+| Transform | `data-preparation` | Published |
+| Deliver (SVG) | `delivery-svg-markdown` | Published |
+| Deliver (HTML) | `delivery-html-dashboard` | Published |
 
-For planned modules, use general knowledge until the SKILL.md is built. Note this in your plan output.
+Power BI/Fabric delivery remains a v2 backlog item and is not accepted as a v1 target.

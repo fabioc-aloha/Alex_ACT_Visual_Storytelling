@@ -1,4 +1,10 @@
-# Alex ACT Visual Storytelling -- Project Plan
+# Alex ACT Visual Storytelling -- Historical Project Plan
+
+> **Historical planning record (2026-05-02).** The shipped v1.0.1 state is
+> authoritative in [README.md](README.md) and tracked in [TODO.md](TODO.md):
+> seven published plugins, ASCII/SVG/HTML delivery, ECharts for HTML, and a
+> measured 24,800-token bundle under the current 26K maintainer budget. Planned
+> and Chart.js statements below describe the original plan, not current support.
 
 ## Mission
 

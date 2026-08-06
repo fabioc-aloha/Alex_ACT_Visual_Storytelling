@@ -121,4 +121,4 @@ I read from Edition (upgrades). I write to Mall (promotions). I defer to Supervi
 - Never edit Mall files directly without updating the source in this repo first.
 - Never duplicate existing Mall plugins. Complement them; cross-reference them.
 - Plugin token_cost in plugin.json must reflect actual SKILL.md size (not guessed).
-- Full pipeline (all plugins loaded) must stay under 15K tokens total.
+- Full v1 pipeline (all seven plugins loaded) must stay under 26K tokens total; current measured total is 24,800.

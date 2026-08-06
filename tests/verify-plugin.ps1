@@ -93,6 +93,19 @@ Assert-Match $agent 'CSAR.*Clarify.*Summarize.*Act.*Reflect' 'Installable agent 
 Assert-Match $agent '(?i)evidence boundary' 'Installable agent evidence boundary'
 Assert-Match $agent '(?i)metric lineage' 'Installable agent metric lineage'
 
+$cleanHeir = Get-Content (Join-Path $repoRoot 'tests/clean-heir.ps1') -Raw
+Assert-Match $cleanHeir '--agent visual-storytelling:visual-storytelling' 'Clean-heir plugin-qualified agent identity'
+Assert-Match $cleanHeir 'git -C \$heir init --quiet' 'Clean-heir Git workspace initialization'
+Assert-Match $cleanHeir 'Response: \$diagnostic' 'Clean-heir bounded response diagnostics'
+
+$publisher = Get-Content (Join-Path $repoRoot 'scripts/publish-to-mall.ps1') -Raw
+Assert-Match $publisher 'Ref must equal the source repository HEAD' 'Publisher immutable source identity'
+Assert-Match $publisher 'Source worktree must be clean' 'Publisher clean source requirement'
+Assert-Match $publisher 'Remove-Item \$target -Recurse -Force' 'Publisher stale payload replacement'
+Assert-Match $publisher 'unexpected: \$relative' 'Publisher unexpected-file comparison'
+Assert-Match $publisher 'Staged payload missing' 'Publisher complete staging requirement'
+Assert-Match $publisher 'visual-storytelling-backup' 'Publisher rollback staging'
+
 if ($failures.Count -gt 0) {
   $failures | ForEach-Object { Write-Error $_ -ErrorAction Continue }
   throw "Plugin verification failed with $($failures.Count) finding(s)."

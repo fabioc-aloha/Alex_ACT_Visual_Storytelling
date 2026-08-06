@@ -25,6 +25,12 @@ across three delivery formats (ASCII, SVG, HTML).
 - [x] Pipeline agent (`.github/agents/local/visual-storytelling.agent.md`)
 - [x] CSAR QA loop with brief evidence reporting
 - [x] ASCII alignment gate (caller-side construction)
+- [x] Clean-heir payload and fixture assembly
+- [ ] Live clean-heir agent invocation
+  - [x] Use the plugin-qualified agent identity
+  - [x] Initialize the disposable heir as a Git workspace
+  - [x] Preserve bounded response diagnostics on postcondition failure
+  - [ ] Run a newly authorized invocation and require `dashboard.md` postconditions to pass
 
 ### Tests
 
@@ -32,6 +38,9 @@ across three delivery formats (ASCII, SVG, HTML).
 - [x] ASCII test (`tests/sales-dashboard-ascii.md`)
 - [x] SVG test (`tests/sales-dashboard-svg.md`) -- output verified
 - [x] HTML test (`tests/sales-dashboard-html.md`) -- output verified
+- [x] Markdown validator fixtures for independent tables and initialized Mermaid
+- [x] Deterministic source-to-Mall assembly (36 paths, matching SHA-256 across two builds)
+- [ ] Apply the new payload after source commit, immutable-ref preview, and separate Mall publication approval
 
 ### Token Budget (v1)
 

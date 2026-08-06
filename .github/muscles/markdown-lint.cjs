@@ -82,13 +82,23 @@ const RULES = [
     severity: 'error',
     targets: ['word', 'email', 'pdf'],
     check: (content) => {
-      const tablePattern = /^\|[^\n]+\|$/gm;
-      const tables = content.match(tablePattern) || [];
-      for (let i = 0; i < tables.length - 1; i++) {
-        const cols1 = tables[i].split('|').length;
-        const cols2 = tables[i + 1].split('|').length;
-        if (cols1 !== cols2 && !tables[i + 1].match(/^[\s|:-]+$/)) {
-          return `Table column count mismatch (${cols1} vs ${cols2}) -- will break in Word`;
+      let block = [];
+      const checkBlock = () => {
+        if (block.length < 2) return;
+        const expected = block[0].split('|').length;
+        for (const line of block.slice(1)) {
+          const actual = line.split('|').length;
+          if (actual !== expected) {
+            return `Table column count mismatch (${expected} vs ${actual}) -- will break in Word`;
+          }
+        }
+      };
+      for (const line of [...content.split('\n'), '']) {
+        if (/^\|[^\n]+\|$/.test(line)) block.push(line);
+        else {
+          const error = checkBlock();
+          if (error) return error;
+          block = [];
         }
       }
     },
@@ -123,7 +133,9 @@ const RULES = [
     check: (content) => {
       const blocks = _findMermaidBlocks(content);
       for (const block of blocks) {
-        const firstLine = block.trim().split('\n')[0].trim();
+        const firstLine = block.split('\n')
+          .map((line) => line.trim())
+          .find((line) => line && !line.startsWith('%%')) || '';
         const validTypes = ['flowchart', 'sequenceDiagram', 'classDiagram', 'stateDiagram',
           'erDiagram', 'journey', 'gantt', 'pie', 'quadrantChart', 'requirementDiagram',
           'gitgraph', 'mindmap', 'timeline', 'sankey-beta', 'xychart-beta', 'block-beta',

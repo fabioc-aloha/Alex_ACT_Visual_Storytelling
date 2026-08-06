@@ -1,5 +1,10 @@
 # Alex ACT Visual Storytelling
 
+> **Historical session record (2026-05-02).** Current support and budget state
+> live in [README.md](README.md) and [TODO.md](TODO.md). Phase 2 is shipped in
+> v1.0.1 with SVG and ECharts HTML delivery; the original not-started sections
+> below are retained as implementation history.
+
 ## Mission
 
 > Build the definitive modular plugin collection that turns raw data into visual stories. Develop, test, and publish plugins to the Alex ACT Plugin Mall so any ACT heir can go from CSV to dashboard in one session.

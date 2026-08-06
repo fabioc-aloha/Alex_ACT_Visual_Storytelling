@@ -5,7 +5,9 @@
 Plugin collection that turns raw data into visual stories. Load the plugins,
 point at a dataset, pick a delivery format, get a dashboard.
 
-**v1.0.1** -- 7 plugins, 3 delivery formats (ASCII, SVG, HTML), orchestrator agent.
+**v1.0.1** -- 7 published plugins, 3 supported delivery formats (ASCII, SVG,
+HTML with ECharts), and an orchestrator agent. This README is the live support
+source; [TODO.md](TODO.md) tracks work, while PLAN.md and ACT.md are historical.
 
 ## Pipeline
 

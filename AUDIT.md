@@ -1,7 +1,7 @@
 # Project Audit
 
 **Date**: 2026-08-06 \
-**Remediation update**: 2026-08-06 \
+**Remediation update**: 2026-08-06; source remediation complete \
 **Branch baseline**: `main` at `28eab73` (remediation committed and pushed) \
 **Audience**: Visual Storytelling maintainers and release approvers \
 **Scope**: Project plugins, bundle/orchestrator, test data and outputs, release
@@ -21,8 +21,12 @@ acceptance, and HTML dependency integrity:
 - [x] CSV-derived values and evidence boundaries now agree across all examples.
 - [x] HTML desktop/mobile and SVG rendered acceptance checks pass.
 - [x] ECharts is exact-version and integrity pinned with visible load failure.
-- [ ] Full clean-heir orchestration, automated source-to-Mall publishing,
-  project-state docs, and the inherited Markdown validator remain open.
+- [x] Clean-heir assembly, deterministic source-to-Mall publishing,
+  project-state docs, and the inherited Markdown validator are implemented.
+- [ ] Live clean-heir inference has not passed. Two authorized attempts exposed
+  a bare agent namespace and a non-Git disposable workspace; both harness
+  defects are fixed and covered without a third model call. Mall application
+  requires an immutable source commit ref and separate publish authorization.
 
 No Critical security or data-loss finding was identified within the checks
 performed. Release clearance remains blocked by the unchecked Release Gate
@@ -86,8 +90,7 @@ caught. Both files were restored bit-identically.
 
 ### High 2 - The test process can pass an incorrect dashboard
 
-**Status**: [ ] Mitigated for examples; clean-heir orchestrator regeneration
-remains open.
+**Status**: [x] Resolved in source; live agent execution remains an unchecked release gate.
 
 At audit time, both ASCII builders hardcoded data and wrote to one workstation
 path. They have been consolidated into one CSV-driven, parameterized,
@@ -97,19 +100,23 @@ all briefs and outputs against CSV-derived metrics, source-template safeguards,
 ASCII geometry, HTML bindings, SVG structure, required CSV columns, and the
 verification record.
 
-**Remaining impact**: The contract does not invoke the orchestrator in a clean
-heir or regenerate HTML/SVG through pipeline delegation, so the advertised
-one-invocation integration remains unproven.
+**Remediation evidence**: `tests/clean-heir.ps1` assembles the self-contained
+plugin and all seven skills in a disposable Git workspace. `-Execute` invokes
+the plugin-qualified agent and validates recomputed claims with the 30-credit
+minimum ceiling required by Copilot CLI. The first authorized attempt stopped
+before inference because the agent name was not plugin-qualified. The second
+returned without `dashboard.md`; CLI logs showed `repository=undefined` and no
+model allowed for the workspace policy. The harness now initializes Git and
+retains a bounded response diagnostic. No third model call was authorized.
 
-**Required action**: Add a clean-heir harness that invokes the orchestrator and
-regenerates all three formats through their pipeline boundaries. Completion
-means the clean-heir run exits zero and its outputs pass
-`tests/verify-examples.ps1` without manual edits.
+**Required action**: Run the corrected clean-heir harness under a newly
+authorized credit ceiling. Completion means the ASCII invocation exits zero,
+creates `dashboard.md`, and passes its recomputed-claim postconditions. The
+committed HTML and SVG examples remain covered by `tests/verify-examples.ps1`.
 
 ### High 3 - The factory does not reproduce the local Mall bundle snapshot
 
-**Status**: [ ] Mitigated; the 1.0.1 payload is synchronized, but deterministic
-publishing from a clean checkout remains open.
+**Status**: [x] Resolved in source; Mall application awaits an immutable source commit ref.
 
 The repository calls itself the plugin factory and defines promotion as copying
 a finished plugin to the Mall
@@ -140,15 +147,20 @@ paths, and installable-agent safeguards. It passes for visual-storytelling
 1.0.1 across the self-contained bundle and six standalone Mall plugins. Mall
 payload validation, 46 Mall tests, and catalog validation also pass.
 
-**Remaining impact**: The synchronization was performed as a controlled
-vendoring operation, but the repository still lacks one documented command that
-assembles the Mall-native wrapper/agent and bundled skills from a clean source
-checkout.
+**Remediation evidence**: `scripts/publish-to-mall.ps1` is preview-first,
+requires a 40-character source ref, assembles the seven standalone and bundled
+skills plus a source-owned installable agent, and writes only with `-Apply`.
+Two clean assemblies produced the same 36 relative paths and SHA-256 values.
+Preview against current Mall reports the three expected new source differences
+without writing or inventing provenance.
 
 **Required action**: Make this repository the declared source and encode the
 verified synchronization as one deterministic publish command. Completion means
 a clean checkout produces the same validated Mall subtree and
-`tests/verify-plugin.ps1` passes without manual copy steps.
+`tests/verify-plugin.ps1` passes without manual copy steps. Source publication
+also requires an exact clean `HEAD`, replaces each managed payload root, and
+fails preview on unexpected files; `tests/publish-to-mall.ps1` exercises those
+contracts in disposable Git repositories.
 
 ### Medium 1 - Rendered examples fail their own visual criteria
 
@@ -178,7 +190,7 @@ rendered at its 800px viewBox with all evidence text visible and unclipped.
 
 ### Medium 2 - Project state documentation contradicts the release state
 
-**Status**: [ ] Open.
+**Status**: [x] Resolved on 2026-08-06.
 
 [README.md](README.md#L5-L34) and [TODO.md](TODO.md#L4-L41) describe v1.0.1 as
 complete at 24,800 tokens. In contrast:
@@ -224,7 +236,7 @@ blocked-resource probe displayed the fallback in all four panels.
 
 ### Medium 4 - The repository Markdown gate is not trustworthy
 
-**Status**: [ ] Open.
+**Status**: [x] Resolved on 2026-08-06.
 
 The custom validator matched every table row in a document into one flat array
 and compared adjacent rows even when they belong to different tables
@@ -277,12 +289,12 @@ Status: **Blocked**.
 Resolve in this order:
 
 1. [x] Correct the benchmark data and remove unsupported decision claims.
-2. [ ] Run the orchestrator in a clean heir and regenerate all three formats.
-3. [ ] Automate the verified source-to-Mall 1.0.1 publishing workflow.
+2. [ ] Run the corrected assembled orchestrator in a clean heir under a newly authorized credit ceiling.
+3. [ ] Commit source, rerun publisher preview with the immutable commit ref, then apply/publish only after separate approval.
 4. [x] Fix mobile HTML overflow and clipped SVG prose; re-run visual checks.
-5. [ ] Consolidate project status documentation and token-budget policy.
+5. [x] Consolidate project status documentation and token-budget policy.
 6. [x] Pin HTML dependencies and expose resource-load failure.
-7. [ ] Repair the Markdown validator and add regression fixtures.
+7. [x] Repair the Markdown validator and add regression fixtures.
 
 ## Evidence Appendix
 

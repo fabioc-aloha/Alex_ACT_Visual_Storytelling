@@ -142,8 +142,8 @@ if ($builderContent -match 'DataPath' -and $builderContent -match 'OutputPath') 
   $temporaryOutput = Join-Path ([System.IO.Path]::GetTempPath()) 'sales-dashboard-ascii-audit.md'
   try {
     & $builderPath -DataPath $dataPath -OutputPath $temporaryOutput
-    if ($LASTEXITCODE -ne 0) {
-      Add-Failure "ASCII builder exited with code $LASTEXITCODE"
+    if (-not $?) {
+      Add-Failure 'ASCII builder failed'
     }
     elseif ((Get-Content $temporaryOutput -Raw) -ne $asciiOutput) {
       Add-Failure 'ASCII committed output does not match a fresh CSV-driven build'
