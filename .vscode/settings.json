@@ -78,5 +78,8 @@
     "github.copilot.chat.responsesApi.toolSearchTool.enabled": true,
     "chat.tools.confirmationCarousel.enabled": true,
     "explorer.autoReveal": true,
-    "workbench.editor.enablePreview": false
+    "workbench.editor.enablePreview": false,
+  "markdown.styles": [
+    ".vscode/markdown-light.css"
+  ]
 }
