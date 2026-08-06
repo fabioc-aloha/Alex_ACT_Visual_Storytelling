@@ -1,6 +1,6 @@
 {
     "name": "visual-storytelling",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Turn raw data into visual stories. Full pipeline: structured brief, data ingestion, chart selection, and delivery to ASCII, SVG, or HTML dashboards. Installs 7 component plugins and an orchestrator agent.",
     "author": {
         "name": "ACT Plugin Mall"
@@ -22,7 +22,7 @@
     "shape": "IS..",
     "category": "data-analytics",
     "tier": "standard",
-    "token_cost": 20400,
+    "token_cost": 24800,
     "requires_edition": ">=1.0.0",
     "requires_plugins": [],
     "bundle": true,

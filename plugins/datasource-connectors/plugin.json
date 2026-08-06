@@ -1,6 +1,6 @@
 {
     "name": "datasource-connectors",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Ingestion patterns for CSV, JSON, REST API, SQL, Excel, and Parquet -- guides an LLM through loading data from any common source",
     "author": {
         "name": "ACT Plugin Mall"
@@ -23,7 +23,7 @@
     "shape": ".S..",
     "category": "data-analytics",
     "tier": "standard",
-    "token_cost": 2000,
+    "token_cost": 2800,
     "requires_edition": ">=1.0.0",
     "requires_plugins": [],
     "artifacts": {

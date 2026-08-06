@@ -12,11 +12,12 @@ Validate that the published plugins can produce a working ASCII dashboard from
 | **Primary audience** | Regional sales managers |
 | **Audience expertise** | Manager |
 | **Time budget** | 2 minutes |
-| **Decision this supports** | Allocate Q3 marketing budget by region and product |
+| **Decision this supports** | Identify current sales leaders and the evidence missing for Q3 budget allocation |
 | **Consumption format** | Screen (terminal) |
 
-**Big Idea**: Regional managers should shift Q3 budget toward Widget A in North
-because it shows the strongest revenue growth trend and highest margin.
+**Big Idea**: North leads current revenue and Widget A has the largest product
+share, but campaign-spend and response data are required before reallocating Q3
+marketing budget.
 
 ### Questions
 
@@ -48,7 +49,8 @@ The orchestrator should produce an ASCII dashboard with:
 3. A proportion breakdown of Widget A vs Widget B
 
 All rendered using `delivery-ascii-dashboard` patterns: KPI strip, horizontal
-bars, predictable monospace geometry, no emoji.
+bars, predictable monospace geometry, no emoji, and an explicit evidence
+boundary for the budget decision.
 
 ## Pass Criteria
 

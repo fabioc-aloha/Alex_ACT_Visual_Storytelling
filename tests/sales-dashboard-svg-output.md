@@ -4,7 +4,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 730" width="800" height="730" font-family="system-ui, -apple-system, sans-serif">
   <rect x="0" y="0" width="800" height="730" fill="#1E1E2E"/>
 
-  <text x="400" y="30" text-anchor="middle" fill="#E0E0E0" font-size="17" font-weight="700">North Widget A delivers strongest revenue growth and should get majority of Q3 marketing budget.</text>
+  <text x="400" y="30" text-anchor="middle" fill="#E0E0E0" font-size="17" font-weight="700">North Widget B grows fastest; North Widget A leads revenue.</text>
   <text x="400" y="49" text-anchor="middle" fill="#E0E0E0" font-size="11">Audience: VP of Sales | Executive scan: 60 seconds</text>
 
   <g transform="translate(20,64)">
@@ -22,7 +22,7 @@
 
     <rect x="506" y="32" width="240" height="60" rx="5" fill="#1E1E2E" stroke="#3A3A4E" stroke-width="1"/>
     <text x="518" y="49" fill="#E0E0E0" font-size="11">Units</text>
-    <text x="518" y="76" fill="#FFB347" font-size="24" font-weight="700">5,448</text>
+    <text x="518" y="76" fill="#FFB347" font-size="24" font-weight="700">4,928</text>
   </g>
 
   <g transform="translate(20,184)">
@@ -62,31 +62,31 @@
 
   <g transform="translate(410,184)">
     <rect x="0" y="0" width="370" height="250" rx="6" fill="#2A2A3E" stroke="#3A3A4E" stroke-width="1"/>
-    <text x="185" y="21" text-anchor="middle" fill="#E0E0E0" font-size="13" font-weight="600">Segment Ranking</text>
+    <text x="185" y="21" text-anchor="middle" fill="#E0E0E0" font-size="13" font-weight="600">Jan-to-Peak Segment Growth</text>
 
     <line x1="120" y1="40" x2="120" y2="197" stroke="#3A3A4E" stroke-width="1"/>
-    <line x1="220" y1="40" x2="220" y2="197" stroke="#3A3A4E" stroke-width="1" stroke-dasharray="3,3"/>
-    <line x1="320" y1="40" x2="320" y2="197" stroke="#3A3A4E" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="204" y1="40" x2="204" y2="197" stroke="#3A3A4E" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="288" y1="40" x2="288" y2="197" stroke="#3A3A4E" stroke-width="1" stroke-dasharray="3,3"/>
 
     <text x="120" y="215" text-anchor="middle" fill="#E0E0E0" font-size="11">0</text>
-    <text x="220" y="215" text-anchor="middle" fill="#E0E0E0" font-size="11">40K</text>
-    <text x="320" y="215" text-anchor="middle" fill="#E0E0E0" font-size="11">80K</text>
+    <text x="204" y="215" text-anchor="middle" fill="#E0E0E0" font-size="11">10%</text>
+    <text x="288" y="215" text-anchor="middle" fill="#E0E0E0" font-size="11">20%</text>
 
-    <text x="112" y="66" text-anchor="end" fill="#E0E0E0" font-size="11" font-weight="700">N. Widget A</text>
-    <rect x="120" y="51" width="210" height="22" rx="3" fill="#4A90D9"/>
-    <text x="336" y="66" fill="#E0E0E0" font-size="11" font-weight="700">$83.3K</text>
+    <text x="112" y="66" text-anchor="end" fill="#E0E0E0" font-size="11" font-weight="700">N. Widget B</text>
+    <rect x="120" y="51" width="192" height="22" rx="3" fill="#4A90D9"/>
+    <text x="318" y="66" fill="#E0E0E0" font-size="11" font-weight="700">22.9%</text>
 
     <text x="112" y="101" text-anchor="end" fill="#E0E0E0" font-size="11">S. Widget A</text>
-    <rect x="120" y="86" width="165" height="22" rx="3" fill="#50C878"/>
-    <text x="291" y="101" fill="#E0E0E0" font-size="11">$65.5K</text>
+    <rect x="120" y="86" width="188" height="22" rx="3" fill="#50C878"/>
+    <text x="314" y="101" fill="#E0E0E0" font-size="11">22.4%</text>
 
-    <text x="112" y="136" text-anchor="end" fill="#E0E0E0" font-size="11">N. Widget B</text>
-    <rect x="120" y="121" width="141" height="22" rx="3" fill="#FFB347"/>
-    <text x="267" y="136" fill="#E0E0E0" font-size="11">$55.8K</text>
+    <text x="112" y="136" text-anchor="end" fill="#E0E0E0" font-size="11">S. Widget B</text>
+    <rect x="120" y="121" width="176" height="22" rx="3" fill="#FFB347"/>
+    <text x="302" y="136" fill="#E0E0E0" font-size="11">21.0%</text>
 
-    <text x="112" y="171" text-anchor="end" fill="#E0E0E0" font-size="11">S. Widget B</text>
-    <rect x="120" y="156" width="105" height="22" rx="3" fill="#FF6B6B"/>
-    <text x="231" y="171" fill="#E0E0E0" font-size="11">$41.8K</text>
+    <text x="112" y="171" text-anchor="end" fill="#E0E0E0" font-size="11">N. Widget A</text>
+    <rect x="120" y="156" width="175" height="22" rx="3" fill="#FF6B6B"/>
+    <text x="301" y="171" fill="#E0E0E0" font-size="11">20.8%</text>
   </g>
 
   <g transform="translate(20,450)">
@@ -114,9 +114,10 @@
     <rect x="330" y="153" width="12" height="12" rx="2" fill="#FF6B6B"/>
     <text x="348" y="163" fill="#E0E0E0" font-size="11">S. Widget B 17.0% ($41.8K)</text>
 
-    <text x="330" y="203" fill="#E0E0E0" font-size="12" font-weight="600">Risk readout:</text>
-    <text x="330" y="222" fill="#E0E0E0" font-size="11">Revenue concentration is moderate. North Widget A leads and combined A segments contribute 60.4%.</text>
-    <text x="330" y="239" fill="#E0E0E0" font-size="11">Budget concentration toward North Widget A aligns with current growth leader while preserving secondary support.</text>
+    <text x="330" y="185" fill="#E0E0E0" font-size="12" font-weight="600">Evidence boundary</text>
+    <text x="330" y="205" fill="#E0E0E0" font-size="11">Top segment: 33.8%. Top two: 60.4%.</text>
+    <text x="330" y="222" fill="#E0E0E0" font-size="11">All segments have a 30% gross-margin rate.</text>
+    <text x="330" y="239" fill="#E0E0E0" font-size="11">Add campaign-spend data before reallocating budget.</text>
   </g>
 </svg>
 <!-- markdownlint-enable MD033 -->

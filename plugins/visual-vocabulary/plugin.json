@@ -1,6 +1,6 @@
 {
     "name": "visual-vocabulary",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Chart catalog organized by communication goal, CSAR evaluation loop for AI-generated charts, 5-visual rule, override decision framework, and living gallery references",
     "author": {
         "name": "ACT Plugin Mall"
@@ -24,7 +24,7 @@
     "shape": ".S..",
     "category": "data-analytics",
     "tier": "standard",
-    "token_cost": 3300,
+    "token_cost": 4400,
     "requires_edition": ">=1.0.0",
     "requires_plugins": [],
     "artifacts": {

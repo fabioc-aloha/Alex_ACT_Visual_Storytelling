@@ -4,8 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Q3 Budget Reallocation Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/echarts@6/dist/echarts.min.js"></script>
+  <title>Q3 Budget Evidence Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@6.1.0/dist/echarts.min.js"
+    integrity="sha384-C2iskrW/uPW46KzOjrvJIQo4YkV8lkD+QS0CrDN18IIPIpT/g2USu8bTP3nvmIAD"
+    crossorigin="anonymous"></script>
   <style>
     *,
     *::before,
@@ -165,6 +167,7 @@
       box-shadow: var(--shadow);
       padding: 16px;
       min-height: 320px;
+      min-width: 0;
     }
 
     .chart-panel.full-width {
@@ -254,8 +257,8 @@
 
   <header>
     <div class="header-text">
-      <h1>Q3 Budget Reallocation Dashboard</h1>
-      <p class="subtitle">North Widget A delivers 2x the margin per marketing dollar vs South Widget B.</p>
+      <h1>Q3 Budget Evidence Dashboard</h1>
+      <p class="subtitle">North Widget B grows fastest; North Widget A leads revenue. Budget impact needs spend data.</p>
     </div>
     <button id="theme-toggle" aria-label="Toggle dark and light theme">Toggle Theme</button>
   </header>
@@ -271,15 +274,15 @@
       <div class="value">$73.9K</div>
       <div class="delta positive">30% margin rate</div>
     </div>
-    <div class="kpi-card" aria-label="Units Sold 5448">
+    <div class="kpi-card" aria-label="Units Sold 4928">
       <div class="label">Units Sold</div>
-      <div class="value">5,448</div>
+      <div class="value">4,928</div>
       <div class="delta">H1 total</div>
     </div>
     <div class="kpi-card" aria-label="Revenue Growth plus 16.6 percent">
       <div class="label">Revenue Growth</div>
       <div class="value">+16.6%</div>
-      <div class="delta positive">vs prior period</div>
+      <div class="delta positive">Jan to Jun</div>
     </div>
   </section>
 
@@ -290,15 +293,13 @@
       aria-label="Segment profitability ranking horizontal bar chart sorted by gross margin descending"></div>
     <div class="chart-panel" id="chart-share" role="img"
       aria-label="Revenue concentration donut chart showing share by segment"></div>
-    <div class="chart-panel" id="chart-margin" role="img"
-      aria-label="Margin per marketing dollar comparison between North Widget A and South Widget B"></div>
+    <div class="chart-panel" id="chart-growth" role="img"
+      aria-label="Jan-to-peak revenue growth comparison by segment"></div>
   </section>
 
   <footer>
-    <strong>Recommendation:</strong> Reallocate $50K from South Widget B to North Widget A.
-    N. Widget A generates $24.9K gross margin on $83.3K revenue and S. Widget B generates $12.5K on $41.8K.
-    The margin efficiency signal is 2.0x for N. Widget A versus 1.0x for S. Widget B, so moving spend toward
-    North aligns budget with the strongest profit return.
+    <strong>Evidence boundary:</strong> North Widget B has the fastest Jan-to-peak growth at 22.9%, while
+    North Widget A contributes the largest revenue share at 33.8%. Add campaign-spend data before reallocating budget.
   </footer>
 
   <script>
@@ -318,15 +319,17 @@
         { name: 'N. Widget B', revenue: 55800, margin: 16740 },
         { name: 'S. Widget B', revenue: 41800, margin: 12540 }
       ],
-      marginEfficiency: [
-        { name: 'N. Widget A', value: 2.0 },
-        { name: 'S. Widget B', value: 1.0 }
+      segmentGrowth: [
+        { name: 'North Widget B', value: 22.9 },
+        { name: 'South Widget A', value: 22.4 },
+        { name: 'South Widget B', value: 21.0 },
+        { name: 'North Widget A', value: 20.8 }
       ],
       kpis: {
         totalRevenue: 246400,
         totalMargin: 73920,
         marginPct: 30.0,
-        totalUnits: 5448,
+        totalUnits: 4928,
         growth: 16.6
       }
     };
@@ -573,8 +576,8 @@
       };
     }
 
-    /* ---- Q5: Margin Comparison (2x efficiency) ---- */
-    function buildMarginCompareOption() {
+    /* ---- Q5: Jan-to-Peak Segment Growth ---- */
+    function buildSegmentGrowthOption() {
       var t = theme(), tc = textColor(), ac = axisColor(), sc = splitColor();
       return {
         aria: {
@@ -582,16 +585,16 @@
           decal: { show: true },
           label: {
             description:
-              'Bar chart comparing margin per marketing dollar between segments selected for budget shift. ' +
-              'North Widget A scores 2.0x and South Widget B scores 1.0x. ' +
-              'North therefore delivers double the margin return per marketing dollar.'
+              'Bar chart comparing Jan-to-peak revenue growth by segment. ' +
+              'North Widget B leads at 22.9 percent, followed by South Widget A at 22.4 percent, ' +
+              'South Widget B at 21.0 percent, and North Widget A at 20.8 percent.'
           }
         },
         color: [PALETTE[t][0], PALETTE[t][3]],
         backgroundColor: 'transparent',
         title: {
-          text: 'Margin Per Marketing Dollar',
-          subtext: 'Decision comparison: N. Widget A vs S. Widget B',
+          text: 'Jan-to-Peak Segment Growth',
+          subtext: 'North Widget B leads at 22.9%',
           left: 'center',
           textStyle: { color: tc, fontSize: 14, fontWeight: 600 },
           subtextStyle: { color: '#888', fontSize: 11 }
@@ -605,59 +608,59 @@
           formatter: function (params) {
             var p = params[0];
             return '<strong>' + p.axisValue + '</strong><br/>' +
-              p.marker + ' Margin per marketing $1: <strong>' + p.value.toFixed(1) + 'x</strong>';
+              p.marker + ' Jan-to-peak growth: <strong>' + p.value.toFixed(1) + '%</strong>';
           }
         },
-        grid: { left: 56, right: 24, top: 72, bottom: 40 },
-        xAxis: {
+        grid: { left: 112, right: 52, top: 72, bottom: 28 },
+        yAxis: {
           type: 'category',
-          data: DATA.marginEfficiency.map(function (d) { return d.name; }),
+          data: DATA.segmentGrowth.map(function (d) { return d.name; }),
+          inverse: true,
           axisLine: { lineStyle: { color: ac } },
           axisTick: { lineStyle: { color: ac } },
-          axisLabel: { color: tc, fontSize: 11 }
+          axisLabel: { color: tc, fontSize: 11, interval: 0 }
         },
-        yAxis: {
+        xAxis: {
           type: 'value',
           min: 0,
-          max: 2.4,
+          max: 25,
           axisLine: { show: true, lineStyle: { color: ac } },
           axisTick: { lineStyle: { color: ac } },
           axisLabel: {
             color: tc,
             fontSize: 11,
-            formatter: function (v) { return v.toFixed(1) + 'x'; }
+            formatter: function (v) { return v.toFixed(0) + '%'; }
           },
           splitLine: { lineStyle: { color: sc, type: 'dashed' } }
         },
         series: [{
           type: 'bar',
-          barMaxWidth: 56,
-          data: DATA.marginEfficiency.map(function (d) { return d.value; }),
+          barMaxWidth: 32,
+          data: DATA.segmentGrowth.map(function (d) { return d.value; }),
           label: {
             show: true,
-            position: 'top',
+            position: 'right',
             color: tc,
             fontSize: 12,
-            formatter: function (p) { return p.value.toFixed(1) + 'x'; }
+            formatter: function (p) { return p.value.toFixed(1) + '%'; }
           },
-          itemStyle: { borderRadius: [6, 6, 0, 0] },
-          markLine: {
-            silent: true,
-            symbol: 'none',
-            lineStyle: { color: PALETTE[t][1], type: 'dashed' },
-            label: { color: tc, formatter: '1.0x baseline' },
-            data: [{ yAxis: 1.0 }]
-          }
+          itemStyle: { borderRadius: [0, 6, 6, 0] }
         }]
       };
     }
 
     /* ---- Bootstrap ---- */
     document.addEventListener('DOMContentLoaded', function () {
+      if (typeof echarts === 'undefined') {
+        document.querySelectorAll('.chart-panel').forEach(function (panel) {
+          panel.textContent = 'Charts unavailable: the integrity-pinned ECharts resource did not load.';
+        });
+        return;
+      }
       initChart('chart-trend', buildTrendOption());
       initChart('chart-ranking', buildRankingOption());
       initChart('chart-share', buildShareOption());
-      initChart('chart-margin', buildMarginCompareOption());
+      initChart('chart-growth', buildSegmentGrowthOption());
 
       /* Link tooltips and highlights across all charts */
       echarts.connect(charts);
@@ -673,7 +676,7 @@
       charts[0].setOption(buildTrendOption(), { notMerge: false });
       charts[1].setOption(buildRankingOption(), { notMerge: false });
       charts[2].setOption(buildShareOption(), { notMerge: false });
-      charts[3].setOption(buildMarginCompareOption(), { notMerge: false });
+      charts[3].setOption(buildSegmentGrowthOption(), { notMerge: false });
     });
 
     /* ---- Resize listener ---- */

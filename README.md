@@ -5,7 +5,7 @@
 Plugin collection that turns raw data into visual stories. Load the plugins,
 point at a dataset, pick a delivery format, get a dashboard.
 
-**v1.0.0** -- 7 plugins, 3 delivery formats (ASCII, SVG, HTML), orchestrator agent.
+**v1.0.1** -- 7 plugins, 3 delivery formats (ASCII, SVG, HTML), orchestrator agent.
 
 ## Pipeline
 
@@ -23,15 +23,15 @@ Install only what you need. A project doing SVG dashboards skips the HTML plugin
 
 | Plugin | Tokens | Category | Description |
 | --- | --- | --- | --- |
-| `visual-vocabulary` | 3,300 | data-analytics | Chart catalog by communication goal, CSAR evaluation loop |
-| `storytelling-requirements` | 1,900 | data-analytics | Structured brief template and intake workflow |
-| `data-preparation` | 1,500 | data-analytics | Data profiling, cleaning, aggregation patterns |
-| `datasource-connectors` | 2,000 | data-analytics | CSV, JSON, API, SQL, Excel, Parquet connectors |
-| `delivery-ascii-dashboard` | 2,700 | data-analytics | Pure ASCII dashboards for terminals and plain text |
-| `delivery-svg-markdown` | 4,200 | media-graphics | Static SVG panels embeddable in GitHub Markdown |
-| `delivery-html-dashboard` | 4,800 | data-analytics | Interactive HTML dashboards with Apache ECharts |
+| `visual-vocabulary` | 4,400 | data-analytics | Chart catalog by communication goal, CSAR evaluation loop |
+| `storytelling-requirements` | 2,700 | data-analytics | Structured brief template and intake workflow |
+| `data-preparation` | 2,300 | data-analytics | Data profiling, cleaning, aggregation patterns |
+| `datasource-connectors` | 2,800 | data-analytics | CSV, JSON, API, SQL, Excel, Parquet connectors |
+| `delivery-ascii-dashboard` | 3,300 | data-analytics | Pure ASCII dashboards for terminals and plain text |
+| `delivery-svg-markdown` | 4,400 | media-graphics | Static SVG panels embeddable in GitHub Markdown |
+| `delivery-html-dashboard` | 4,900 | data-analytics | Interactive HTML dashboards with Apache ECharts |
 
-**Total**: 20,400 tokens across 7 plugins.
+**Total**: 24,800 tokens across 7 plugins.
 
 ## Orchestrator Agent
 

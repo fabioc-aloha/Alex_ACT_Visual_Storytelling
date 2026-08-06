@@ -2,23 +2,23 @@
 
 Consolidated tracker for the Visual Storytelling plugin collection.
 
-## v1.0.0 -- Complete
+## v1.0.1 -- Complete
 
 All v1 plugins are shipped and tested. The pipeline covers brief-to-dashboard
 across three delivery formats (ASCII, SVG, HTML).
 
 ### Core Pipeline (Phase 1)
 
-- [x] `visual-vocabulary` -- Published to Mall (3,300 tokens)
-- [x] `storytelling-requirements` -- Published to Mall (1,900 tokens)
-- [x] `delivery-ascii-dashboard` -- Published to Mall (2,700 tokens)
-- [x] `data-preparation` -- Published to Mall (1,500 tokens)
-- [x] `datasource-connectors` -- Published to Mall (2,000 tokens)
+- [x] `visual-vocabulary` -- Published to Mall (4,400 tokens)
+- [x] `storytelling-requirements` -- Published to Mall (2,700 tokens)
+- [x] `delivery-ascii-dashboard` -- Published to Mall (3,300 tokens)
+- [x] `data-preparation` -- Published to Mall (2,300 tokens)
+- [x] `datasource-connectors` -- Published to Mall (2,800 tokens)
 
 ### Delivery Targets (Phase 2)
 
-- [x] `delivery-svg-markdown` -- SVG in Markdown via D3.js (4,200 tokens)
-- [x] `delivery-html-dashboard` -- HTML + ECharts (4,800 tokens)
+- [x] `delivery-svg-markdown` -- SVG in Markdown via D3.js (4,400 tokens)
+- [x] `delivery-html-dashboard` -- HTML + ECharts (4,900 tokens)
 
 ### Orchestrator
 
@@ -38,7 +38,7 @@ across three delivery formats (ASCII, SVG, HTML).
 | Metric | Value |
 | --- | --- |
 | Plugins | 7 |
-| Total tokens | 20,400 |
+| Total tokens | 24,800 |
 
 ## v2.0.0 -- Enterprise (planned)
 
