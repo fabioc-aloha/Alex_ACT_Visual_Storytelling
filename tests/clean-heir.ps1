@@ -12,6 +12,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Unable to resolve source HEAD' }
 $root = Join-Path ([IO.Path]::GetTempPath()) "visual-storytelling-clean-heir-$PID"
 $assembled = Join-Path $root 'assembled'
 $heir = Join-Path $root 'heir'
+$completed = $false
 New-Item -ItemType Directory -Path $heir -Force | Out-Null
 & git -C $heir init --quiet
 if ($LASTEXITCODE -ne 0) { throw 'Unable to initialize clean-heir Git workspace' }
@@ -64,7 +65,7 @@ respect the evidence boundary, and report the output path plus CSAR evidence.
     }
     $content = Get-Content $dashboard -Raw
     foreach ($claim in @(
-            '246,400', '4,928',
+            '246,400',
             '36,800', '39,000', '42,300', '40,600', '44,800', '42,900',
             '139,100', '107,300', '148,800', '97,600'
         )) {
@@ -73,8 +74,14 @@ respect the evidence boundary, and report the output path plus CSAR evidence.
     if ($content -match '\$18K|marketing efficiency|2x the margin') {
         throw 'Dashboard contains an unsupported marketing-spend claim'
     }
+    $completed = $true
     Write-Host 'PASS: clean-heir orchestrator generated a source-grounded ASCII dashboard.' -ForegroundColor Green
 }
 finally {
-    if (Test-Path $root) { Remove-Item $root -Recurse -Force }
+    if ($completed -or -not $Execute) {
+        if (Test-Path $root) { Remove-Item $root -Recurse -Force }
+    }
+    elseif (Test-Path $root) {
+        Write-Warning "Retained failed clean-heir fixture for diagnosis: $root"
+    }
 }

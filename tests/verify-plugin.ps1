@@ -104,6 +104,7 @@ Assert-Match $cleanHeir '--disable-builtin-mcps' 'Clean-heir built-in MCP isolat
 Assert-Match $cleanHeir '--model claude-sonnet-5' 'Clean-heir explicit model selection'
 Assert-Match $cleanHeir '\[int\]\$MaxAiCredits = 60' 'Clean-heir evidence-based credit ceiling'
 Assert-Match $cleanHeir "'139,100'.*'107,300'.*'148,800'.*'97,600'" 'Clean-heir brief-aligned comparison claims'
+Assert-Match $cleanHeir 'Retained failed clean-heir fixture for diagnosis' 'Clean-heir failure artifact retention'
 Assert-Match $cleanHeir 'Response: \$diagnostic' 'Clean-heir bounded response diagnostics'
 
 $publisher = Get-Content (Join-Path $repoRoot 'scripts/publish-to-mall.ps1') -Raw
