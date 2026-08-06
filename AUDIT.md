@@ -156,7 +156,9 @@ a clean checkout produces the same validated Mall subtree and
 `tests/verify-plugin.ps1` passes without manual copy steps. Source publication
 also requires an exact clean `HEAD`, replaces each managed payload root, and
 fails preview on unexpected files; `tests/publish-to-mall.ps1` exercises those
-contracts in disposable Git repositories.
+contracts in disposable Git repositories. The publisher rewrites both legacy
+`plugins/<name>/SKILL.md` and current `.github/skills/local/<name>/SKILL.md`
+source links to bundle-local `skills/<name>/SKILL.md` paths.
 
 ### Medium 1 - Rendered examples fail their own visual criteria
 

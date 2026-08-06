@@ -36,6 +36,13 @@ try {
   if (-not (Test-Path (Join-Path $mall 'plugins/data-analytics/visual-storytelling/agents/visual-storytelling.agent.md'))) {
     throw 'Apply omitted the installable agent'
   }
+  $wrapper = Get-Content (Join-Path $mall 'plugins/data-analytics/visual-storytelling/skills/visual-storytelling/SKILL.md') -Raw
+  if ($wrapper -notmatch 'skills/storytelling-requirements/SKILL\.md') {
+    throw 'Apply omitted bundle-local component paths'
+  }
+  if ($wrapper -match '\.github/skills/local/|plugins/[^/]+/SKILL\.md') {
+    throw 'Apply retained source-layout component paths'
+  }
 
   New-Item -ItemType Directory -Path (Split-Path -Parent $stale) -Force | Out-Null
   Set-Content $stale '# stale'

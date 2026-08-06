@@ -124,6 +124,7 @@ foreach ($component in $components) {
 }
 $wrapper = Get-Content (Join-Path $bundleSourceRoot 'SKILL.md') -Raw
 $wrapper = $wrapper -replace 'plugins/([^/]+)/SKILL\.md', 'skills/$1/SKILL.md'
+$wrapper = $wrapper -replace '\.github/skills/local/([^/]+)/SKILL\.md', 'skills/$1/SKILL.md'
 $wrapperTarget = Join-Path $bundleTarget 'skills/visual-storytelling/SKILL.md'
 New-Item -ItemType Directory -Path (Split-Path -Parent $wrapperTarget) -Force | Out-Null
 [IO.File]::WriteAllText($wrapperTarget, $wrapper, [Text.UTF8Encoding]::new($false))
