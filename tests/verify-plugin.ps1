@@ -102,6 +102,8 @@ Assert-Match $cleanHeir 'commit --quiet -m fixture' 'Clean-heir committed fixtur
 Assert-Match $cleanHeir 'remote add origin https://github\.com/fabioc-aloha/Alex_ACT_Visual_Storytelling\.git' 'Clean-heir public origin'
 Assert-Match $cleanHeir '--disable-builtin-mcps' 'Clean-heir built-in MCP isolation'
 Assert-Match $cleanHeir '--model claude-sonnet-5' 'Clean-heir explicit model selection'
+Assert-Match $cleanHeir '\[int\]\$MaxAiCredits = 60' 'Clean-heir evidence-based credit ceiling'
+Assert-Match $cleanHeir "'139,100'.*'107,300'.*'148,800'.*'97,600'" 'Clean-heir brief-aligned comparison claims'
 Assert-Match $cleanHeir 'Response: \$diagnostic' 'Clean-heir bounded response diagnostics'
 
 $publisher = Get-Content (Join-Path $repoRoot 'scripts/publish-to-mall.ps1') -Raw

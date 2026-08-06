@@ -2,7 +2,7 @@
 param(
     [switch]$Execute,
     [ValidateRange(30, 1000)]
-    [int]$MaxAiCredits = 30
+    [int]$MaxAiCredits = 60
 )
 
 $ErrorActionPreference = 'Stop'
@@ -63,7 +63,11 @@ respect the evidence boundary, and report the output path plus CSAR evidence.
         throw "Agent did not create dashboard.md. Response: $diagnostic"
     }
     $content = Get-Content $dashboard -Raw
-    foreach ($claim in @('246,400', '73,920', '4,928')) {
+    foreach ($claim in @(
+            '246,400', '4,928',
+            '36,800', '39,000', '42,300', '40,600', '44,800', '42,900',
+            '139,100', '107,300', '148,800', '97,600'
+        )) {
         if ($content -notmatch [regex]::Escape($claim)) { throw "Dashboard is missing recomputed claim: $claim" }
     }
     if ($content -match '\$18K|marketing efficiency|2x the margin') {
