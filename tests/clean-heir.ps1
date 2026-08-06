@@ -53,7 +53,7 @@ Generate an ASCII dashboard at dashboard.md. Recompute every metric from the CSV
 respect the evidence boundary, and report the output path plus CSAR evidence.
 '@
     $response = @(& copilot -C $heir --plugin-dir $plugin --agent visual-storytelling:visual-storytelling `
-            --prompt $prompt --allow-all-tools --no-ask-user --max-ai-credits $MaxAiCredits `
+            --model claude-sonnet-5 --prompt $prompt --allow-all-tools --no-ask-user --max-ai-credits $MaxAiCredits `
             --disable-builtin-mcps --no-remote --no-remote-export --silent)
     if ($LASTEXITCODE -ne 0) { throw "Clean-heir Copilot invocation failed: $LASTEXITCODE" }
     $dashboard = Join-Path $heir 'dashboard.md'

@@ -93,7 +93,7 @@ Assert-Match $agent 'CSAR.*Clarify.*Summarize.*Act.*Reflect' 'Installable agent 
 Assert-Match $agent '(?i)evidence boundary' 'Installable agent evidence boundary'
 Assert-Match $agent '(?i)metric lineage' 'Installable agent metric lineage'
 $sourceAgent = Get-Content (Join-Path $repoRoot 'plugins/visual-storytelling/visual-storytelling.agent.md') -Raw
-Assert-Match $sourceAgent '(?m)^model: "Auto"\r?$' 'Source agent scalar model policy'
+Assert-Match $sourceAgent '(?m)^model: "claude-sonnet-5"\r?$' 'Source agent scalar model policy'
 
 $cleanHeir = Get-Content (Join-Path $repoRoot 'tests/clean-heir.ps1') -Raw
 Assert-Match $cleanHeir '--agent visual-storytelling:visual-storytelling' 'Clean-heir plugin-qualified agent identity'
@@ -101,6 +101,7 @@ Assert-Match $cleanHeir 'git -C \$heir init --quiet' 'Clean-heir Git workspace i
 Assert-Match $cleanHeir 'commit --quiet -m fixture' 'Clean-heir committed fixture'
 Assert-Match $cleanHeir 'remote add origin https://github\.com/fabioc-aloha/Alex_ACT_Visual_Storytelling\.git' 'Clean-heir public origin'
 Assert-Match $cleanHeir '--disable-builtin-mcps' 'Clean-heir built-in MCP isolation'
+Assert-Match $cleanHeir '--model claude-sonnet-5' 'Clean-heir explicit model selection'
 Assert-Match $cleanHeir 'Response: \$diagnostic' 'Clean-heir bounded response diagnostics'
 
 $publisher = Get-Content (Join-Path $repoRoot 'scripts/publish-to-mall.ps1') -Raw
