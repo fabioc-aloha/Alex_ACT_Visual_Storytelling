@@ -23,10 +23,10 @@ acceptance, and HTML dependency integrity:
 - [x] ECharts is exact-version and integrity pinned with visible load failure.
 - [x] Clean-heir assembly, deterministic source-to-Mall publishing,
   project-state docs, and the inherited Markdown validator are implemented.
-- [ ] Live clean-heir inference has not passed. Two authorized attempts exposed
-  a bare agent namespace and a non-Git disposable workspace; both harness
-  defects are fixed and covered without a third model call. Mall application
-  requires an immutable source commit ref and separate publish authorization.
+- [x] Live clean-heir inference passes at the evidence-based 60-credit ceiling.
+  The installable agent creates `dashboard.md`, recomputes every brief-aligned
+  metric, and excludes unsupported marketing claims. Mall application remains
+  separately gated.
 
 No Critical security or data-loss finding was identified within the checks
 performed. Release clearance remains blocked by the unchecked Release Gate
@@ -90,7 +90,7 @@ caught. Both files were restored bit-identically.
 
 ### High 2 - The test process can pass an incorrect dashboard
 
-**Status**: [x] Resolved in source; live agent execution remains an unchecked release gate.
+**Status**: [x] Resolved on 2026-08-06.
 
 At audit time, both ASCII builders hardcoded data and wrote to one workstation
 path. They have been consolidated into one CSV-driven, parameterized,
@@ -101,18 +101,13 @@ ASCII geometry, HTML bindings, SVG structure, required CSV columns, and the
 verification record.
 
 **Remediation evidence**: `tests/clean-heir.ps1` assembles the self-contained
-plugin and all seven skills in a disposable Git workspace. `-Execute` invokes
-the plugin-qualified agent and validates recomputed claims with the 30-credit
-minimum ceiling required by Copilot CLI. The first authorized attempt stopped
-before inference because the agent name was not plugin-qualified. The second
-returned without `dashboard.md`; CLI logs showed `repository=undefined` and no
-model allowed for the workspace policy. The harness now initializes Git and
-retains a bounded response diagnostic. No third model call was authorized.
-
-**Required action**: Run the corrected clean-heir harness under a newly
-authorized credit ceiling. Completion means the ASCII invocation exits zero,
-creates `dashboard.md`, and passes its recomputed-claim postconditions. The
-committed HTML and SVG examples remain covered by `tests/verify-examples.ps1`.
+plugin and all seven skills in a committed disposable Git workspace with a
+public origin. `-Execute` invokes the plugin-qualified agent on the explicit
+`claude-sonnet-5` model. The 30-credit minimum completed computation but expired
+before writing; 60 credits is the smallest observed passing ceiling. The final
+run created `dashboard.md`, validated every monthly, regional, product, and
+total-revenue claim requested by the brief, and excluded unsupported marketing
+recommendations. Failed runs retain their disposable artifacts for diagnosis.
 
 ### High 3 - The factory does not reproduce the local Mall bundle snapshot
 
@@ -285,12 +280,12 @@ and documentation may lag current Edition behavior.
 
 ## Release Gate
 
-Status: **Blocked**.
+Status: **Blocked only on Mall application/publication**.
 
 Resolve in this order:
 
 1. [x] Correct the benchmark data and remove unsupported decision claims.
-2. [ ] Run the corrected assembled orchestrator in a clean heir under a newly authorized credit ceiling.
+2. [x] Run the corrected assembled orchestrator in a clean heir at the validated 60-credit ceiling.
 3. [ ] Commit source, rerun publisher preview with the immutable commit ref, then apply/publish only after separate approval.
 4. [x] Fix mobile HTML overflow and clipped SVG prose; re-run visual checks.
 5. [x] Consolidate project status documentation and token-budget policy.

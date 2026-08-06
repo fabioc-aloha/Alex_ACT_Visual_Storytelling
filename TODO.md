@@ -26,11 +26,11 @@ across three delivery formats (ASCII, SVG, HTML).
 - [x] CSAR QA loop with brief evidence reporting
 - [x] ASCII alignment gate (caller-side construction)
 - [x] Clean-heir payload and fixture assembly
-- [ ] Live clean-heir agent invocation
+- [x] Live clean-heir agent invocation
   - [x] Use the plugin-qualified agent identity
   - [x] Initialize the disposable heir as a Git workspace
   - [x] Preserve bounded response diagnostics on postcondition failure
-  - [ ] Run a newly authorized invocation and require `dashboard.md` postconditions to pass
+  - [x] Run at the validated 60-credit ceiling and require `dashboard.md` postconditions to pass
 
 ### Tests
 
