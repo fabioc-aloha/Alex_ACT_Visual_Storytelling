@@ -2,7 +2,7 @@
 
 **Date**: 2026-08-06 \
 **Remediation update**: 2026-08-06 \
-**Branch baseline**: `main` at `bc445a2`; remediation is currently uncommitted \
+**Branch baseline**: `main` at `28eab73` (remediation committed and pushed) \
 **Audience**: Visual Storytelling maintainers and release approvers \
 **Scope**: Project plugins, bundle/orchestrator, test data and outputs, release
 documentation, and repository health tooling \
@@ -347,9 +347,9 @@ Result: `PASS: visual-storytelling 1.0.1 is synchronized to the Mall bundle and
 standalone plugins.` This proves the current adjacent working trees agree; it
 does not yet prove a clean-checkout publishing command. Generated marketplace
 and normalized catalog records currently expose all seven installable payloads
-at 1.0.1, and those generated records pass Mall validation. Immutable source
-provenance remains open until the Mall changes are committed and the catalog is
-regenerated from that committed state.
+at 1.0.1, and those generated records pass Mall validation. Immutable
+provenance is finalized: source `28eab73`, Mall payload `58c2af0`, and generated
+catalog `27ee9d3` are committed and pushed.
 
 ## Method and Limitations
 
@@ -361,6 +361,6 @@ The CSV-driven ASCII builder was executed against both the committed output and
 a temporary output. HTML was verified from `file://`; it embeds data inline, so
 no sibling-file origin behavior is involved, but ECharts still depends on the
 integrity-pinned external CDN. Mall publication was checked against the local
-Mall clone, not a fresh remote checkout. The updated Mall payload and generated
-catalog are uncommitted, so immutable provenance is not final. External links
-and actual installation into a clean heir were not exercised.
+Mall clone and then pushed with immutable source and payload SHAs. A fresh
+remote checkout was not used for the synchronization run. External links and
+actual installation into a clean heir were not exercised.
