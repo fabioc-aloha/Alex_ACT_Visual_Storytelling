@@ -5,9 +5,11 @@
 Plugin collection that turns raw data into visual stories. Load the plugins,
 point at a dataset, pick a delivery format, get a dashboard.
 
-**v1.0.1** -- 7 published plugins, 3 supported delivery formats (ASCII, SVG,
-HTML with ECharts), and an orchestrator agent. This README is the live support
-source; [TODO.md](TODO.md) tracks work, while PLAN.md and ACT.md are historical.
+**v2.0.0** -- four Visual Storytelling components plus an orchestrator agent.
+It owns the brief, ingestion, preparation, narrative workflow, and ASCII
+delivery. Install `alex-act-illustrator-plugin` for chart selection and
+graphical delivery. This README is the live support source; [TODO.md](TODO.md)
+tracks work, while PLAN.md and ACT.md are historical.
 
 ## Pipeline
 
@@ -16,8 +18,8 @@ source; [TODO.md](TODO.md) tracks work, while PLAN.md and ACT.md are historical.
 | 1. Brief | `storytelling-requirements` | Guided intake: audience, Big Idea, questions, data sources, delivery target |
 | 2. Ingest | `datasource-connectors` | Load data from CSV, JSON, API, SQL, Excel, Parquet |
 | 3. Clean | `data-preparation` | Profile, clean, aggregate, pivot, quality-check the data |
-| 4. Select | `visual-vocabulary` | Pick the right chart types for the story you want to tell |
-| 5. Render | `delivery-*` | Output to ASCII, SVG/Markdown, or HTML dashboard |
+| 4. Select | Illustrator `chart-vocabulary` | Pick the right chart types for the story |
+| 5. Render | ASCII or Illustrator | Output portable text locally or graphical artifacts through Illustrator |
 
 Install only what you need. A project doing SVG dashboards skips the HTML plugin.
 
@@ -25,21 +27,19 @@ Install only what you need. A project doing SVG dashboards skips the HTML plugin
 
 | Plugin | Tokens | Category | Description |
 | --- | --- | --- | --- |
-| `visual-vocabulary` | 4,400 | data-analytics | Chart catalog by communication goal, CSAR evaluation loop |
 | `storytelling-requirements` | 2,700 | data-analytics | Structured brief template and intake workflow |
 | `data-preparation` | 2,300 | data-analytics | Data profiling, cleaning, aggregation patterns |
 | `datasource-connectors` | 2,800 | data-analytics | CSV, JSON, API, SQL, Excel, Parquet connectors |
 | `delivery-ascii-dashboard` | 3,300 | data-analytics | Pure ASCII dashboards for terminals and plain text |
-| `delivery-svg-markdown` | 4,400 | media-graphics | Static SVG panels embeddable in GitHub Markdown |
-| `delivery-html-dashboard` | 4,900 | data-analytics | Interactive HTML dashboards with Apache ECharts |
 
-**Total**: 24,800 tokens across 7 plugins.
+**Total**: 11,100 tokens across 4 components. Graphical output is supplied by
+Illustrator rather than a duplicate bundled renderer.
 
 ## Orchestrator Agent
 
-The `visual-storytelling` agent (`.github/agents/local/visual-storytelling.agent.md`)
-runs the full pipeline: reads a brief, plans which modules to invoke, delegates
-to each step, and runs a CSAR QA loop on the output.
+The `visual-storytelling` bundle agent runs the full pipeline: reads a brief,
+plans which modules to invoke, delegates to each step, and runs a CSAR QA loop
+on the output.
 
 ```text
 @visual-storytelling Show me sales trends from datasets/sales-sample.csv as an HTML dashboard

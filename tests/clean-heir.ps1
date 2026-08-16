@@ -7,8 +7,10 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$head = (& git -C $repoRoot rev-parse HEAD).Trim()
-if ($LASTEXITCODE -ne 0) { throw 'Unable to resolve source HEAD' }
+$releaseTag = (& git -C $repoRoot describe --exact-match --tags HEAD 2>$null).Trim()
+if ($LASTEXITCODE -ne 0 -or $releaseTag -notmatch '^v\d+\.\d+\.\d+$') {
+    throw 'Clean-heir requires the source HEAD to carry a semantic release tag'
+}
 $root = Join-Path ([IO.Path]::GetTempPath()) "visual-storytelling-clean-heir-$PID"
 $assembled = Join-Path $root 'assembled'
 $heir = Join-Path $root 'heir'
@@ -18,7 +20,7 @@ New-Item -ItemType Directory -Path $heir -Force | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'Unable to initialize clean-heir Git workspace' }
 
 try {
-    & (Join-Path $repoRoot 'scripts/publish-to-mall.ps1') -Ref $head -OutputRoot $assembled -AssembleOnly
+    & (Join-Path $repoRoot 'scripts/publish-to-mall.ps1') -Ref $releaseTag -OutputRoot $assembled -AssembleOnly
     if ($LASTEXITCODE -ne 0) { throw 'Payload assembly failed' }
     $plugin = Join-Path $assembled 'plugins/data-analytics/visual-storytelling'
     foreach ($required in @(
@@ -28,12 +30,16 @@ try {
             'skills/storytelling-requirements/SKILL.md',
             'skills/datasource-connectors/SKILL.md',
             'skills/data-preparation/SKILL.md',
+            'skills/delivery-ascii-dashboard/SKILL.md'
+        )) {
+        if (-not (Test-Path (Join-Path $plugin $required))) { throw "Missing assembled artifact: $required" }
+    }
+    foreach ($retired in @(
             'skills/visual-vocabulary/SKILL.md',
-            'skills/delivery-ascii-dashboard/SKILL.md',
             'skills/delivery-svg-markdown/SKILL.md',
             'skills/delivery-html-dashboard/SKILL.md'
         )) {
-        if (-not (Test-Path (Join-Path $plugin $required))) { throw "Missing assembled artifact: $required" }
+        if (Test-Path (Join-Path $plugin $retired)) { throw "Retired artifact remains assembled: $retired" }
     }
 
     Copy-Item (Join-Path $repoRoot 'datasets/sales-sample.csv') $heir

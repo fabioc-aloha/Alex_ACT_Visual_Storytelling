@@ -1,6 +1,6 @@
 {
     "name": "storytelling-requirements",
-    "version": "1.0.1",
+    "version": "2.0.0",
     "description": "Guided requirements template for data storytelling projects -- walks users through audience, Big Idea, questions, data sources, and delivery target before any chart is created",
     "author": {
         "name": "ACT Plugin Mall"
@@ -24,12 +24,7 @@
     "category": "data-analytics",
     "tier": "standard",
     "token_cost": 2700,
-    "requires_edition": ">=1.0.0",
-    "requires_plugins": [],
     "artifacts": {
         "skill": "SKILL.md"
-    },
-    "install_paths": {
-        "skill": ".github/skills/local/storytelling-requirements/SKILL.md"
     }
 }

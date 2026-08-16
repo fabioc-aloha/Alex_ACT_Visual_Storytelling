@@ -6,7 +6,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $failures = [System.Collections.Generic.List[string]]::new()
-$expectedVersion = '1.0.1'
+$expectedVersion = '2.0.0'
 
 function Add-Failure([string]$Message) {
   $failures.Add($Message)
@@ -36,10 +36,7 @@ $components = @(
   [pscustomobject]@{ Name = 'storytelling-requirements'; Category = 'data-analytics'; Standalone = $true },
   [pscustomobject]@{ Name = 'datasource-connectors'; Category = 'data-analytics'; Standalone = $true },
   [pscustomobject]@{ Name = 'data-preparation'; Category = 'data-analytics'; Standalone = $true },
-  [pscustomobject]@{ Name = 'visual-vocabulary'; Category = 'data-analytics'; Standalone = $false },
-  [pscustomobject]@{ Name = 'delivery-ascii-dashboard'; Category = 'data-analytics'; Standalone = $true },
-  [pscustomobject]@{ Name = 'delivery-svg-markdown'; Category = 'media-graphics'; Standalone = $true },
-  [pscustomobject]@{ Name = 'delivery-html-dashboard'; Category = 'data-analytics'; Standalone = $true }
+  [pscustomobject]@{ Name = 'delivery-ascii-dashboard'; Category = 'data-analytics'; Standalone = $true }
 )
 
 $bundleRoot = Join-Path $MallRoot 'plugins/data-analytics/visual-storytelling'
@@ -55,6 +52,12 @@ foreach ($component in $components) {
 
   Assert-Equal $expectedVersion $sourceManifest.version "$($component.Name) source version"
   Assert-Equal $expectedTokens $sourceManifest.token_cost "$($component.Name) source token cost"
+  if ($sourceManifest.PSObject.Properties.Name -contains 'requires_edition') {
+    Add-Failure "$($component.Name) source manifest retains legacy requires_edition"
+  }
+  if ($sourceManifest.PSObject.Properties.Name -contains 'install_paths') {
+    Add-Failure "$($component.Name) source manifest retains legacy install_paths"
+  }
 
   $bundledSkill = Join-Path $bundleRoot "skills/$($component.Name)/SKILL.md"
   if (-not (Test-Path $bundledSkill)) {
@@ -82,21 +85,49 @@ Assert-Equal $expectedVersion $sourceBundleManifest.version 'Source bundle versi
 Assert-Equal $expectedVersion $mallBundleManifest.version 'Mall bundle version'
 Assert-Equal $expectedBundleTokens $sourceBundleManifest.token_cost 'Source bundle token cost'
 Assert-Equal $expectedBundleTokens $mallBundleMetadata.token_cost 'Mall bundle token cost'
+Assert-Equal 'v2.0.0' $mallBundleMetadata.upstream.ref 'Mall bundle source tag'
+if ($sourceBundleManifest.PSObject.Properties.Name -contains 'requires_edition') {
+  Add-Failure 'Source bundle manifest retains legacy requires_edition'
+}
+if ($sourceBundleManifest.PSObject.Properties.Name -contains 'install_paths') {
+  Add-Failure 'Source bundle manifest retains legacy install_paths'
+}
 
 $wrapper = Get-Content (Join-Path $bundleRoot 'skills/visual-storytelling/SKILL.md') -Raw
 Assert-Match $wrapper 'Executable Example Contract' 'Bundle executable example guidance'
 Assert-Match $wrapper 'CSAR always means.*Clarify.*Summarize.*Act.*Reflect' 'Bundle canonical CSAR'
-Assert-Match $wrapper 'skills/storytelling-requirements/SKILL\.md' 'Bundle-native component path'
+Assert-Match $wrapper 'alex-act-illustrator-plugin' 'Bundle Illustrator dependency'
+Assert-Match $wrapper 'chart-vocabulary' 'Bundle Illustrator chart selection'
 
 $agent = Get-Content (Join-Path $bundleRoot 'agents/visual-storytelling.agent.md') -Raw
 Assert-Match $agent 'CSAR.*Clarify.*Summarize.*Act.*Reflect' 'Installable agent canonical CSAR'
 Assert-Match $agent '(?i)evidence boundary' 'Installable agent evidence boundary'
 Assert-Match $agent '(?i)metric lineage' 'Installable agent metric lineage'
+Assert-Match $agent 'chart-vocabulary' 'Installable agent Illustrator chart selection'
+Assert-Match $agent 'alex-act-illustrator-plugin' 'Installable agent Illustrator dependency'
 $sourceAgent = Get-Content (Join-Path $repoRoot 'plugins/visual-storytelling/visual-storytelling.agent.md') -Raw
 Assert-Match $sourceAgent '(?m)^model: "claude-sonnet-5"\r?$' 'Source agent scalar model policy'
+Assert-Match $sourceAgent 'chart-vocabulary' 'Source agent Illustrator chart selection'
+Assert-Match $sourceAgent 'alex-act-illustrator-plugin' 'Source agent Illustrator dependency'
+
+$staleLocalAgent = Join-Path $repoRoot '.github/agents/local/visual-storytelling.agent.md'
+if (Test-Path $staleLocalAgent) {
+  Add-Failure 'Stale repository-local orchestrator remains beside the shipped agent'
+}
+
+foreach ($retiredPath in @(
+    'plugins/visual-vocabulary',
+    'plugins/delivery-svg-markdown',
+    'plugins/delivery-html-dashboard'
+  )) {
+  if (Test-Path (Join-Path $repoRoot $retiredPath)) {
+    Add-Failure "Retired Visual Storytelling path remains active: $retiredPath"
+  }
+}
 
 $cleanHeir = Get-Content (Join-Path $repoRoot 'tests/clean-heir.ps1') -Raw
 Assert-Match $cleanHeir '--agent visual-storytelling:visual-storytelling' 'Clean-heir plugin-qualified agent identity'
+Assert-Match $cleanHeir 'describe --exact-match --tags HEAD' 'Clean-heir immutable release tag'
 Assert-Match $cleanHeir 'git -C \$heir init --quiet' 'Clean-heir Git workspace initialization'
 Assert-Match $cleanHeir 'commit --quiet -m fixture' 'Clean-heir committed fixture'
 Assert-Match $cleanHeir 'remote add origin https://github\.com/fabioc-aloha/Alex_ACT_Visual_Storytelling\.git' 'Clean-heir public origin'
@@ -109,6 +140,8 @@ Assert-Match $cleanHeir 'Response: \$diagnostic' 'Clean-heir bounded response di
 
 $publisher = Get-Content (Join-Path $repoRoot 'scripts/publish-to-mall.ps1') -Raw
 Assert-Match $publisher 'Ref must equal the source repository HEAD' 'Publisher immutable source identity'
+Assert-Match $publisher "ValidatePattern\('\^v\\d\+\\.\\d\+\\.\\d\+\$'\)" 'Publisher semantic release tag'
+Assert-Match $publisher 'Ref must resolve to a source tag' 'Publisher source tag validation'
 Assert-Match $publisher 'Source worktree must be clean' 'Publisher clean source requirement'
 Assert-Match $publisher 'Remove-Item \$target -Recurse -Force' 'Publisher stale payload replacement'
 Assert-Match $publisher 'unexpected: \$relative' 'Publisher unexpected-file comparison'

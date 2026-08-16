@@ -20,9 +20,7 @@ $requirementsSkill = 'plugins/storytelling-requirements/SKILL.md'
 $preparationSkill = 'plugins/data-preparation/SKILL.md'
 $connectorsSkill = 'plugins/datasource-connectors/SKILL.md'
 $bundleSkill = 'plugins/visual-storytelling/SKILL.md'
-$vocabularySkill = 'plugins/visual-vocabulary/SKILL.md'
-$htmlSkill = 'plugins/delivery-html-dashboard/SKILL.md'
-$svgSkill = 'plugins/delivery-svg-markdown/SKILL.md'
+$asciiSkill = 'plugins/delivery-ascii-dashboard/SKILL.md'
 
 Assert-SkillContains $requirementsSkill 'Claim Computability Gate' 'Claim gate section'
 Assert-SkillContains $requirementsSkill '(?s)Claim.*Required fields.*Formula.*Grain.*Status' 'Claim contract fields'
@@ -42,28 +40,20 @@ Assert-SkillContains $bundleSkill '(?i)mutation.*decision-bearing' 'Data-story m
 Assert-SkillContains $bundleSkill '(?i)Mitigated' 'Mitigated audit state'
 Assert-SkillContains $bundleSkill '(?i)leave it unchecked' 'Unchecked mitigation rule'
 Assert-SkillContains $bundleSkill '(?i)Resolved' 'Resolved audit state'
+Assert-SkillContains $bundleSkill 'alex-act-illustrator-plugin' 'Illustrator dependency'
+Assert-SkillContains $bundleSkill 'chart-vocabulary' 'Illustrator chart selection'
+Assert-SkillContains $requirementsSkill 'chart-vocabulary' 'Requirements Illustrator chart selection'
+Assert-SkillContains $asciiSkill 'alex-act-illustrator-plugin' 'ASCII Illustrator upgrade path'
 
-foreach ($skill in $requirementsSkill, $vocabularySkill, $bundleSkill) {
+foreach ($skill in $requirementsSkill, $bundleSkill) {
   Assert-SkillContains $skill 'CSAR always means.*Clarify.*Summarize.*Act.*Reflect' 'Canonical CSAR definition'
 }
-
-Assert-SkillContains $htmlSkill 'Runtime Render Gate' 'HTML runtime render section'
-Assert-SkillContains $htmlSkill '(?s)390px.*scrollWidth.*clientWidth' 'Mobile overflow measurement'
-Assert-SkillContains $htmlSkill '(?is)every chart.*category label' 'Per-chart label check'
-Assert-SkillContains $htmlSkill '(?is)block.*CDN.*Charts unavailable' 'Blocked-resource fallback check'
-
-Assert-SkillContains $svgSkill 'Prose-Fit Gate' 'SVG prose-fit section'
-Assert-SkillContains $svgSkill '(?i)sentence-length.*document body' 'Move prose out of SVG'
-Assert-SkillContains $svgSkill '(?is)render.*clipped.*overflow' 'Rendered clipping check'
 
 $componentNames = @(
   'storytelling-requirements',
   'datasource-connectors',
   'data-preparation',
-  'visual-vocabulary',
-  'delivery-ascii-dashboard',
-  'delivery-svg-markdown',
-  'delivery-html-dashboard'
+  'delivery-ascii-dashboard'
 )
 $bundleTokens = 0
 foreach ($name in $componentNames) {
@@ -88,9 +78,18 @@ foreach ($document in 'README.md', 'plugins/visual-storytelling/README.md', 'TOD
   Assert-SkillContains $document ([regex]::Escape($formattedBundleTokens)) 'Live bundle token total'
 }
 
-foreach ($skill in $requirementsSkill, $preparationSkill, $connectorsSkill, $bundleSkill, $vocabularySkill, $htmlSkill, $svgSkill) {
-  Assert-SkillContains $skill 'currency: 2026-08-06' 'Current skill currency'
-  Assert-SkillContains $skill 'lastReviewed: 2026-08-06' 'Current skill review date'
+foreach ($skill in $requirementsSkill, $preparationSkill, $connectorsSkill, $bundleSkill, $asciiSkill) {
+  Assert-SkillContains $skill 'lastReviewed: 2026-08-15' 'Current skill review date'
+}
+
+foreach ($retiredPath in @(
+    'plugins/visual-vocabulary',
+    'plugins/delivery-svg-markdown',
+    'plugins/delivery-html-dashboard'
+  )) {
+  if (Test-Path (Join-Path $repoRoot $retiredPath)) {
+    $failures.Add("Retired Visual Storytelling path remains active: $retiredPath")
+  }
 }
 
 if ($failures.Count -gt 0) {

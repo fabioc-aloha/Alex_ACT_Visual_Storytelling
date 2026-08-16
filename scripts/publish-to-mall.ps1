@@ -2,7 +2,7 @@
 param(
     [string]$MallRoot = (Join-Path (Split-Path -Parent $PSScriptRoot) '..\Alex_ACT_Plugin_Mall'),
     [Parameter(Mandatory = $true)]
-    [ValidatePattern('^[0-9a-fA-F]{40}$')]
+    [ValidatePattern('^v\d+\.\d+\.\d+$')]
     [string]$Ref,
     [string]$OutputRoot,
     [switch]$AssembleOnly,
@@ -18,10 +18,7 @@ $components = @(
     @{ Name = 'storytelling-requirements'; Category = 'data-analytics'; Standalone = $true },
     @{ Name = 'datasource-connectors'; Category = 'data-analytics'; Standalone = $true },
     @{ Name = 'data-preparation'; Category = 'data-analytics'; Standalone = $true },
-    @{ Name = 'visual-vocabulary'; Category = 'data-analytics'; Standalone = $false },
-    @{ Name = 'delivery-ascii-dashboard'; Category = 'data-analytics'; Standalone = $true },
-    @{ Name = 'delivery-svg-markdown'; Category = 'media-graphics'; Standalone = $true },
-    @{ Name = 'delivery-html-dashboard'; Category = 'data-analytics'; Standalone = $true }
+    @{ Name = 'delivery-ascii-dashboard'; Category = 'data-analytics'; Standalone = $true }
 )
 $managedRelativeRoots = @(
     $components | Where-Object Standalone | ForEach-Object { "plugins/$($_.Category)/$($_.Name)" }
@@ -29,8 +26,8 @@ $managedRelativeRoots = @(
 
 if (-not $AssembleOnly) {
     $resolvedRef = (& git -C $repoRoot rev-parse "$Ref^{commit}").Trim()
-    if ($LASTEXITCODE -ne 0 -or $resolvedRef -ne $Ref.ToLowerInvariant()) {
-        throw 'Ref must resolve to the exact source commit'
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Ref must resolve to a source tag'
     }
     $head = (& git -C $repoRoot rev-parse HEAD).Trim()
     if ($LASTEXITCODE -ne 0 -or $head -ne $resolvedRef) {
@@ -73,8 +70,6 @@ function Mall-Metadata($source) {
         shape            = $source.shape
         tier             = $source.tier
         token_cost       = $source.token_cost
-        requires_edition = $source.requires_edition
-        requires_plugins = @($source.requires_plugins)
     }
     foreach ($key in @('bundle', 'components', 'artifacts', 'install_paths')) {
         if ($source.ContainsKey($key)) { $metadata[$key] = $source[$key] }
@@ -82,7 +77,7 @@ function Mall-Metadata($source) {
     if ($source.bundle) {
         $metadata.migration = [ordered]@{
             strategy = 'vendor-components'
-            reason   = 'Copilot CLI has no plugin dependency field; the bundle must be self-contained.'
+            reason   = 'ASCII delivery is bundled; graphical delivery requires Illustrator.'
         }
     }
     $metadata

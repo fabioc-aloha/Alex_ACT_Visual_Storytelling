@@ -1,6 +1,6 @@
 {
     "name": "data-preparation",
-    "version": "1.0.1",
+    "version": "2.0.0",
     "description": "Data cleaning, profiling, transformation, and quality gates -- prepares raw data for visualization and analysis",
     "author": {
         "name": "ACT Plugin Mall"
@@ -24,8 +24,6 @@
     "category": "data-analytics",
     "tier": "standard",
     "token_cost": 2300,
-    "requires_edition": ">=1.0.0",
-    "requires_plugins": [],
     "artifacts": {
         "skill": "SKILL.md"
     }

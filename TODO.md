@@ -2,7 +2,20 @@
 
 Consolidated tracker for the Visual Storytelling plugin collection.
 
-## v1.0.1 -- Complete
+## v2.0.0 -- Boundary Migration Complete
+
+Visual Storytelling now owns requirements, ingestion, preparation, narrative
+orchestration, and ASCII delivery. Illustrator owns chart selection and all
+graphical delivery. The active bundle is 11,100 tokens across four components.
+
+- [x] Retire `visual-vocabulary`, SVG delivery, and HTML delivery from the
+  active bundle.
+- [x] Require `alex-act-illustrator-plugin` for chart selection and graphical
+  targets.
+- [x] Replace legacy Edition and local-install claims in active manifests.
+- [x] Publish from an immutable `v2.0.0` source tag and verify Mall parity.
+
+## v1.0.1 -- Historical
 
 All v1 plugins are shipped and tested. The pipeline covers brief-to-dashboard
 across three delivery formats (ASCII, SVG, HTML).
@@ -49,7 +62,7 @@ across three delivery formats (ASCII, SVG, HTML).
 | Plugins | 7 |
 | Total tokens | 24,800 |
 
-## v2.0.0 -- Enterprise (planned)
+## Historical Enterprise Backlog
 
 - [ ] `delivery-powerbi-fabric` -- Power BI / Microsoft Fabric
   - [ ] CSAR loop applied to PBI, 5-visual rule
