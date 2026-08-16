@@ -1,6 +1,6 @@
 {
     "name": "visual-storytelling",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "Turn raw data into visual stories through requirements, ingestion, preparation, narrative orchestration, and ASCII delivery. Requires alex-act-illustrator-plugin for chart selection and graphical delivery.",
     "author": {
         "name": "ACT Plugin Mall"

@@ -6,7 +6,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $failures = [System.Collections.Generic.List[string]]::new()
-$expectedVersion = '2.0.0'
+$expectedVersion = '2.0.1'
 
 function Add-Failure([string]$Message) {
   $failures.Add($Message)
@@ -85,7 +85,7 @@ Assert-Equal $expectedVersion $sourceBundleManifest.version 'Source bundle versi
 Assert-Equal $expectedVersion $mallBundleManifest.version 'Mall bundle version'
 Assert-Equal $expectedBundleTokens $sourceBundleManifest.token_cost 'Source bundle token cost'
 Assert-Equal $expectedBundleTokens $mallBundleMetadata.token_cost 'Mall bundle token cost'
-Assert-Equal 'v2.0.0' $mallBundleMetadata.upstream.ref 'Mall bundle source tag'
+Assert-Equal 'v2.0.1' $mallBundleMetadata.upstream.ref 'Mall bundle source tag'
 if ($sourceBundleManifest.PSObject.Properties.Name -contains 'requires_edition') {
   Add-Failure 'Source bundle manifest retains legacy requires_edition'
 }
@@ -122,6 +122,15 @@ foreach ($retiredPath in @(
   )) {
   if (Test-Path (Join-Path $repoRoot $retiredPath)) {
     Add-Failure "Retired Visual Storytelling path remains active: $retiredPath"
+  }
+}
+
+foreach ($retiredMallPath in @(
+    'plugins/data-analytics/delivery-html-dashboard',
+    'plugins/media-graphics/delivery-svg-markdown'
+  )) {
+  if (Test-Path (Join-Path $MallRoot $retiredMallPath)) {
+    Add-Failure "Retired Mall path remains published: $retiredMallPath"
   }
 }
 

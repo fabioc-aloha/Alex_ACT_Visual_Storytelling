@@ -23,6 +23,11 @@ $components = @(
 $managedRelativeRoots = @(
     $components | Where-Object Standalone | ForEach-Object { "plugins/$($_.Category)/$($_.Name)" }
 ) + 'plugins/data-analytics/visual-storytelling'
+$retiredRelativeRoots = @(
+    'plugins/data-analytics/delivery-html-dashboard',
+    'plugins/media-graphics/delivery-svg-markdown'
+)
+$controlledRelativeRoots = @($managedRelativeRoots) + @($retiredRelativeRoots)
 
 if (-not $AssembleOnly) {
     $resolvedRef = (& git -C $repoRoot rev-parse "$Ref^{commit}").Trim()
@@ -129,7 +134,7 @@ if ($Apply) {
     if (Test-Path $backupRoot) { Remove-Item $backupRoot -Recurse -Force }
     New-Item -ItemType Directory -Path $backupRoot -Force | Out-Null
     try {
-        foreach ($relativeRoot in $managedRelativeRoots) {
+        foreach ($relativeRoot in $controlledRelativeRoots) {
             $target = Join-Path $MallRoot $relativeRoot
             if (Test-Path $target) {
                 $backup = Join-Path $backupRoot $relativeRoot
@@ -145,9 +150,13 @@ if ($Apply) {
             New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
             Copy-Item $staged $target -Recurse
         }
+        foreach ($relativeRoot in $retiredRelativeRoots) {
+            $target = Join-Path $MallRoot $relativeRoot
+            if (Test-Path $target) { Remove-Item $target -Recurse -Force }
+        }
     }
     catch {
-        foreach ($relativeRoot in $managedRelativeRoots) {
+        foreach ($relativeRoot in $controlledRelativeRoots) {
             $target = Join-Path $MallRoot $relativeRoot
             $backup = Join-Path $backupRoot $relativeRoot
             if (Test-Path $target) { Remove-Item $target -Recurse -Force }
@@ -195,6 +204,11 @@ foreach ($relativeRoot in $managedRelativeRoots) {
         if (-not (Test-Path (Join-Path $outputRoot $relative))) {
             $differences.Add("unexpected: $relative")
         }
+    }
+}
+foreach ($relativeRoot in $retiredRelativeRoots) {
+    if (Test-Path (Join-Path $MallRoot $relativeRoot)) {
+        $differences.Add("retired path remains: $relativeRoot")
     }
 }
 if ($temporaryAssembly -and (Test-Path $outputRoot)) { Remove-Item $outputRoot -Recurse -Force }

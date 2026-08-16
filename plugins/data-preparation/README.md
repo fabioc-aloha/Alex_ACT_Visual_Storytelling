@@ -3,7 +3,7 @@
 Data cleaning, profiling, transformation, and quality gates. Prepares raw data
 for visualization and analysis.
 
-**Status**: Published (v2.0.0)
+**Status**: Published (v2.0.1)
 
 ## What It Does
 

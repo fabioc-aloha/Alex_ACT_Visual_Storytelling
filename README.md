@@ -5,7 +5,7 @@
 Plugin collection that turns raw data into visual stories. Load the plugins,
 point at a dataset, pick a delivery format, get a dashboard.
 
-**v2.0.0** -- four Visual Storytelling components plus an orchestrator agent.
+**v2.0.1** -- four Visual Storytelling components plus an orchestrator agent.
 It owns the brief, ingestion, preparation, narrative workflow, and ASCII
 delivery. Install `alex-act-illustrator-plugin` for chart selection and
 graphical delivery. This README is the live support source; [TODO.md](TODO.md)

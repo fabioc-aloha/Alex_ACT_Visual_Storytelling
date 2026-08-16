@@ -2,7 +2,7 @@
 
 Consolidated tracker for the Visual Storytelling plugin collection.
 
-## v2.0.0 -- Boundary Migration Complete
+## v2.0.1 -- Boundary Migration Complete
 
 Visual Storytelling now owns requirements, ingestion, preparation, narrative
 orchestration, and ASCII delivery. Illustrator owns chart selection and all
@@ -13,7 +13,7 @@ graphical delivery. The active bundle is 11,100 tokens across four components.
 - [x] Require `alex-act-illustrator-plugin` for chart selection and graphical
   targets.
 - [x] Replace legacy Edition and local-install claims in active manifests.
-- [x] Publish from an immutable `v2.0.0` source tag and verify Mall parity.
+- [x] Publish from an immutable `v2.0.1` source tag and verify Mall parity.
 
 ## v1.0.1 -- Historical
 

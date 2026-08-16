@@ -2,7 +2,7 @@
 
 Turn raw data into visual stories. One plugin, full pipeline.
 
-**Status**: Complete (v2.0.0)
+**Status**: Complete (v2.0.1)
 
 ## What You Get
 

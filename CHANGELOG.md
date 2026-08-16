@@ -2,6 +2,13 @@
 
 All notable changes to Visual Storytelling are documented here.
 
+## [2.0.1] - 2026-08-15
+
+### Fixed
+
+- Make Mall publication retire obsolete standalone SVG and HTML delivery records
+  atomically, with rollback and parity checks.
+
 ## [2.0.0] - 2026-08-15
 
 ### Changed
