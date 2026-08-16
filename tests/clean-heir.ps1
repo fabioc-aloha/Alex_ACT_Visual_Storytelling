@@ -7,7 +7,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$releaseTag = (& git -C $repoRoot describe --exact-match --tags HEAD 2>$null).Trim()
+$releaseTag = ((& git -C $repoRoot describe --exact-match --tags HEAD 2>$null) | Out-String).Trim()
 if ($LASTEXITCODE -ne 0 -or $releaseTag -notmatch '^v\d+\.\d+\.\d+$') {
     throw 'Clean-heir requires the source HEAD to carry a semantic release tag'
 }
