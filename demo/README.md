@@ -9,10 +9,17 @@ the data they claim to describe.
 
 ## The gallery
 
-[`GALLERY.md`](GALLERY.md) and [`gallery.html`](gallery.html) catalog 19 ASCII
+[`GALLERY.md`](GALLERY.md) and [`gallery.html`](gallery.html) catalog 32 ASCII
 chart forms organized by the same seven communication goals used by
 Illustrator's `chart-vocabulary` skill: Comparison, Change Over Time,
 Proportion, Distribution, Relationship, Flow and Process, and Deviation.
+
+Both galleries close with a Flint coverage matrix mapping every chart type in
+Flint's catalog to its ASCII counterpart, plus the forms that are not viable in
+ASCII and what to use instead. That boundary is the point: pie, donut,
+sunburst, violin, density, streamgraph, connected scatter, and a fitted
+regression line all need sub-character resolution or arbitrary angles that a
+monospace grid cannot carry.
 
 The two galleries compose rather than compete. Pick the communication goal in
 `chart-vocabulary`, then render it here when the target is a terminal, a log

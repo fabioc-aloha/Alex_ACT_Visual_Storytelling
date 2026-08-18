@@ -2,6 +2,26 @@
 
 ![Alex ACT Visual Storytelling](assets/banner.svg)
 
+> **Retired on 2026-08-18. This repository is archived.**
+>
+> Visual Storytelling is no longer an active Alex ACT constellation plugin. Its
+> five Mall records were removed, so `visual-storytelling@alex-mall` and its four
+> component plugins no longer install. The source and its full history stay here
+> and remain readable.
+>
+> **Where the capability went.** ASCII delivery moved to
+> [`alex-act-illustrator-plugin`](https://github.com/fabioc-aloha/Alex_ACT_Illustrator_Plugin)
+> as the `ascii-chart` skill, which also ships a 32-form gallery and a coverage
+> matrix mapping Flint's chart catalog to its ASCII counterparts. The Claim
+> Computability Gate became `chart-big-idea` Step 1.5, and the chart vocabulary
+> became `chart-vocabulary`, both in the same plugin. Requirements elicitation is
+> covered generically by Core's `communication-craft` skill.
+>
+> **If you have it installed**, it keeps working but receives no updates. Run
+> `copilot plugin uninstall visual-storytelling` and install Illustrator instead.
+>
+> The reasoning is recorded in Alex ACT Steward ADR-039.
+
 Plugin collection that turns raw data into visual stories. Load the plugins,
 point at a dataset, pick a delivery format, get a dashboard.
 

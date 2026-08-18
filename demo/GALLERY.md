@@ -13,12 +13,12 @@ Regenerate with `pwsh -NoProfile -File demo/build-gallery.ps1`.
 
 | Goal | Forms |
 | --- | --- |
-| [Comparison](#comparison) | Horizontal bar, Dot plot, Bullet chart, Grouped bar |
-| [Change Over Time](#change-over-time) | Sparkline, Column trend, Step line, Small multiples |
-| [Proportion](#proportion) | Stacked 100% bar, Percentage rows, Waffle grid |
-| [Distribution](#distribution) | Histogram, Box plot |
-| [Relationship](#relationship) | Scatter plot, Heatmap |
-| [Flow and Process](#flow-and-process) | Funnel, Stage pipeline |
+| [Comparison](#comparison) | Horizontal bar, Dot plot, Bullet chart, Grouped bar, Slope chart, Waterfall, Pareto, Gauge, KPI card |
+| [Change Over Time](#change-over-time) | Sparkline, Column trend, Step line, Small multiples, Line chart, Area chart |
+| [Proportion](#proportion) | Stacked 100% bar, Percentage rows, Waffle grid, Treemap |
+| [Distribution](#distribution) | Histogram, Box plot, Strip plot, ECDF |
+| [Relationship](#relationship) | Scatter plot, Heatmap, Bubble plot, Parallel coordinates |
+| [Flow and Process](#flow-and-process) | Funnel, Stage pipeline, Sankey flow |
 | [Deviation](#deviation) | Diverging bar, Variance column |
 
 ## Comparison
@@ -67,6 +67,59 @@ South
   Widget B ########......................   $41,800
 ```
 
+### Slope chart
+
+Best when two periods and rank changes matter. Avoid when more than about ten rows. Data: **real**.
+
+```text
+        Jan                       Jun
+North   $20,800 ////////////////  $24,400
+South   $16,000 ////////////////  $18,500
+```
+
+### Waterfall
+
+Best when a total is built from sequential moves. Avoid when the steps are not additive. Data: **real**.
+
+```text
+Revenue  ########################################  $246,400
+Cost                 ============================ -$172,480
+Margin   ############                               $73,920
+```
+
+### Pareto
+
+Best when a few categories drive most of the total. Avoid when the distribution is flat. Data: **real**.
+
+```text
+North Widget A   ######################   $83,300  cum  34%
+South Widget A   #################.....   $65,500  cum  60%
+North Widget B   ###############.......   $55,800  cum  83%
+South Widget B   ###########...........   $41,800  cum 100%
+```
+
+### Gauge
+
+Best when one headline number against a scale. Avoid when several measures need comparing. Data: **real**.
+
+```text
+0%                 50%                100%
+[======================================>.]  95%
+Revenue $246,400 against target $260,000
+```
+
+### KPI card
+
+Best when one measure with trend and delta. Avoid when the reader needs the full series. Data: **real**.
+
+```text
++----------------------------+
+|  REVENUE                   |
+|  $246,400                  |
+|  //\/\  +16.6% vs Jan      |
++----------------------------+
+```
+
 ## Change Over Time
 
 ### Sparkline
@@ -113,6 +166,36 @@ North   //\/\    $139,100
 South   //\/\    $107,300
 ```
 
+### Line chart
+
+Best when a continuous series where shape matters. Avoid when categories rather than time. Data: **real**.
+
+```text
+ $44,800 |                      *       
+ $43,200 |                           *  
+ $41,600 |            *                 
+ $40,000 |                 *            
+ $38,400 |       *                      
+ $36,800 |  *                           
+         +------------------------------
+          Jan  Feb  Mar  Apr  May  Jun  
+```
+
+### Area chart
+
+Best when volume under the line is the point. Avoid when values sit far above zero, which flattens the visible variation as it does here. Data: **real**.
+
+```text
+        |           ####      #### ####
+        | #### #### #### #### #### ####
+        | #### #### #### #### #### ####
+        | #### #### #### #### #### ####
+        | #### #### #### #### #### ####
+        | #### #### #### #### #### ####
+        +------------------------------
+         Jan  Feb  Mar  Apr  May  Jun  
+```
+
 ## Proportion
 
 ### Stacked 100% bar
@@ -146,6 +229,17 @@ Best when part of a whole as countable units. Avoid when precise decimals matter
 # North 56%   . South 44%
 ```
 
+### Treemap
+
+Best when nested share of a total. Avoid when more than about eight leaves. Data: **real**.
+
+```text
++----------------------------------+----------------------+
+|Widget A                          |Widget B              |
+|$148,800  60%                     |$97,600  40%          |
++----------------------------------+----------------------+
+```
+
 ## Distribution
 
 ### Histogram
@@ -167,6 +261,31 @@ Best when spread and outliers at a glance. Avoid when audience unfamiliar with q
 ```text
 |---------[=========+==========[------------|
 min $6,200   Q1 $8,300   med $10,200   Q3 $12,500   max $15,100
+```
+
+### Strip plot
+
+Best when every observation should stay visible. Avoid when hundreds of overlapping points. Data: **real**.
+
+```text
+North  |          o  oo oo o          o  o   o o o o
+South  |o  8ooo          o o  o o o o               
+       +--------------------------------------------
+        $6,200 to $15,100    8 marks a collision
+```
+
+### ECDF
+
+Best when the question is what share falls below a value. Avoid when a very small sample. Data: **real**.
+
+```text
+ 100% |                               ________ 
+  80% |                     __________         
+  60% |               ______                   
+  40% |     __________                         
+  20% |_____                                   
+      +----------------------------------------
+       $6,200                          $15,100
 ```
 
 ## Relationship
@@ -198,6 +317,35 @@ North   ###.. ####. ##### ####. ##### #####
 South   #.... #.... ##... #.... ##... ##... 
 ```
 
+### Bubble plot
+
+Best when a third measure sizes each point. Avoid when sizes differ by less than about twice. Data: **real**.
+
+```text
+|                                     @ @ @ @
+|                              @  @          
+|                      O O O O               
+|                OO O                        
+|          o  oo                             
+|   oooo                                     
++--------------------------------------------
+units ->       o low cost    O mid    @ high cost
+```
+
+### Parallel coordinates
+
+Best when several measures compared per record. Avoid when the measures are derived from each other, which makes every line identical as it does here. Data: **real**.
+
+```text
+        revenue       units         cost          
+Jan     ----*-------  ----*-------  ----*-------  
+Feb     ----*-------  ----*-------  ----*-------  
+Mar     -----*------  -----*------  -----*------  
+Apr     -----*------  -----*------  -----*------  
+May     ------*-----  ------*-----  ------*-----  
+Jun     ------*-----  ------*-----  ------*-----  
+```
+
 ## Flow and Process
 
 ### Funnel
@@ -218,6 +366,16 @@ Best when steps with hand-offs. Avoid when branching or looping flows. Data: **i
 ```text
 [ Ingest ] -> [ Clean ] -> [ Select ] -> [ Render ] -> [ Verify ]
     ok          ok           ok            ok           WARN
+```
+
+### Sankey flow
+
+Best when quantities merge or split between stages. Avoid when many crossing links. Data: **real**.
+
+```text
+North   $139,100 ===========---------\
+                                      >  Total $246,400
+South   $107,300 =========-----------/
 ```
 
 ## Deviation
@@ -247,4 +405,56 @@ Apr    $40,600  vs avg   $41,067       -467  [UNDER]
 May    $44,800  vs avg   $41,067     +3,733  [OK]  
 Jun    $42,900  vs avg   $41,067     +1,833  [OK]  
 ```
+
+## Flint coverage
+
+Of the 33 chart types Flint offers, 24 have a direct ASCII
+counterpart here. The rest are listed so the boundary is explicit rather than
+discovered halfway through a render.
+
+| Flint family | Flint chart | ASCII form | Status |
+| --- | --- | --- | --- |
+| Comparison | Bar | Horizontal bar | Covered |
+| Comparison | Grouped Bar | Grouped bar | Covered |
+| Comparison | Stacked Bar (normalize) | Stacked 100% bar | Covered |
+| Comparison | Slope Chart | Slope chart | Covered |
+| Comparison | Faceted Bar | Small multiples | Covered |
+| Comparison | Waterfall Chart | Waterfall | Covered |
+| Trend | Line | Line chart | Covered |
+| Trend | Area | Area chart | Covered |
+| Trend | Sparkline | Sparkline | Covered |
+| Trend | Bar + Line combo | Pareto | Approximate |
+| Distribution | Histogram | Histogram | Covered |
+| Distribution | Boxplot | Box plot | Covered |
+| Distribution | Strip Plot | Strip plot | Covered |
+| Distribution | ECDF Plot | ECDF | Covered |
+| Distribution | Violin Plot | Box plot or Histogram | Not viable |
+| Distribution | Density Plot | Histogram | Not viable |
+| Relationship | Scatter | Scatter plot | Covered |
+| Relationship | Scatter + size (Bubble) | Bubble plot | Covered |
+| Relationship | Parallel Coordinates | Parallel coordinates | Covered |
+| Relationship | Regression | Scatter plot | Approximate |
+| Relationship | Connected Scatter | Slope chart | Not viable |
+| Proportion | Stacked normalize | Stacked 100% bar | Covered |
+| Proportion | Treemap | Treemap | Covered |
+| Proportion | Funnel | Funnel | Covered |
+| Proportion | Pie | Percentage rows or Waffle grid | Not viable |
+| Proportion | Donut | Percentage rows or Waffle grid | Not viable |
+| Proportion | Sunburst | Treemap | Not viable |
+| Flow | Sankey | Sankey flow | Covered |
+| Flow | Heatmap | Heatmap | Covered |
+| Flow | Streamgraph | Small multiples | Not viable |
+| KPI | Bullet Chart | Bullet chart | Covered |
+| KPI | KPI Card | KPI card | Covered |
+| KPI | Gauge Chart | Gauge | Covered |
+
+### Not viable in ASCII
+
+| Form | Why | Use instead |
+| --- | --- | --- |
+| Pie, Donut, Sunburst | angle encodes the value, and a character cell cannot carry a partial angle | Stacked 100% bar, Percentage rows, or Waffle grid |
+| Violin, Density | a smooth curve needs sub-character resolution that a monospace grid does not have | Histogram or Box plot |
+| Streamgraph | stacked curved baselines become unreadable once each band is quantized to whole cells | Small multiples |
+| Connected Scatter | a path between arbitrary points needs line segments at arbitrary angles | Slope chart for two periods, Line chart for a series |
+| Regression fit | the fitted line lands between cells at most angles, so the slope reads wrong | Scatter plot with the coefficient stated in text |
 

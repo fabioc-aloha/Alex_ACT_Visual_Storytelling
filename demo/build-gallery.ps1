@@ -248,6 +248,231 @@ Add-Entry 'Flow and Process' 'Stage pipeline' 'Steps with hand-offs' 'Branching 
     '    ok          ok           ok            ok           WARN'
 )
 
+$regionMonth = @{}
+foreach ($r in $data) {
+    $k = $r.region + '|' + ([datetime]$r.date).ToString('MMM')
+    if (-not $regionMonth.ContainsKey($k)) { $regionMonth[$k] = 0 }
+    $regionMonth[$k] += [double]$r.revenue
+}
+$firstLabel = $byMonth[0].Label
+$lastLabel = $byMonth[-1].Label
+$grandCost = ($data | Measure-Object cost -Sum).Sum
+
+Add-Entry 'Comparison' 'Slope chart' 'two periods and rank changes matter' 'more than about ten rows' 'real' (
+    ("        " + $firstLabel.PadRight(26) + $lastLabel) + "`n" +
+    (($byRegion | ForEach-Object {
+        $a = $regionMonth[$_.Name + '|' + $firstLabel]
+        $b = $regionMonth[$_.Name + '|' + $lastLabel]
+        $arrow = if ($b -ge $a) { '/' } else { '\' }
+        $_.Name.PadRight(7) + (Money $a).PadLeft(8) + ' ' + ($arrow * 16) + ' ' + (Money $b).PadLeft(8)
+    }) -join "`n")
+)
+
+Add-Entry 'Comparison' 'Waterfall' 'a total is built from sequential moves' 'the steps are not additive' 'real' (
+    (& {
+        $scale = 40 / $totalRev
+        $margin = $totalRev - $grandCost
+        $wRev = [math]::Round($totalRev * $scale)
+        $wCost = [math]::Round($grandCost * $scale)
+        $wMar = [math]::Round($margin * $scale)
+        @(
+            'Revenue  ' + ('#' * $wRev).PadRight(41) + (Money $totalRev).PadLeft(9)
+            'Cost     ' + ((' ' * $wMar) + ('=' * $wCost)).PadRight(41) + ('-' + (Money $grandCost)).PadLeft(9)
+            'Margin   ' + ('#' * $wMar).PadRight(41) + (Money $margin).PadLeft(9)
+        )
+    }) -join "`n"
+)
+
+$combos = $data | Group-Object { $_.region + ' ' + $_.product } | ForEach-Object {
+    [pscustomobject]@{ Name = $_.Name; Revenue = ($_.Group | Measure-Object revenue -Sum).Sum }
+} | Sort-Object Revenue -Descending
+Add-Entry 'Comparison' 'Pareto' 'a few categories drive most of the total' 'the distribution is flat' 'real' (
+    (& {
+        $cum = 0
+        $maxC = $combos[0].Revenue
+        foreach ($c in $combos) {
+            $cum += $c.Revenue
+            $pct = $cum / $totalRev * 100
+            $c.Name.PadRight(17) + (Bar $c.Revenue $maxC 22) + ' ' + (Money $c.Revenue).PadLeft(9) + '  cum ' + ($pct.ToString('N0') + '%').PadLeft(4)
+        }
+    }) -join "`n"
+)
+
+Add-Entry 'Comparison' 'Gauge' 'one headline number against a scale' 'several measures need comparing' 'real' (
+    (& {
+        $target = 260000
+        $pct = $totalRev / $target * 100
+        $mark = [math]::Round($pct / 100 * 40)
+        @(
+            '0%' + (' ' * 17) + '50%' + (' ' * 16) + '100%'
+            '[' + ('=' * $mark) + '>' + ('.' * [math]::Max(0, 39 - $mark)) + ']  ' + $pct.ToString('N0') + '%'
+            'Revenue ' + (Money $totalRev) + ' against target ' + (Money $target)
+        )
+    }) -join "`n"
+)
+
+Add-Entry 'Comparison' 'KPI card' 'one measure with trend and delta' 'the reader needs the full series' 'real' (
+    (& {
+        $delta = ($byMonth[-1].Revenue - $byMonth[0].Revenue) / $byMonth[0].Revenue * 100
+        @(
+            '+----------------------------+'
+            '|  REVENUE                   |'
+            '|  ' + (Money $totalRev).PadRight(26) + '|'
+            '|  ' + ($spark + '  ' + $delta.ToString('+#,0.0;-#,0.0') + '% vs ' + $firstLabel).PadRight(26) + '|'
+            '+----------------------------+'
+        )
+    }) -join "`n"
+)
+
+Add-Entry 'Change Over Time' 'Line chart' 'a continuous series where shape matters' 'categories rather than time' 'real' (
+    (& {
+        $rows = @()
+        $lo = ($byMonth | Measure-Object Revenue -Minimum).Minimum
+        $hi = ($byMonth | Measure-Object Revenue -Maximum).Maximum
+        for ($lvl = 6; $lvl -ge 1; $lvl--) {
+            $line = (Money ($lo + ($hi - $lo) * ($lvl - 1) / 5)).PadLeft(8) + ' |'
+            foreach ($m in $byMonth) {
+                $h = 1 + [math]::Round(($m.Revenue - $lo) / ($hi - $lo) * 5)
+                $line += if ($h -eq $lvl) { '  *  ' } else { '     ' }
+            }
+            $rows += $line
+        }
+        $rows += (' ' * 9) + '+' + ('-' * 30)
+        $rows += (' ' * 10) + (($byMonth | ForEach-Object { $_.Label.PadRight(5) }) -join '')
+        $rows
+    }) -join "`n"
+)
+
+Add-Entry 'Change Over Time' 'Area chart' 'volume under the line is the point' 'values sit far above zero, which flattens the visible variation as it does here' 'real' (
+    (& {
+        $rows = @()
+        $hi = ($byMonth | Measure-Object Revenue -Maximum).Maximum
+        for ($lvl = 6; $lvl -ge 1; $lvl--) {
+            $line = (' ' * 8) + '|'
+            foreach ($m in $byMonth) {
+                $h = [math]::Round($m.Revenue / $hi * 6)
+                $line += if ($h -ge $lvl) { ' ####' } else { '     ' }
+            }
+            $rows += $line
+        }
+        $rows += (' ' * 8) + '+' + ('-' * 30)
+        $rows += (' ' * 9) + (($byMonth | ForEach-Object { $_.Label.PadRight(5) }) -join '')
+        $rows
+    }) -join "`n"
+)
+
+Add-Entry 'Proportion' 'Treemap' 'nested share of a total' 'more than about eight leaves' 'real' (
+    (& {
+        $widths = $byProduct | ForEach-Object { [math]::Max(10, [math]::Round($_.Revenue / $totalRev * 58)) }
+        $edge = '+' + (($widths | ForEach-Object { ('-' * ($_ - 1)) + '+' }) -join '')
+        $mid = '|'
+        $val = '|'
+        for ($i = 0; $i -lt $byProduct.Count; $i++) {
+            $mid += $byProduct[$i].Name.PadRight($widths[$i] - 1) + '|'
+            $val += ((Money $byProduct[$i].Revenue) + '  ' + ($byProduct[$i].Revenue / $totalRev * 100).ToString('N0') + '%').PadRight($widths[$i] - 1) + '|'
+        }
+        @($edge, $mid, $val, $edge)
+    }) -join "`n"
+)
+
+Add-Entry 'Distribution' 'Strip plot' 'every observation should stay visible' 'hundreds of overlapping points' 'real' (
+    (& {
+        $rows = @()
+        foreach ($r in $byRegion) {
+            $reg = $r.Name
+            $vals = $data | Where-Object region -eq $reg | ForEach-Object { [double]$_.revenue }
+            $slots = , ' ' * 44
+            foreach ($v in $vals) {
+                $i = [math]::Round(($v - $min) / ($max - $min) * 43)
+                $slots[$i] = if ($slots[$i] -eq ' ') { 'o' } else { '8' }
+            }
+            $rows += $reg.PadRight(7) + '|' + ($slots -join '')
+        }
+        $rows += (' ' * 7) + '+' + ('-' * 44)
+        $rows += (' ' * 8) + (Money $min) + ' to ' + (Money $max) + '    8 marks a collision'
+        $rows
+    }) -join "`n"
+)
+
+Add-Entry 'Distribution' 'ECDF' 'the question is what share falls below a value' 'a very small sample' 'real' (
+    (& {
+        $rows = @()
+        for ($p = 100; $p -ge 20; $p -= 20) {
+            $line = ($p.ToString() + '%').PadLeft(5) + ' |'
+            for ($c = 0; $c -lt 40; $c++) {
+                $v = $min + ($max - $min) * $c / 39
+                $share = (@($rev | Where-Object { $_ -le $v }).Count / $rev.Count) * 100
+                $line += if ($share -ge ($p - 20) -and $share -lt $p) { '_' } else { ' ' }
+            }
+            $rows += $line
+        }
+        $rows += (' ' * 6) + '+' + ('-' * 40)
+        $rows += (' ' * 7) + (Money $min).PadRight(32) + (Money $max)
+        $rows
+    }) -join "`n"
+)
+
+Add-Entry 'Relationship' 'Bubble plot' 'a third measure sizes each point' 'sizes differ by less than about twice' 'real' (
+    (& {
+        $rows = @()
+        $cMin = ($data | Measure-Object cost -Minimum).Minimum
+        $cMax = ($data | Measure-Object cost -Maximum).Maximum
+        for ($row = 6; $row -ge 1; $row--) {
+            $line = '|'
+            for ($col = 0; $col -lt 44; $col++) {
+                $hit = $data | Where-Object {
+                    [math]::Round(([double]$_.units - $uMin) / ($uMax - $uMin) * 43) -eq $col -and
+                    [math]::Ceiling(([double]$_.revenue - $min) / ($max - $min) * 6) -eq $row
+                } | Select-Object -First 1
+                if ($hit) {
+                    $t = ([double]$hit.cost - $cMin) / ($cMax - $cMin)
+                    $line += if ($t -ge 0.66) { '@' } elseif ($t -ge 0.33) { 'O' } else { 'o' }
+                }
+                else { $line += ' ' }
+            }
+            $rows += $line
+        }
+        $rows += '+' + ('-' * 44)
+        $rows += 'units ->       o low cost    O mid    @ high cost'
+        $rows
+    }) -join "`n"
+)
+
+Add-Entry 'Relationship' 'Parallel coordinates' 'several measures compared per record' 'the measures are derived from each other, which makes every line identical as it does here' 'real' (
+    (& {
+        $axes = 'revenue', 'units', 'cost'
+        $rows = @('        ' + (($axes | ForEach-Object { $_.PadRight(14) }) -join ''))
+        foreach ($m in $byMonth) {
+            $grp = $data | Where-Object { ([datetime]$_.date).ToString('MMM') -eq $m.Label }
+            $line = $m.Label.PadRight(8)
+            foreach ($a in $axes) {
+                $vals = $data | ForEach-Object { [double]$_.$a }
+                $lo = ($vals | Measure-Object -Minimum).Minimum
+                $hi = ($vals | Measure-Object -Maximum).Maximum
+                $v = ($grp | Measure-Object $a -Average).Average
+                $pos = [math]::Round(($v - $lo) / ($hi - $lo) * 11)
+                $line += ('-' * $pos) + '*' + ('-' * (11 - $pos)) + '  '
+            }
+            $rows += $line
+        }
+        $rows
+    }) -join "`n"
+)
+
+Add-Entry 'Flow and Process' 'Sankey flow' 'quantities merge or split between stages' 'many crossing links' 'real' (
+    (& {
+        $band = 20
+        $wN = [math]::Round($byRegion[0].Revenue / $totalRev * $band)
+        $wS = [math]::Round($byRegion[1].Revenue / $totalRev * $band)
+        $lead = 7 + 9 + 1
+        @(
+            $byRegion[0].Name.PadRight(7) + (Money $byRegion[0].Revenue).PadLeft(9) + ' ' + ('=' * $wN).PadRight($band, '-') + '\'
+            (' ' * ($lead + $band + 1)) + '>  Total ' + (Money $totalRev)
+            $byRegion[1].Name.PadRight(7) + (Money $byRegion[1].Revenue).PadLeft(9) + ' ' + ('=' * $wS).PadRight($band, '-') + '/'
+        )
+    }) -join "`n"
+)
+
 # --- Deviation --------------------------------------------------------------
 Add-Entry 'Deviation' 'Diverging bar' 'Above and below a reference' 'No meaningful midpoint' 'real' (
     ($byMonth | ForEach-Object {
@@ -265,6 +490,51 @@ Add-Entry 'Deviation' 'Variance column' 'Actual against plan per period' 'No pla
         $_.Label.PadRight(5) + (Money $_.Revenue).PadLeft(9) + '  vs avg ' + (Money $avgMonth).PadLeft(9) + '  ' + (('{0:+#,0;-#,0;0}' -f $d)).PadLeft(9) + '  ' + $flag
     }) -join "`n"
 )
+
+# --- Flint coverage ---------------------------------------------------------
+$coverage = @(
+    [pscustomobject]@{ Family = 'Comparison'; Flint = 'Bar'; Ascii = 'Horizontal bar'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Comparison'; Flint = 'Grouped Bar'; Ascii = 'Grouped bar'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Comparison'; Flint = 'Stacked Bar (normalize)'; Ascii = 'Stacked 100% bar'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Comparison'; Flint = 'Slope Chart'; Ascii = 'Slope chart'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Comparison'; Flint = 'Faceted Bar'; Ascii = 'Small multiples'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Comparison'; Flint = 'Waterfall Chart'; Ascii = 'Waterfall'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Trend'; Flint = 'Line'; Ascii = 'Line chart'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Trend'; Flint = 'Area'; Ascii = 'Area chart'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Trend'; Flint = 'Sparkline'; Ascii = 'Sparkline'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Trend'; Flint = 'Bar + Line combo'; Ascii = 'Pareto'; Status = 'Approximate' }
+    [pscustomobject]@{ Family = 'Distribution'; Flint = 'Histogram'; Ascii = 'Histogram'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Distribution'; Flint = 'Boxplot'; Ascii = 'Box plot'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Distribution'; Flint = 'Strip Plot'; Ascii = 'Strip plot'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Distribution'; Flint = 'ECDF Plot'; Ascii = 'ECDF'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Distribution'; Flint = 'Violin Plot'; Ascii = 'Box plot or Histogram'; Status = 'Not viable' }
+    [pscustomobject]@{ Family = 'Distribution'; Flint = 'Density Plot'; Ascii = 'Histogram'; Status = 'Not viable' }
+    [pscustomobject]@{ Family = 'Relationship'; Flint = 'Scatter'; Ascii = 'Scatter plot'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Relationship'; Flint = 'Scatter + size (Bubble)'; Ascii = 'Bubble plot'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Relationship'; Flint = 'Parallel Coordinates'; Ascii = 'Parallel coordinates'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Relationship'; Flint = 'Regression'; Ascii = 'Scatter plot'; Status = 'Approximate' }
+    [pscustomobject]@{ Family = 'Relationship'; Flint = 'Connected Scatter'; Ascii = 'Slope chart'; Status = 'Not viable' }
+    [pscustomobject]@{ Family = 'Proportion'; Flint = 'Stacked normalize'; Ascii = 'Stacked 100% bar'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Proportion'; Flint = 'Treemap'; Ascii = 'Treemap'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Proportion'; Flint = 'Funnel'; Ascii = 'Funnel'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Proportion'; Flint = 'Pie'; Ascii = 'Percentage rows or Waffle grid'; Status = 'Not viable' }
+    [pscustomobject]@{ Family = 'Proportion'; Flint = 'Donut'; Ascii = 'Percentage rows or Waffle grid'; Status = 'Not viable' }
+    [pscustomobject]@{ Family = 'Proportion'; Flint = 'Sunburst'; Ascii = 'Treemap'; Status = 'Not viable' }
+    [pscustomobject]@{ Family = 'Flow'; Flint = 'Sankey'; Ascii = 'Sankey flow'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Flow'; Flint = 'Heatmap'; Ascii = 'Heatmap'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'Flow'; Flint = 'Streamgraph'; Ascii = 'Small multiples'; Status = 'Not viable' }
+    [pscustomobject]@{ Family = 'KPI'; Flint = 'Bullet Chart'; Ascii = 'Bullet chart'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'KPI'; Flint = 'KPI Card'; Ascii = 'KPI card'; Status = 'Covered' }
+    [pscustomobject]@{ Family = 'KPI'; Flint = 'Gauge Chart'; Ascii = 'Gauge'; Status = 'Covered' }
+)
+$limits = @(
+    [pscustomobject]@{ Form = 'Pie, Donut, Sunburst'; Why = 'angle encodes the value, and a character cell cannot carry a partial angle'; Instead = 'Stacked 100% bar, Percentage rows, or Waffle grid' }
+    [pscustomobject]@{ Form = 'Violin, Density'; Why = 'a smooth curve needs sub-character resolution that a monospace grid does not have'; Instead = 'Histogram or Box plot' }
+    [pscustomobject]@{ Form = 'Streamgraph'; Why = 'stacked curved baselines become unreadable once each band is quantized to whole cells'; Instead = 'Small multiples' }
+    [pscustomobject]@{ Form = 'Connected Scatter'; Why = 'a path between arbitrary points needs line segments at arbitrary angles'; Instead = 'Slope chart for two periods, Line chart for a series' }
+    [pscustomobject]@{ Form = 'Regression fit'; Why = 'the fitted line lands between cells at most angles, so the slope reads wrong'; Instead = 'Scatter plot with the coefficient stated in text' }
+)
+$covered = @($coverage | Where-Object Status -eq 'Covered').Count
 
 # --- render markdown --------------------------------------------------------
 $goals = 'Comparison', 'Change Over Time', 'Proportion', 'Distribution', 'Relationship', 'Flow and Process', 'Deviation'
@@ -303,6 +573,22 @@ foreach ($g in $goals) {
         $md.Add('')
     }
 }
+$md.Add('## Flint coverage')
+$md.Add('')
+$md.Add("Of the $($coverage.Count) chart types Flint offers, $covered have a direct ASCII")
+$md.Add('counterpart here. The rest are listed so the boundary is explicit rather than')
+$md.Add('discovered halfway through a render.')
+$md.Add('')
+$md.Add('| Flint family | Flint chart | ASCII form | Status |')
+$md.Add('| --- | --- | --- | --- |')
+foreach ($c in $coverage) { $md.Add("| $($c.Family) | $($c.Flint) | $($c.Ascii) | $($c.Status) |") }
+$md.Add('')
+$md.Add('### Not viable in ASCII')
+$md.Add('')
+$md.Add('| Form | Why | Use instead |')
+$md.Add('| --- | --- | --- |')
+foreach ($l in $limits) { $md.Add("| $($l.Form) | $($l.Why) | $($l.Instead) |") }
+$md.Add('')
 Set-Content -Path (Join-Path $outRoot 'GALLERY.md') -Value ($md -join "`n") -Encoding utf8
 
 # --- render html ------------------------------------------------------------
@@ -330,8 +616,13 @@ $html.Add('.meta{margin:0 0 .75rem;color:var(--mute);font-size:.85rem}')
 $html.Add('.tag{display:inline-block;padding:.05rem .5rem;border-radius:999px;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;margin-left:.4rem}')
 $html.Add('.real{background:rgba(16,185,129,.15);color:var(--accent)}')
 $html.Add('.illustrative{background:rgba(148,163,184,.15);color:var(--mute)}')
+$html.Add('.approximate{background:rgba(245,158,11,.15);color:#f59e0b}')
+$html.Add('.notviable{background:rgba(148,163,184,.12);color:var(--mute);text-decoration:line-through}')
 $html.Add('pre{margin:0;overflow-x:auto;background:#0b1220;border:1px solid var(--line);border-radius:8px;padding:.9rem;color:var(--ink);font:13px/1.35 ui-monospace,SFMono-Regular,Consolas,monospace}')
 $html.Add('footer{padding:2rem 1.5rem;color:var(--mute);font-size:.85rem;border-top:1px solid var(--line);margin-top:2rem}')
+$html.Add('table{width:100%;border-collapse:collapse;font-size:.88rem}')
+$html.Add('th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}')
+$html.Add('th{color:var(--mute);font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:.72rem}')
 $html.Add('</style></head><body>')
 $html.Add('<header><h1>ASCII Chart Gallery</h1>')
 $html.Add('<p>An ASCII counterpart to a chart gallery, organized by the same seven communication goals as Illustrator&#39;s <code>chart-vocabulary</code> skill.</p>')
@@ -339,6 +630,7 @@ $html.Add('<p>Render these when the target is a terminal, a log file, a pull req
 $html.Add('</header><main>')
 $html.Add('<nav>')
 foreach ($g in $goals) { $html.Add('<a href="#' + ($g.ToLower() -replace ' ', '-') + '">' + $g + '</a>') }
+$html.Add('<a href="#flint-coverage">Flint coverage</a>')
 $html.Add('</nav>')
 foreach ($g in $goals) {
     $html.Add('<h2 id="' + ($g.ToLower() -replace ' ', '-') + '">' + $g + '</h2>')
@@ -350,6 +642,24 @@ foreach ($g in $goals) {
         $html.Add('</div>')
     }
 }
+$html.Add('<h2 id="flint-coverage">Flint coverage</h2>')
+$html.Add('<div class="card">')
+$html.Add('<p class="meta">Of the ' + $coverage.Count + ' chart types Flint offers, ' + $covered + ' have a direct ASCII counterpart here. The rest are listed so the boundary is explicit rather than discovered halfway through a render.</p>')
+$html.Add('<table><thead><tr><th>Flint family</th><th>Flint chart</th><th>ASCII form</th><th>Status</th></tr></thead><tbody>')
+foreach ($c in $coverage) {
+    $cls = switch ($c.Status) { 'Covered' { 'real' } 'Approximate' { 'approximate' } default { 'notviable' } }
+    $html.Add('<tr><td>' + (HtmlEscape $c.Family) + '</td><td>' + (HtmlEscape $c.Flint) + '</td><td>' + (HtmlEscape $c.Ascii) + '</td><td><span class="tag ' + $cls + '">' + $c.Status + '</span></td></tr>')
+}
+$html.Add('</tbody></table>')
+$html.Add('</div>')
+$html.Add('<div class="card">')
+$html.Add('<h3>Not viable in ASCII</h3>')
+$html.Add('<table><thead><tr><th>Form</th><th>Why</th><th>Use instead</th></tr></thead><tbody>')
+foreach ($l in $limits) {
+    $html.Add('<tr><td>' + (HtmlEscape $l.Form) + '</td><td>' + (HtmlEscape $l.Why) + '</td><td>' + (HtmlEscape $l.Instead) + '</td></tr>')
+}
+$html.Add('</tbody></table>')
+$html.Add('</div>')
 $html.Add('</main>')
 $html.Add('<footer>Generated by <code>demo/build-gallery.ps1</code> from <code>datasets/sales-sample.csv</code>. Every figure is plain ASCII, no wider than 78 characters.</footer>')
 $html.Add('</body></html>')
