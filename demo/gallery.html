@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASCII Chart Gallery</title>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--ink:#e2e8f0;--mute:#94a3b8;--accent:#10b981;--line:#334155}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:2.5rem 1.5rem 1.5rem;border-bottom:1px solid var(--line)}
+h1{margin:0 0 .5rem;font-size:1.9rem;color:#fff}
+header p{margin:.35rem 0;color:var(--mute);max-width:62ch}
+main{padding:1.5rem;max-width:1000px;margin:0 auto}
+nav{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.25rem 0 2rem}
+nav a{padding:.35rem .8rem;border:1px solid var(--line);border-radius:999px;color:var(--ink);text-decoration:none;font-size:.85rem}
+nav a:hover{border-color:var(--accent);color:var(--accent)}
+h2{margin:2.5rem 0 1rem;font-size:1.3rem;color:var(--accent);border-bottom:1px solid var(--line);padding-bottom:.4rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1rem 1.25rem;margin:0 0 1.25rem}
+.card h3{margin:0 0 .35rem;font-size:1.05rem;color:#fff}
+.meta{margin:0 0 .75rem;color:var(--mute);font-size:.85rem}
+.tag{display:inline-block;padding:.05rem .5rem;border-radius:999px;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;margin-left:.4rem}
+.real{background:rgba(16,185,129,.15);color:var(--accent)}
+.illustrative{background:rgba(148,163,184,.15);color:var(--mute)}
+pre{margin:0;overflow-x:auto;background:#0b1220;border:1px solid var(--line);border-radius:8px;padding:.9rem;color:var(--ink);font:13px/1.35 ui-monospace,SFMono-Regular,Consolas,monospace}
+footer{padding:2rem 1.5rem;color:var(--mute);font-size:.85rem;border-top:1px solid var(--line);margin-top:2rem}
+</style></head><body>
+<header><h1>ASCII Chart Gallery</h1>
+<p>An ASCII counterpart to a chart gallery, organized by the same seven communication goals as Illustrator&#39;s <code>chart-vocabulary</code> skill.</p>
+<p>Render these when the target is a terminal, a log file, a pull request, or a context window, where no rendering engine is available.</p>
+</header><main>
+<nav>
+<a href="#comparison">Comparison</a>
+<a href="#change-over-time">Change Over Time</a>
+<a href="#proportion">Proportion</a>
+<a href="#distribution">Distribution</a>
+<a href="#relationship">Relationship</a>
+<a href="#flow-and-process">Flow and Process</a>
+<a href="#deviation">Deviation</a>
+</nav>
+<h2 id="comparison">Comparison</h2>
+<div class="card">
+<h3>Horizontal bar<span class="tag real">real</span></h3>
+<p class="meta">Best when ranking items; long labels. Avoid when more than 15 rows.</p>
+<pre>Widget A  ##################################  $148,800
+Widget B  ######################............   $97,600</pre>
+</div>
+<div class="card">
+<h3>Dot plot<span class="tag real">real</span></h3>
+<p class="meta">Best when precise values in a tight range. Avoid when audience expects bars.</p>
+<pre>Jan  o--------------------------------   $36,800
+Feb  ---------o-----------------------   $39,000
+Mar  ----------------------o----------   $42,300
+Apr  ---------------o-----------------   $40,600
+May  --------------------------------o   $44,800
+Jun  ------------------------o--------   $42,900</pre>
+</div>
+<div class="card">
+<h3>Bullet chart<span class="tag real">real</span></h3>
+<p class="meta">Best when actual against a target. Avoid when no agreed benchmark.</p>
+<pre>North  ###########################|##....  107%
+South  #######################....|......   83%</pre>
+</div>
+<div class="card">
+<h3>Grouped bar<span class="tag real">real</span></h3>
+<p class="meta">Best when two or three series per category. Avoid when more than three series.</p>
+<pre>North
+  Widget A #################.............   $83,300
+  Widget B ###########...................   $55,800
+South
+  Widget A #############.................   $65,500
+  Widget B ########......................   $41,800</pre>
+</div>
+<h2 id="change-over-time">Change Over Time</h2>
+<div class="card">
+<h3>Sparkline<span class="tag real">real</span></h3>
+<p class="meta">Best when inline trend beside a KPI. Avoid when exact values matter more than shape.</p>
+<pre>Revenue  //\/\   $36,800 -&gt; $42,900
+Months   JFMAMJ</pre>
+</div>
+<div class="card">
+<h3>Column trend<span class="tag real">real</span></h3>
+<p class="meta">Best when discrete periods; magnitude visible. Avoid when many periods (use sparkline).</p>
+<pre>                  ##    ##    ##    ##
+      ##    ##    ##    ##    ##    ##
+      ##    ##    ##    ##    ##    ##
+      ##    ##    ##    ##    ##    ##
+      ##    ##    ##    ##    ##    ##
+      Ja    Fe    Ma    Ap    Ma    Ju   </pre>
+</div>
+<div class="card">
+<h3>Step line<span class="tag real">real</span></h3>
+<p class="meta">Best when values hold then jump. Avoid when smooth continuous change.</p>
+<pre>Jan  _________________________|   $36,800
+Feb  __________________________|   $39,000
+Mar  ____________________________|   $42,300
+Apr  ___________________________|   $40,600
+May  ______________________________|   $44,800
+Jun  _____________________________|   $42,900</pre>
+</div>
+<div class="card">
+<h3>Small multiples<span class="tag real">real</span></h3>
+<p class="meta">Best when comparing trends across categories. Avoid when fewer than four categories.</p>
+<pre>North   //\/\    $139,100
+South   //\/\    $107,300</pre>
+</div>
+<h2 id="proportion">Proportion</h2>
+<div class="card">
+<h3>Stacked 100% bar<span class="tag real">real</span></h3>
+<p class="meta">Best when two to four parts of a whole. Avoid when many small slices.</p>
+<pre>##################################==========================
+North 56.5% South 43.5%</pre>
+</div>
+<div class="card">
+<h3>Percentage rows<span class="tag real">real</span></h3>
+<p class="meta">Best when ranked shares needing exact values. Avoid when shares change over time.</p>
+<pre>Widget A  ########################................  60.4%
+Widget B  ################........................  39.6%</pre>
+</div>
+<div class="card">
+<h3>Waffle grid<span class="tag real">real</span></h3>
+<p class="meta">Best when part of a whole as countable units. Avoid when precise decimals matter.</p>
+<pre>####################
+####################
+################....
+....................
+....................
+# North 56%   . South 44%</pre>
+</div>
+<h2 id="distribution">Distribution</h2>
+<div class="card">
+<h3>Histogram<span class="tag real">real</span></h3>
+<p class="meta">Best when shape of a single variable. Avoid when fewer than 20 observations.</p>
+<pre>  $6,200  ##########################.... n=6
+  $7,980  #################............. n=4
+  $9,760  ############################## n=7
+ $11,540  #############................. n=3
+ $13,320  #################............. n=4</pre>
+</div>
+<div class="card">
+<h3>Box plot<span class="tag real">real</span></h3>
+<p class="meta">Best when spread and outliers at a glance. Avoid when audience unfamiliar with quartiles.</p>
+<pre>|---------[=========+==========[------------|
+min $6,200   Q1 $8,300   med $10,200   Q3 $12,500   max $15,100</pre>
+</div>
+<h2 id="relationship">Relationship</h2>
+<div class="card">
+<h3>Scatter plot<span class="tag real">real</span></h3>
+<p class="meta">Best when correlation between two measures. Avoid when more than a few hundred points.</p>
+<pre>|                                       * * *
+|                                 *   *      
+|                            * *             
+|                      * * *                 
+|                 * *                        
+|             ** *                           
+|      *   *                                 
+|   ***                                      
++--------------------------------------------
+units -&gt;                          revenue on y axis</pre>
+</div>
+<div class="card">
+<h3>Heatmap<span class="tag real">real</span></h3>
+<p class="meta">Best when two categorical axes, one measure. Avoid when precise values needed.</p>
+<pre>        Jan   Feb   Mar   Apr   May   Jun   
+North   ###.. ####. ##### ####. ##### ##### 
+South   #.... #.... ##... #.... ##... ##... </pre>
+</div>
+<h2 id="flow-and-process">Flow and Process</h2>
+<div class="card">
+<h3>Funnel<span class="tag illustrative">illustrative</span></h3>
+<p class="meta">Best when stage-by-stage drop-off. Avoid when stages are not sequential.</p>
+<pre>########################################  Leads      4,000
+        ########################  Qualified  2,400
+              ###########  Proposal   1,100
+                  ####  Won          420</pre>
+</div>
+<div class="card">
+<h3>Stage pipeline<span class="tag illustrative">illustrative</span></h3>
+<p class="meta">Best when steps with hand-offs. Avoid when branching or looping flows.</p>
+<pre>[ Ingest ] -&gt; [ Clean ] -&gt; [ Select ] -&gt; [ Render ] -&gt; [ Verify ]
+    ok          ok           ok            ok           WARN</pre>
+</div>
+<h2 id="deviation">Deviation</h2>
+<div class="card">
+<h3>Diverging bar<span class="tag real">real</span></h3>
+<p class="meta">Best when above and below a reference. Avoid when no meaningful midpoint.</p>
+<pre>Jan                        ##|                         -$4,267
+Feb                         #|                         -$2,067
+Mar                          |#                        +$1,233
+Apr                          |                         -$467
+May                          |##                       +$3,733
+Jun                          |#                        +$1,833</pre>
+</div>
+<div class="card">
+<h3>Variance column<span class="tag real">real</span></h3>
+<p class="meta">Best when actual against plan per period. Avoid when no plan exists.</p>
+<pre>Jan    $36,800  vs avg   $41,067     -4,267  [UNDER]
+Feb    $39,000  vs avg   $41,067     -2,067  [UNDER]
+Mar    $42,300  vs avg   $41,067     +1,233  [OK]  
+Apr    $40,600  vs avg   $41,067       -467  [UNDER]
+May    $44,800  vs avg   $41,067     +3,733  [OK]  
+Jun    $42,900  vs avg   $41,067     +1,833  [OK]  </pre>
+</div>
+</main>
+<footer>Generated by <code>demo/build-gallery.ps1</code> from <code>datasets/sales-sample.csv</code>. Every figure is plain ASCII, no wider than 78 characters.</footer>
+</body></html>
